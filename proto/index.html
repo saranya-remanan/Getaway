@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getaway — Pilgrim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Courgette&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Theme tokens (light = default, dark = Figma option2 / node 3087:8149) ── */
+    :root {
+      --t-bg-page: #ffffff;
+      --t-bg-surface: #ffffff;
+      --t-bg-chip: #ffffff;
+      --t-bg-section-alt: #f2f2f8;
+      --t-bg-section-cultural: #f7e7ea;
+      --t-bg-polaroid: #ffffff;
+      --t-text-primary: #1d1d1d;
+      --t-text-secondary: rgba(29,29,29,0.64);
+      --t-text-muted: rgba(29,29,29,0.69);
+      --t-card-text-primary: #1d1d1d;
+      --t-card-text-muted: rgba(29,29,29,0.69);
+      --t-text-link: #1d1d1d;
+      --t-border-weak: #e6e6e6;
+      --t-dot-inactive: rgba(29,29,29,0.2);
+      --t-dot-active: #1d1d1d;
+      --t-shadow-polaroid-1: rgba(0,0,0,0.08);
+      --t-shadow-polaroid-2: rgba(0,0,0,0.08);
+      --t-accent-orange: #e76823;
+    }
+    [data-theme="dark"] {
+      /* All section backgrounds — same flat near-black */
+      --t-bg-page: #0d0d0d;
+      --t-bg-surface: #0d0d0d;
+      --t-bg-section-alt: #0d0d0d;
+      --t-bg-section-cultural: #0d0d0d;
+      /* Polaroid cards stay WHITE in dark mode (light card on dark stage) */
+      --t-bg-polaroid: #ffffff;
+      /* Category chips + search bar — slightly lifted dark surface */
+      --t-bg-chip: #1c1c1c;
+      /* General text (page headings, CTAs, labels) */
+      --t-text-primary: #ffffff;
+      --t-text-secondary: rgba(255,255,255,0.64);
+      --t-text-muted: rgba(255,255,255,0.69);
+      /* Polaroid card text stays dark because card bg is white */
+      --t-card-text-primary: #1d1d1d;
+      --t-card-text-muted: rgba(29,29,29,0.69);
+      --t-text-link: #ffffff;
+      /* Chip / search bar borders — faint white stroke */
+      --t-border-weak: rgba(255,255,255,0.10);
+      /* Carousel dots */
+      --t-dot-inactive: rgba(255,255,255,0.22);
+      --t-dot-active: #ffffff;
+      /* Polaroid card shadows — stronger contrast against dark bg */
+      --t-shadow-polaroid-1: rgba(0,0,0,0.35);
+      --t-shadow-polaroid-2: rgba(0,0,0,0.50);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--t-bg-page); overflow-x: hidden; }
+    .app { width: 360px; transform-origin: top left; background: var(--t-bg-page); }
+
+    .fi   { font-family: 'Inter', sans-serif; font-weight: 400; }
+    .fi-m { font-family: 'Inter', sans-serif; font-weight: 500; }
+    .fi-b { font-family: 'Inter', sans-serif; font-weight: 700; }
+    .fc   { font-family: 'Caveat', cursive;   font-weight: 400; }
+    .fcg  { font-family: 'Courgette', cursive; font-weight: 400; }
+
+    p, div { margin: 0; padding: 0; }
+
+    .no-scroll::-webkit-scrollbar { display: none; }
+    .no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Reusable card-overlay styles */
+    .card-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; border-radius: inherit;
+    }
+
+    /* ── Carousel ─────────────────────────────── */
+    #carousel { user-select:none; -webkit-user-select:none; }
+
+    /* All cards share fixed DOM size — only transform+opacity animate (GPU, no reflow) */
+    .c-card {
+      position: absolute;
+      left: 21.6px; top: 0;
+      width: 316.8px; height: 449.9px;
+      border-radius: 26.4px;
+      overflow: hidden;
+      transform-origin: center center;
+      transition:
+        transform 0.44s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity   0.44s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform, opacity;
+    }
+    /* scale = 230.4/316.8 = 0.7273  |  side card x-offset = ±281.6px */
+    /* center */ .c-card.s-c  { transform: translateX(0)        scale(1);      opacity: 1;   z-index: 2; cursor: pointer; }
+    /* left   */ .c-card.s-l  { transform: translateX(-281.6px) scale(0.7273); opacity: 0.5; z-index: 1; }
+    /* right  */ .c-card.s-r  { transform: translateX(281.6px)  scale(0.7273); opacity: 0.5; z-index: 1; }
+    /* far-L  */ .c-card.s-fl { transform: translateX(-620px)   scale(0.7273); opacity: 0;   z-index: 0; }
+    /* far-R  */ .c-card.s-fr { transform: translateX(620px)    scale(0.7273); opacity: 0;   z-index: 0; }
+
+    /* card overlay (bottom-up meta) */
+    .c-overlay {
+      position: absolute; bottom: 0; left: 0; width: 100%;
+      padding: 18px; padding-top: 56px;
+      display: flex; flex-direction: column; gap: 12px;
+      background: linear-gradient(to top,
+        rgba(0,0,0,0.82) 0%,
+        rgba(0,0,0,0.60) 40%,
+        rgba(0,0,0,0) 80%
+      );
+    }
+    .c-date {
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 5px 12px; align-self: flex-start;
+    }
+    .c-title { display:flex; flex-direction:column; gap:4.4px; width:100%; }
+    .c-tag {
+      backdrop-filter: blur(2.2px);
+      -webkit-backdrop-filter: blur(2.2px);
+      background: rgba(0,0,0,0.3); border-radius: 4px;
+      padding: 2.2px 4.4px; align-self: flex-start;
+    }
+    /* ── Polaroid card deck (Historical) ──────────── */
+    .p-card {
+      position: absolute;
+      left: calc(50% - 123px);
+      top: 0;
+      width: 246px;
+      height: 333px;
+      background: var(--t-bg-polaroid);
+      border-radius: 16px;
+      box-shadow: 0 2px 2px var(--t-shadow-polaroid-1), 0 4px 4px var(--t-shadow-polaroid-2);
+      overflow: hidden;
+      transform-origin: center 75%;
+      cursor: grab;
+      touch-action: pan-y;
+      will-change: transform, opacity;
+      /* Smooth spring-back when NOT dragging */
+      transition: transform 0.42s cubic-bezier(0.34,1.4,0.64,1),
+                  opacity   0.42s ease;
+    }
+    /* While ANY drag is happening — kill ALL transitions so follow is instant */
+    #histDeck.deck-dragging .p-card {
+      transition: none !important;
+      cursor: grabbing;
+    }
+    /* Fly-away card gets its own transition (applied after deck-dragging removed) */
+    .p-card.fly-away {
+      transition: transform 0.38s cubic-bezier(0.4,0,0.6,1),
+                  opacity   0.30s ease !important;
+    }
+
+    /* dots */
+    .c-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--t-dot-inactive);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .c-dot.active { background: var(--t-dot-active); transform: scale(1.3); }
+
+    /* Ken Burns — gentle zoom on the active card image */
+    @keyframes kenburns {
+      0%   { transform: scale(1)    translate(0%,    0%);    }
+      50%  { transform: scale(1.06) translate(-1%,  -0.5%); }
+      100% { transform: scale(1.04) translate(0.8%, -0.8%); }
+    }
+    .c-card.s-c .card-img {
+      animation: kenburns 7s ease-in-out infinite alternate;
+      transform-origin: center center;
+    }
+    .c-card:not(.s-c) .card-img {
+      animation: none;
+    }
+
+    /* Dark mode: invert dark UI icons on dark surfaces */
+    [data-theme="dark"] .t-invert-icon img {
+      filter: brightness(0) invert(1);
+    }
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <div style="display:flex; flex-direction:column; overflow:hidden;">
+
+    <!-- ═══════════════════════════════════════ TOP ═══════════════════════════════════════ -->
+    <div style="display:flex; flex-direction:column; gap:0; padding:16px 0;">
+
+      <!-- Location + Search -->
+      <div style="display:flex; flex-direction:column; gap:8px; padding-bottom:16px;">
+
+        <!-- Location header -->
+        <div style="display:flex; flex-direction:column; height:50px; padding:0 16px;">
+          <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-muted); letter-spacing:-0.18px;">Getaway journeys from</p>
+          <div style="display:flex; gap:2px; align-items:center; padding-bottom:2px;">
+            <p class="fi-b" style="font-size:20px; line-height:26px; color:var(--t-text-primary); letter-spacing:-0.33px; white-space:nowrap;">Bangalore</p>
+            <div class="t-invert-icon" style="width:24px; height:24px; flex-shrink:0;">
+              <img src="icons/expand_more.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Ray Search Bar -->
+        <div style="padding:0 16px;">
+          <div style="background:var(--t-bg-chip); border:1.5px solid #285bf3; border-radius:999px; display:flex; align-items:center; padding:0 4px;">
+            <!-- AI sparkle icon -->
+            <div style="display:flex; height:48px; align-items:center; justify-content:center; padding:12px 8px; flex-shrink:0;">
+              <img src="icons/ai-icon.svg" alt="" width="18" height="18" style="display:block; object-fit:contain;">
+            </div>
+            <!-- Text -->
+            <div style="flex:1; display:flex; flex-direction:column; gap:0; justify-content:center; min-width:0;">
+              <p class="fi" style="font-size:11px; line-height:16px; color:var(--t-text-secondary); letter-spacing:0.05px;">Ask Ray</p>
+              <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px;">Happening this weekend</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filters -->
+      <div class="no-scroll" style="display:flex; gap:8px; align-items:flex-start; padding:0 16px; overflow-x:auto;">
+        <!-- Adventure -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/adventure.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Adventure</p>
+        </div>
+        <!-- Religious -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/darshan.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Religious</p>
+        </div>
+        <!-- Beach -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/water_sports.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Beach</p>
+        </div>
+        <!-- Mountain -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/outdoor_activities.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Mountain</p>
+        </div>
+        <!-- Wildlife -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/natural_wildlife.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Wildlife</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ FEATURED ═════════════════════════════════════ -->
+    <div style="background:var(--t-bg-section-alt); display:flex; flex-direction:column; gap:0; align-items:center; justify-content:center; padding:32px 16px;">
+      <div style="display:flex; flex-direction:column; gap:16px; align-items:center; width:100%;">
+
+        <!-- Title -->
+        <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+          <p class="fi-b" style="font-size:28px; line-height:34px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.59px; white-space:nowrap; margin-bottom:-2px;">This weekend</p>
+          <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; width:100%; margin-bottom:-2px;">
+            <span>Handpicked escapes</span>
+          </div>
+          <div style="height:8px; width:89px; position:relative; margin-top:2px;">
+            <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+                <path d="M1 6 C 12 2, 24 8, 36 5 C 48 2, 60 8, 72 5 C 80 3, 85 6, 88 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </div>
+        </div>
+
+        <!-- Animated Carousel -->
+        <div id="carousel" style="position:relative; width:360px; margin:0 -16px; height:450px; overflow:hidden; flex-shrink:0; touch-action:pan-y;"></div>
+
+        <!-- Dots indicator -->
+        <div id="carouselDots" style="display:flex; gap:6px; justify-content:center; margin-top:-4px;"></div>
+
+        <!-- View all button → opens active destination detail page -->
+        <button class="fi-m" onclick="window.location.href=(window._activeSlideLink||'detail.html?id=kannur')" style="width:100%; height:48px; background:none; color:var(--t-text-primary); border:none; font-size:16px; line-height:22px; letter-spacing:-0.18px; text-decoration:underline; text-underline-offset:4px; cursor:pointer; text-align:center;">View all</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ BUDGET ═══════════════════════════════════════ -->
+    <div style="display:flex; flex-direction:column; gap:0; align-items:flex-start; padding:32px 0;">
+
+      <!-- Title -->
+      <div style="display:flex; flex-direction:column; align-items:center; padding:0 16px; width:100%; margin-bottom:-2px;">
+        <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; width:206px; height:56px; margin-bottom:-2px;">Weekend plans under ₹5,000</p>
+        <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; width:100%; margin-bottom:-2px;">
+          <span>Budget friendly getaways</span>
+        </div>
+        <div style="height:8px; width:89px; position:relative; margin-top:2px;">
+          <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+            <path d="M1 6 C 12 2, 24 8, 36 5 C 48 2, 60 8, 72 5 C 80 3, 85 6, 88 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Cards Row -->
+      <div class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:16px 16px 0; overflow-x:auto; width:100%;">
+
+        <!-- Card: Coorg -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1757702328394-a71ad4c417c2?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Coorg coffee hills">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Nature . Photography</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Coorg - Coffee hills, rain roads & slow mornings</p>
+            </div>
+            <p class="fi" style="font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
+          </div>
+        </div>
+
+        <!-- Card: Gokarna -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1734120113639-0d034e85c377?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Gokarna cliffs">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Beach escape</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Gokarna - Quiet beaches, cliffside trails & sunsets</p>
+            </div>
+            <p class="fi" style="font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
+          </div>
+        </div>
+
+        <!-- Card: Shettihalli (Heritage) -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1515895304558-fb36263c4b7b?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
+          <div style="position:absolute; left:0; top:112px; width:182px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; left:16px; top:162px; width:150px; display:flex; flex-direction:column; gap:4px;">
+            <div>
+              <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                <p class="fi" style="font-size:10px; line-height:10px; color:var(--t-text-primary); letter-spacing:0.1px; white-space:nowrap;">Heritage</p>
+              </div>
+            </div>
+            <p class="fi-m" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
+            <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Travel + Stay @ ₹4800</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- View all destinations button -->
+      <div style="padding:16px 16px 0; width:100%;">
+        <button class="fi-m" style="width:100%; height:48px; background:none; color:var(--t-text-primary); border:none; font-size:16px; line-height:22px; letter-spacing:-0.18px; text-decoration:underline; text-underline-offset:4px; cursor:pointer; text-align:center;">View all destinations</button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════ CULTURAL & HISTORICAL ═══════════════════════════════ -->
+    <div style="background:var(--t-bg-section-cultural); display:flex; flex-direction:column; gap:8px; align-items:flex-start; justify-content:center; padding:32px 16px;">
+
+      <!-- Title -->
+      <div style="display:flex; flex-direction:column; gap:0; align-items:center; justify-content:center; padding-bottom:8px; width:100%;">
+        <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; width:254px;">Cultural &amp; Historical getaways</p>
+          <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; width:100%;">
+            <span>A peaceful escape</span>
+          </div>
+          <div style="height:8px; width:89px; position:relative; margin-top:2px;">
+            <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+                <path d="M1 6 C 12 2, 24 8, 36 5 C 48 2, 60 8, 72 5 C 80 3, 85 6, 88 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Swipeable card deck — 333px card + 22px deepest y offset = 355px -->
+      <div id="histDeck" style="position:relative; width:100%; height:355px; flex-shrink:0; overflow:visible; touch-action:pan-y;"></div>
+
+      <!-- View all destinations button — gap:8px from section handles the spacing -->
+      <button class="fi-m" style="width:100%; height:48px; background:none; color:var(--t-text-primary); border:none; font-size:16px; line-height:22px; letter-spacing:-0.18px; text-decoration:underline; text-underline-offset:4px; cursor:pointer; text-align:center;">View all destinations</button>
+    </div>
+
+
+    <!-- ═══════════════════════════════════ HIDDEN GEMS ════════════════════════════════════ -->
+    <div style="display:flex; flex-direction:column; gap:0; align-items:flex-start; padding-top:32px; padding-bottom:32px;">
+
+      <!-- Title -->
+      <div style="display:flex; flex-direction:column; gap:0; align-items:center; justify-content:center; padding-bottom:16px; width:100%;">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap; margin-bottom:-2px;">Hidden gems</p>
+          <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; min-width:100%;">
+            <span>Unique places</span>
+          </div>
+          <div style="height:8px; width:89px; position:relative; margin-top:2px;">
+            <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+                <path d="M1 6 C 12 2, 24 8, 36 5 C 48 2, 60 8, 72 5 C 80 3, 85 6, 88 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards Row -->
+      <div class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px; overflow-x:auto; width:100%;">
+
+        <!-- Card 1 -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1515895304558-fb36263c4b7b?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Gothic architecture</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
+            </div>
+            <p class="fi" style="font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1759131762053-4ada61ccdbc8?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Mysore Palace">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Gothic architecture</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
+            </div>
+            <p class="fi" style="font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1515895304558-fb36263c4b7b?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Gothic architecture</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
+            </div>
+            <p class="fi" style="font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- View all destinations (Action) -->
+      <div style="padding:16px 16px 0; width:100%;">
+        <button class="fi-m" style="width:100%; height:48px; background:none; color:var(--t-text-primary); border:none; font-size:16px; line-height:22px; letter-spacing:-0.18px; text-decoration:underline; text-underline-offset:4px; cursor:pointer; text-align:center;">View all destinations</button>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════ FOR THE SEASON ══════════════════════════════════ -->
+    <div style="background:var(--t-bg-section-alt); display:flex; flex-direction:column; gap:16px; align-items:flex-start; padding:32px 0;">
+
+      <!-- Title -->
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap; margin-bottom:-2px;">For the season</p>
+          <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; min-width:100%; margin-bottom:-2px;">
+            <span>experiences</span>
+          </div>
+          <div style="height:8px; width:89px; position:relative; margin-top:2px;">
+            <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+                <path d="M1 6 C 12 2, 24 8, 36 5 C 48 2, 60 8, 72 5 C 80 3, 85 6, 88 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards Row -->
+      <div class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px; overflow-x:auto; width:100%;">
+
+        <!-- Card: Dandeli rafting -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1516817153573-7b617832a471?w=900&q=90&auto=format&fit=crop" class="card-img" alt="White water rafting">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Nature . Adventure</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">White-Water rafting in Dandeli</p>
+            </div>
+            <p class="fi" style="font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
+          </div>
+        </div>
+
+        <!-- Card: Coorg trekking -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1699819551081-48095fe86265?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Coorg trekking trail">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 34%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Nature . Adventure</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Trekking the trails of Coorg</p>
+            </div>
+            <p class="fi" style="font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
+          </div>
+        </div>
+
+        <!-- Card: Shettihalli Church -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1515895304558-fb36263c4b7b?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
+          <div style="position:absolute; left:0; top:112px; width:182px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; left:16px; top:162px; width:150px; display:flex; flex-direction:column; gap:4px;">
+            <div>
+              <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                <p class="fi" style="font-size:10px; line-height:10px; color:white; letter-spacing:0.1px; white-space:nowrap;">Heritage</p>
+              </div>
+            </div>
+            <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
+            <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Travel + Stay @ ₹4800</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- View all destinations (Action) -->
+      <div style="padding:0 16px; width:100%;">
+        <button class="fi-m" style="width:100%; height:48px; background:none; color:var(--t-text-primary); border:none; font-size:16px; line-height:22px; letter-spacing:-0.18px; text-decoration:underline; text-underline-offset:4px; cursor:pointer; text-align:center;">View all destinations</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ TOWNS ════════════════════════════════════════ -->
+    <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; padding:32px 0; width:360px;">
+
+      <!-- Title -->
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap; margin-bottom:-2px;">Towns to visit this weekend</p>
+          <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; min-width:100%; margin-bottom:-2px;">
+            <span>full experiences</span>
+          </div>
+          <div style="height:8px; width:89px; position:relative; margin-top:2px;">
+            <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+                <path d="M1 6 C 12 2, 24 8, 36 5 C 48 2, 60 8, 72 5 C 80 3, 85 6, 88 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- City Cards Row — rendered by JS from TOWNS data -->
+      <div id="townCardsRow" class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px 20px; overflow-x:auto; width:100%;"></div>
+    </div>
+
+  </div><!-- end content -->
+</div><!-- end app -->
+
+<script>
+  /* ── Theme (light default; toggle wired up later) ── */
+  window.setGetawayTheme = function(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      try { localStorage.setItem('getaway-theme', 'dark'); } catch (e) {}
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      try { localStorage.setItem('getaway-theme', 'light'); } catch (e) {}
+    }
+  };
+  (function initTheme() {
+    var t = new URLSearchParams(window.location.search).get('theme');
+    if (!t) { try { t = localStorage.getItem('getaway-theme'); } catch (e) {} }
+    if (t === 'dark') window.setGetawayTheme('dark');
+  })();
+
+  /* ── Viewport scaling ────────────────────────── */
+  function setScale() {
+    const app = document.getElementById('app');
+    const s = window.innerWidth / 360;
+    app.style.transform = 'scale(' + s + ')';
+    document.body.style.height = (app.scrollHeight * s) + 'px';
+  }
+  window.addEventListener('resize', setScale);
+  window.addEventListener('load', function() {
+    setScale();
+    setTimeout(setScale, 300);
+    setTimeout(setScale, 800);
+  });
+  setScale();
+
+  /* ── Carousel ────────────────────────────────── */
+  (function() {
+    var slides = [
+      {
+        img:   'theyyam_banner.png',
+        date:  'DEC 1 – DEC 6',
+        title: 'Theyyam, a spiritual encounter',
+        desc:  '2days weekend trip to Kannur, Kerala.\nBus + stay from ₹5000',
+        tag:   'Cultural . Spiritual . Pilgrim',
+        link:  'detail.html?id=kannur'
+      },
+      {
+        img:   'https://images.unsplash.com/photo-1757702328394-a71ad4c417c2?w=1200&q=90&auto=format&fit=crop',
+        date:  'This weekend',
+        title: 'Coffee hills, rain roads & slow mornings',
+        desc:  '2days weekend escape to Coorg, Karnataka.\nBus + stay from ₹5000',
+        tag:   'Nature . Photography',
+        link:  'detail.html?id=coorg'
+      },
+      {
+        img:   'https://images.unsplash.com/photo-1558025638-565ae7710b3f?w=1200&q=90&auto=format&fit=crop',
+        date:  'DEC 12 – MAR 9',
+        title: 'The Kochi-Muziris Biennale',
+        desc:  '3days art & heritage trip to Fort Kochi, Kerala.',
+        tag:   'Art . Cultural . Heritage',
+        link:  'detail.html?id=kochi'
+      }
+      /* links get theme param appended dynamically below */
+    ];
+
+    var active = 0;
+    var el = document.getElementById('carousel');
+    var dotsEl = document.getElementById('carouselDots');
+
+    /* Build cards */
+    slides.forEach(function(s, i) {
+      var card = document.createElement('div');
+      card.className = 'c-card';
+      card.innerHTML =
+        '<img src="' + s.img + '" class="card-img">' +
+        '<div class="c-overlay">' +
+          /* date pill */ '<div class="c-date"><p class="fi" style="font-size:14px;line-height:20px;color:white;white-space:nowrap;letter-spacing:-0.09px;">' + s.date + '</p></div>' +
+          /* title+desc */ '<div class="c-title">' +
+            '<p class="fi-b" style="font-size:22px;line-height:28px;color:white;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;letter-spacing:-0.4px;">' + s.title + '</p>' +
+            '<p class="fi" style="font-size:13px;line-height:18px;color:rgba(255,255,255,0.72);white-space:pre-line;letter-spacing:0.01px;">' + s.desc + '</p>' +
+          '</div>' +
+          /* tag */ '<div class="c-tag"><p class="fi" style="font-size:12px;line-height:15px;color:white;letter-spacing:0.05px;white-space:nowrap;">' + s.tag + '</p></div>' +
+        '</div>';
+      el.appendChild(card);
+    });
+
+    /* Build dots */
+    slides.forEach(function(_, i) {
+      var dot = document.createElement('div');
+      dot.className = 'c-dot' + (i === 0 ? ' active' : '');
+      dotsEl.appendChild(dot);
+    });
+
+    /* State → class mapping (circular — seamless infinite loop) */
+    function stateClass(i) {
+      var n = slides.length;
+      var d = i - active;
+      /* Normalise to the shortest circular path */
+      if (d >  n / 2) d -= n;
+      if (d < -n / 2) d += n;
+
+      if (d === 0)  return 's-c';
+      if (d === -1) return 's-l';
+      if (d ===  1) return 's-r';
+      if (d <= -2)  return 's-fl';
+      return 's-fr';
+    }
+
+    function render() {
+      var cards = el.querySelectorAll('.c-card');
+      cards.forEach(function(card, i) {
+        card.className = 'c-card ' + stateClass(i);
+      });
+      /* Track active slide link for "View all" button — carry theme param */
+      var _th = document.documentElement.getAttribute('data-theme') === 'dark' ? '?theme=dark' : '';
+      var _base = slides[active].link || 'detail.html?id=kannur';
+      window._activeSlideLink = _base.indexOf('?') >= 0 ? _base + (_th ? '&theme=dark' : '') : _base + _th;
+      var dots = dotsEl.querySelectorAll('.c-dot');
+      dots.forEach(function(dot, i) {
+        dot.className = 'c-dot' + (i === active ? ' active' : '');
+      });
+      setScale(); /* recalc page height after rerender */
+    }
+    render();
+
+    /* Auto-advance ──────────────────────────────── */
+    var timer = null;
+
+    function startAuto() {
+      stopAuto();
+      timer = setInterval(function() {
+        active = (active + 1) % slides.length;
+        render();
+      }, 3800);
+    }
+    function stopAuto() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+    startAuto();
+
+    /* Touch / pointer swipe ─────────────────────── */
+    var startX = 0, startY = 0, dragging = false;
+
+    function onStart(x, y) { startX = x; startY = y; dragging = true; stopAuto(); }
+    function onEnd(x, y) {
+      if (!dragging) return;
+      dragging = false;
+      var dx = x - startX;
+      var dy = y - startY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
+        /* swipe */
+        if (dx < 0) active = (active + 1) % slides.length;
+        else        active = (active - 1 + slides.length) % slides.length;
+        render();
+      } else if (Math.abs(dx) < 8 && Math.abs(dy) < 8) {
+        /* tap on center card → navigate if slide has a link */
+        var sl = slides[active];
+        if (sl.link) {
+          var _th2 = document.documentElement.getAttribute('data-theme') === 'dark' ? '?theme=dark' : '';
+          var _lnk = sl.link.indexOf('?') >= 0 ? sl.link + (_th2 ? '&theme=dark' : '') : sl.link + _th2;
+          window.location.href = _lnk;
+        }
+      }
+      /* Resume auto-play after a short pause */
+      setTimeout(startAuto, 2500);
+    }
+
+    el.addEventListener('touchstart', function(e){ onStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive:true});
+    el.addEventListener('touchend',   function(e){ onEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY); }, {passive:true});
+    el.addEventListener('mousedown',  function(e){ onStart(e.clientX, e.clientY); });
+    el.addEventListener('mouseup',    function(e){ onEnd(e.clientX, e.clientY); });
+    el.addEventListener('mouseleave', function(e){ if(dragging) onEnd(e.clientX, e.clientY); });
+  })();
+
+  /* ── Card Deck (Cultural & Historical) ────────── */
+  (function() {
+    /* 5 cards matching the design — one per Figma card A→E */
+    var CARDS = [
+      { img:'https://images.unsplash.com/photo-1651073231492-169afcf84f36?w=900&q=90&auto=format&fit=crop',
+        days:'2 Days', title:'Hampi explore',
+        desc:'Uncover the Majesty of Vijayanagara Empire',
+        price:'Bus + stay from ₹5000', tag:'Historical . Heritage' },
+      { img:'https://images.unsplash.com/photo-1759131762053-4ada61ccdbc8?w=900&q=90&auto=format&fit=crop',
+        days:'3 Days', title:'Mysore heritage trail',
+        desc:'Palace, Chamundi Hills & silk weaving lanes',
+        price:'Bus + stay from ₹4200', tag:'Heritage . Royal' },
+      { img:'https://images.unsplash.com/photo-1723379981423-136cc67ffdda?w=900&q=90&auto=format&fit=crop',
+        days:'2 Days', title:'Belur & Halebidu temples',
+        desc:'Hoysala stone-carved masterpieces',
+        price:'Bus + stay from ₹3500', tag:'Historical . Heritage' },
+      { img:'https://images.unsplash.com/photo-1591885587747-bee871855d92?w=900&q=90&auto=format&fit=crop',
+        days:'2 Days', title:'Badami cave temples',
+        desc:'Rock-cut Chalukya dynasty monuments',
+        price:'Bus + stay from ₹4500', tag:'Historical . Heritage' },
+      { img:'https://images.unsplash.com/photo-1515895304558-fb36263c4b7b?w=900&q=90&auto=format&fit=crop',
+        days:'1 Day', title:'Shettihalli Church ruins',
+        desc:'Submerged Gothic architecture at Hemavathi',
+        price:'Day trip from ₹2000', tag:'Gothic . Heritage' }
+    ];
+
+    /* 5 stack positions — offsets large enough that all 5 cards
+       peek visibly behind the front card, matching the Figma fan spread */
+    var STACK = [
+      { x:  0,  y:  0, r:  0,  s:1,    op:1    },  /* Card E — front      */
+      { x: 22,  y:  5, r:  5,  s:0.97, op:0.82 },  /* Card B — right peek */
+      { x:-24,  y: 10, r: -5,  s:0.94, op:0.68 },  /* Card C — left peek  */
+      { x: 14,  y: 16, r:  3,  s:0.91, op:0.52 },  /* Card D — right-mid  */
+      { x: -8,  y: 22, r: 10,  s:0.88, op:0.35 }   /* Card A — left-back  */
+    ];
+
+    var deck   = document.getElementById('histDeck');
+    var active = 0;
+    var n      = CARDS.length;
+    var els    = [];
+
+    for (var i = n - 1; i >= 0; i--) {
+      var c  = CARDS[i];
+      var el = document.createElement('div');
+      el.className = 'p-card';
+      /* Exact Figma card: 246×333px, padding 8px top/sides 12px bottom, gap 8px */
+      el.style.display       = 'flex';
+      el.style.flexDirection = 'column';
+      el.style.gap           = '8px';
+      el.style.padding       = '8px 8px 12px';
+      el.innerHTML =
+        /* Image area — flex:1, radius 10px, tag pill at top-center */
+        '<div style="flex:1;min-height:0;border-radius:10px;overflow:hidden;position:relative;">' +
+          '<img src="' + c.img + '" style="width:100%;height:100%;object-fit:cover;display:block;">' +
+          '<div style="position:absolute;left:50%;top:18px;transform:translateX(-50%);' +
+               'backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);' +
+               'background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 4px;white-space:nowrap;">' +
+            '<p class="fi" style="font-size:11px;line-height:14px;color:rgba(255,255,255,0.72);letter-spacing:0.05px;">' + c.tag + '</p>' +
+          '</div>' +
+        '</div>' +
+        /* Meta — center aligned, exactly matches Figma meta block */
+        '<div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;' +
+             'justify-content:center;width:100%;text-align:center;">' +
+          '<div style="width:100%;">' +
+            '<p class="fi-m" style="font-size:16px;line-height:22px;color:var(--t-card-text-primary);letter-spacing:-0.18px;overflow:hidden;text-overflow:ellipsis;">' + c.title + '</p>' +
+            '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-card-text-primary);overflow:hidden;text-overflow:ellipsis;letter-spacing:0.01px;">' + c.desc + '</p>' +
+          '</div>' +
+          '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-card-text-muted);white-space:nowrap;letter-spacing:0.01px;">' + c.price + '</p>' +
+        '</div>';
+      deck.appendChild(el);
+      els[i] = el;
+    }
+
+    function applyStack(el, sp) {
+      el.style.transform = 'translate(' + sp.x + 'px,' + sp.y + 'px) rotate(' + sp.r + 'deg) scale(' + sp.s + ')';
+      el.style.opacity   = String(sp.op);
+    }
+
+    /* Render all cards at their correct stack positions (with transitions active) */
+    function render() {
+      for (var i = 0; i < n; i++) {
+        var rel = (i - active + n) % n;
+        var el  = els[i];
+        if (rel < STACK.length) {
+          el.style.zIndex        = STACK.length - rel;
+          el.style.pointerEvents = rel === 0 ? 'auto' : 'none';
+          applyStack(el, STACK[rel]);
+        } else {
+          el.style.zIndex        = '0';
+          el.style.pointerEvents = 'none';
+          el.style.opacity       = '0';
+          el.style.transform     = 'translate(' + STACK[4].x + 'px,' + STACK[4].y + 'px) rotate(' + STACK[4].r + 'deg) scale(' + STACK[4].s + ')';
+        }
+      }
+    }
+    render();
+
+    /* ── Drag state ───────────────────────────── */
+    var startX = 0, startY = 0, isDragging = false;
+
+    function onStart(x, y) {
+      if (isDragging) return;
+      startX     = x;
+      startY     = y;
+      isDragging = true;
+      /* Freeze ALL transitions so finger tracking is instant */
+      deck.classList.add('deck-dragging');
+    }
+
+    function onMove(x, y) {
+      if (!isDragging) return;
+      var dx   = x - startX;
+      var dy   = y - startY;
+      var prog = Math.min(Math.abs(dx) / 130, 1);
+
+      /* Top card follows finger exactly */
+      els[active].style.transform =
+        'translate(' + dx + 'px,' + (dy * 0.25) + 'px) rotate(' + (dx / 14) + 'deg) scale(1)';
+
+      /* Background cards shift toward front as top card is pulled */
+      for (var i = 1; i < STACK.length; i++) {
+        var idx = (active + i) % n;
+        var cur = STACK[i], prv = STACK[i - 1];
+        var t   = prog * 0.6; /* how far they shift (0–60%) */
+        els[idx].style.transform =
+          'translate(' + lerp(cur.x,prv.x,t) + 'px,' + lerp(cur.y,prv.y,t) + 'px)' +
+          ' rotate(' + lerp(cur.r,prv.r,t) + 'deg)' +
+          ' scale(' + lerp(cur.s,prv.s,t) + ')';
+        els[idx].style.opacity = String(lerp(cur.op, prv.op, t));
+      }
+    }
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function onEnd(x) {
+      if (!isDragging) return;
+      isDragging = false;
+
+      var dx         = x - startX;
+      var prevActive = active;
+      var topEl      = els[prevActive];
+
+      if (Math.abs(dx) > 80) {
+        /* ── SWIPE OUT ─────────────────────────────
+           1. Re-enable transitions BEFORE setting fly position →
+              the fly animation plays smoothly
+           2. Advance active immediately so bg cards also
+              animate to their NEW correct positions in the same frame */
+        deck.classList.remove('deck-dragging');
+
+        var dir = dx > 0 ? 1 : -1;
+        topEl.classList.add('fly-away');
+        topEl.style.pointerEvents = 'none';
+        topEl.style.transform =
+          'translate(' + (dir * 520) + 'px,-50px) rotate(' + (dir * 26) + 'deg) scale(0.9)';
+        topEl.style.opacity = '0';
+
+        /* Advance and render remaining cards — they transition to new positions */
+        active = (active + 1) % n;
+        for (var j = 0; j < n; j++) {
+          if (j === prevActive) continue; /* skip flying card */
+          var rel = (j - active + n) % n;
+          var el  = els[j];
+          if (rel < STACK.length) {
+            el.style.zIndex        = STACK.length - rel;
+            el.style.pointerEvents = rel === 0 ? 'auto' : 'none';
+            applyStack(el, STACK[rel]);
+          } else {
+            el.style.zIndex        = '0';
+            el.style.pointerEvents = 'none';
+            el.style.opacity       = '0';
+          }
+        }
+
+        /* After fly finishes: silently reposition the flew card to back of queue */
+        setTimeout(function() {
+          topEl.classList.remove('fly-away');
+          /* Disable transition temporarily so the reset is invisible */
+          topEl.style.transition = 'none';
+          var newRel = (prevActive - active + n) % n;
+          var sp     = newRel < STACK.length ? STACK[newRel] : STACK[4];
+          topEl.style.transform     = 'translate(' + sp.x + 'px,' + sp.y + 'px) rotate(' + sp.r + 'deg) scale(' + sp.s + ')';
+          topEl.style.opacity       = newRel < STACK.length ? String(sp.op) : '0';
+          topEl.style.zIndex        = newRel < STACK.length ? String(STACK.length - newRel) : '0';
+          topEl.style.pointerEvents = newRel === 0 ? 'auto' : 'none';
+          /* Re-enable transitions on next paint */
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              topEl.style.transition = '';
+            });
+          });
+        }, 420);
+
+      } else {
+        /* ── SNAP BACK ─────────────────────────────
+           Re-enable transitions then render → spring animation back to stack */
+        deck.classList.remove('deck-dragging');
+        render();
+      }
+    }
+
+    /* Touch */
+    deck.addEventListener('touchstart', function(e) {
+      onStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, {passive:true});
+    deck.addEventListener('touchmove', function(e) {
+      onMove(e.touches[0].clientX, e.touches[0].clientY);
+      e.preventDefault();
+    }, {passive:false});
+    deck.addEventListener('touchend', function(e) {
+      onEnd(e.changedTouches[0].clientX);
+    }, {passive:true});
+
+    /* Mouse — desktop preview */
+    deck.addEventListener('mousedown', function(e) { onStart(e.clientX, e.clientY); });
+    window.addEventListener('mousemove', function(e) { if (isDragging) onMove(e.clientX, e.clientY); });
+    window.addEventListener('mouseup',   function(e) { if (isDragging) onEnd(e.clientX); });
+  })();
+
+  /* ── Towns to visit this weekend — dynamic ─────────────────────── */
+  (function() {
+    var Q = '?w=900&q=90&auto=format&fit=crop';
+    var TOWNS = [
+      { name:'Hampi',      sub:'Ruins & sunsets',      days:'02', price:'₹3000', img:'https://images.unsplash.com/photo-1651073231492-169afcf84f36'+Q },
+      { name:'Mysore',     sub:'Royal palace',  days:'02', price:'₹3500', img:'https://images.unsplash.com/photo-1759131762053-4ada61ccdbc8'+Q },
+      { name:'Madurai',    sub:'Temple city',              days:'02', price:'₹3500', img:'https://images.unsplash.com/photo-1692173248120-59547c3d4653'+Q },
+      { name:'Rameswaram', sub:'Sacred Island',                days:'03', price:'₹5000', img:'https://images.unsplash.com/photo-1706932642959-97cdde19ef0b'+Q },
+      { name:'Munnar',     sub:'Tea & mist',    days:'03', price:'₹4500', img:'https://images.unsplash.com/photo-1777532996402-9f6104b73d7e'+Q },
+      { name:'Kannur',     sub:'Theyyam ritual',        days:'02', price:'₹3500', img:'theyyam_banner.png' },
+      { name:'Coorg',      sub:'Coffee hills',    days:'03', price:'₹5000', img:'https://images.unsplash.com/photo-1757702328394-a71ad4c417c2'+Q },
+      { name:'Hyderabad',  sub:'Biryani & forts',          days:'02', price:'₹3000', img:'https://images.unsplash.com/photo-1750834115164-8c2658f18dd0'+Q },
+    ];
+
+    var row = document.getElementById('townCardsRow');
+    if (!row) return;
+
+    TOWNS.forEach(function(t) {
+      var card = document.createElement('div');
+      card.style.cssText = 'position:relative;width:136px;height:196px;border-radius:999px;flex-shrink:0;';
+      card.innerHTML =
+        '<img src="'+t.img+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:999px;">' +
+        '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(102,102,102,0) 29.082%,rgba(0,0,0,0.8) 90.051%);border-radius:999px;"></div>' +
+        '<div style="position:absolute;width:125px;height:184px;left:5.5px;top:6px;border:1.5px solid white;border-radius:80px;pointer-events:none;opacity:0.35;"></div>' +
+        '<div style="position:absolute;top:94px;left:calc(50% + 0.5px);transform:translateX(-50%);backdrop-filter:blur(4.5px);-webkit-backdrop-filter:blur(4.5px);background:rgba(29,29,29,0.4);padding:2px 4px;border-radius:16px;white-space:nowrap;display:flex;align-items:center;justify-content:center;">' +
+          '<p class="fi" style="font-size:11px;line-height:14px;color:#f7c14e;letter-spacing:0.05px;white-space:nowrap;">'+t.days+' Days trip to</p>' +
+        '</div>' +
+        '<div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;">' +
+          '<div style="text-align:center;white-space:nowrap;color:white;">' +
+            '<p style="font-size:16px;line-height:22px;font-weight:700;font-family:Inter,sans-serif;-webkit-text-stroke-width:4px;-webkit-text-stroke-color:rgba(28,28,28,0.9);paint-order:stroke fill;text-shadow:0 4px 4px rgba(0,0,0,0.4);letter-spacing:-0.18px;">'+t.name+'</p>' +
+            '<p class="fi" style="font-size:12px;line-height:16px;letter-spacing:0.01px;width:128px;text-align:center;">'+t.sub+'</p>' +
+          '</div>' +
+          '<div style="background:#303030;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 8px;border-radius:32px;width:114px;flex-shrink:0;">' +
+            '<p class="fi" style="font-size:11px;line-height:14px;color:rgba(255,255,255,0.72);text-align:center;letter-spacing:0.05px;white-space:pre-wrap;">Travel + Stay\nfrom '+t.price+'</p>' +
+          '</div>' +
+        '</div>';
+      row.appendChild(card);
+    });
+
+    setTimeout(setScale, 100);
+  })();
+</script>
+</body>
+</html>

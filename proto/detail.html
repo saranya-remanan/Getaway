@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theyyam — Kannur Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Theme tokens ── */
+    :root {
+      --t-bg-page:     #ffffff;
+      --t-bg-surface:  #ffffff;
+      --t-bg-bus-card: #ffffff;
+      --t-bus-seats-highlight: #b05219;
+      --t-dot-sep: rgba(29,29,29,0.40);
+      --t-operator-pill: linear-gradient(to right,white,#f3edca);
+      --t-rating-outer: #dbf4d7;
+      --t-rating-count: rgba(29,29,29,0.69);
+      --t-bg-section-alt: #f2f2f8;
+      --t-text-primary:   #1d1d1d;
+      --t-text-secondary: rgba(29,29,29,0.64);
+      --t-text-muted:     rgba(29,29,29,0.69);
+      --t-border-weak:    #e6e6e6;
+      --t-separator:      rgba(29,29,29,0.10);
+      --t-card-shadow-1:  rgba(0,0,0,0.08);
+      --t-card-shadow-2:  rgba(0,0,0,0.08);
+      --t-title-card-bg:  linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.12));
+      --t-title-card-border: rgba(230,230,230,0.8);
+      --t-frosted-badge: rgba(255,255,255,0.75);
+    }
+    [data-theme="dark"] {
+      --t-bg-page:     #111111;
+      --t-bg-surface:  #1e1e1e;  /* hotel/general card surface */
+      --t-bg-bus-card: #27272A;  /* bus card surface */
+      --t-bus-seats-highlight: #e8802a;  /* (2 Single) orange text */
+      --t-dot-sep: rgba(255,255,255,0.35); /* · separator dot */
+      --t-operator-pill: transparent; /* operator pill bg */
+      --t-rating-outer: #1e4d28; /* rating badge outer — dark green base */
+      --t-rating-count: rgba(255,255,255,0.80); /* review count text below rating */
+      --t-bg-section-alt: rgba(33,33,33,0.70);
+      --t-text-primary:   #ffffff;
+      --t-text-secondary: rgba(255,255,255,0.64);
+      --t-text-muted:     rgba(255,255,255,0.69);
+      --t-border-weak:    rgba(255,255,255,0.12);
+      --t-separator:      rgba(255,255,255,0.10);
+      --t-card-shadow-1:  rgba(0,0,0,0.30);
+      --t-card-shadow-2:  rgba(0,0,0,0.45);
+      --t-title-card-bg:  linear-gradient(to bottom, rgba(0,0,0,0.30), rgba(0,0,0,0.55));
+      --t-title-card-border: rgba(255,255,255,0.15);
+      --t-frosted-badge: rgba(0,0,0,0.60);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--t-bg-page); overflow-x: hidden; }
+    .app { width: 360px; transform-origin: top left; background: var(--t-bg-page); }
+
+    .fi   { font-family: 'Inter', sans-serif; font-weight: 400; }
+    .fi-m { font-family: 'Inter', sans-serif; font-weight: 500; }
+    .fi-b { font-family: 'Inter', sans-serif; font-weight: 700; }
+    .fc   { font-family: 'Caveat', cursive; font-weight: 400; }
+
+    p, div { margin: 0; padding: 0; }
+
+    .no-scroll::-webkit-scrollbar { display: none; }
+    .no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Section card container */
+    .section-card {
+      background: var(--t-bg-section-alt);
+      border-radius: 24px;
+      display: flex; flex-direction: column;
+      gap: 8px; align-items: center; justify-content: center;
+      padding: 24px 0; width: 100%;
+    }
+
+    /* "Book your trip" primary button */
+    .btn-primary {
+      width: 100%; height: 48px;
+      background: #d63941; color: white;
+      border: none; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-weight: 500;
+      font-size: 16px; letter-spacing: -0.18px;
+      cursor: pointer;
+    }
+    /* Underline CTA buttons */
+
+    /* Reel-style play button */
+    .play-btn {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:44px; height:44px; background:rgba(0,0,0,0.6);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      pointer-events:none; z-index:5;
+      backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    }
+    .play-btn::after {
+      content:''; display:block;
+      width:0; height:0;
+      border-style:solid;
+      border-width:8px 0 8px 16px;
+      border-color:transparent transparent transparent white;
+      margin-left:3px;
+    }
+    /* YT badge on reel cards */
+    .yt-badge {
+      position:absolute; top:8px; right:8px; z-index:6;
+      background:rgba(0,0,0,0.7); border-radius:4px; padding:2px 5px;
+    }
+    /* Disable kenburns on video card */
+    .c-card.has-video .card-img { animation:none !important; }
+
+    /* Ken Burns on hero banner */
+    @keyframes kenburns {
+      0%   { transform: scale(1)    translate(0%,     0%);    }
+      50%  { transform: scale(1.07) translate(-1%,   -0.5%); }
+      100% { transform: scale(1.04) translate(0.8%,  -0.8%); }
+    }
+    #heroBannerImg {
+      animation: kenburns 8s ease-in-out infinite alternate;
+      transform-origin: center center;
+    }
+
+    .btn-link {
+      width: 100%; height: 48px;
+      background: none; color: var(--t-text-primary);
+      border: none;
+      font-family: 'Inter', sans-serif; font-weight: 500;
+      font-size: 16px; letter-spacing: -0.18px;
+      text-decoration: underline; text-underline-offset: 4px;
+      cursor: pointer; text-align: center;
+    }
+  </style>
+<script>
+  /* Apply theme before paint to avoid flash */
+  (function(){
+    var t = new URLSearchParams(window.location.search).get('theme');
+    if (!t) { try { t = localStorage.getItem('getaway-theme'); } catch(e){} }
+    if (t === 'dark') document.documentElement.setAttribute('data-theme','dark');
+  })();
+</script>
+<script src="data.js"></script>
+</head>
+<body>
+<div class="app" id="app">
+  <div style="position:relative;">
+
+    <!-- ── TOP NAV BAR (inside app — keeps layout) ── -->
+    <div style="position:absolute; top:0; left:0; width:360px; z-index:100;
+                backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+                background:rgba(20,10,5,0.35);" id="inPageNav">
+      <!-- Nav icons (no status bar per Figma 3119:5200) -->
+      <div style="display:flex; align-items:center; padding:4px; gap:0;">
+        <div onclick="window.location.href='index.html'+(window.location.search||'')" style="width:48px; height:48px; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer;">
+          <div style="width:24px; height:24px; overflow:hidden; position:relative;">
+            <img src="icons/arrow_back.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+          </div>
+        </div>
+        <div style="flex:1;"></div>
+        <div style="width:48px; height:48px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <div style="width:24px; height:24px; overflow:hidden; position:relative;">
+            <img src="icons/favorite_border.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+          </div>
+        </div>
+        <div style="width:48px; height:48px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <div style="width:24px; height:24px; overflow:hidden; position:relative;">
+            <img src="icons/share.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HERO BANNER 409px ───────────────────────── -->
+    <div style="position:relative; height:409px; overflow:hidden; background:#000;">
+      <img id="heroBannerImg" src="theyyam_banner.png" data-dynamic="bannerImg"
+           style="position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; object-position:center center;">
+      <!-- Gradient fade: y=293→409, transparent→black -->
+      <div style="position:absolute; top:293px; left:0; width:360px; height:116px;
+                  background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));"></div>
+    </div>
+
+    <!-- ── CONTENT — overlaps banner from y=311 (margin-top:-98px) ── -->
+    <div style="margin-top:-98px; position:relative; z-index:10; width:360px;
+                background:transparent; padding-bottom:40px; display:flex; flex-direction:column; gap:32px;">
+
+      <!-- ── MAIN DETAILS — transparent bg so banner shows through ─── -->
+      <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
+
+        <!-- Purple pill + title card: pill is BEHIND (lower DOM order),
+             title card is ON TOP with frosted glass -->
+        <div style="display:flex; flex-direction:column; align-items:center; padding:0 16px; width:100%;">
+
+          <!-- Purple pill: no z-index → renders below title card in stacking order
+               mb:-46px → title card starts 46px before pill ends, covering pill bottom -->
+          <div style="background:#7e3af1; display:flex; align-items:flex-start; justify-content:center;
+                      height:78px; margin-bottom:-46px; padding:8px; border-radius:16px; width:288px; flex-shrink:0;">
+            <p class="fi-b" style="font-size:14px; line-height:20px; color:white; text-align:center; letter-spacing:-0.09px; flex:1; min-width:0;">Ideal for 2 Days trip</p>
+          </div>
+
+          <!-- Title card: frosted glass ON TOP of pill
+               backdrop-blur:120px blurs the purple pill behind it
+               very transparent white gradient so purple shines through -->
+          <div style="backdrop-filter:blur(120px); -webkit-backdrop-filter:blur(120px);
+                      background:var(--t-title-card-bg);
+                      border:1px solid var(--t-title-card-border); border-radius:16px;
+                      display:flex; flex-direction:column; gap:16px; align-items:center;
+                      padding:20px 16px; width:100%; position:relative; z-index:1;">
+
+            <!-- Title -->
+            <div style="display:flex; flex-direction:column; gap:0; align-items:flex-start; width:100%; color:var(--t-text-primary); text-align:center;">
+              <p class="fi" style="font-size:14px; line-height:20px; letter-spacing:-0.09px; overflow:hidden; text-overflow:ellipsis; width:100%;">DEC 1 - DEC 6</p>
+              <div style="width:100%; overflow:hidden;">
+                <p class="fi-b" style="font-size:28px; line-height:34px; letter-spacing:-0.59px; margin-bottom:0;">Theyyam,</p>
+                <p class="fi-b" style="font-size:28px; line-height:34px; letter-spacing:-0.59px;">a spiritual encounter</p>
+              </div>
+              <p class="fi" style="font-size:14px; line-height:20px; letter-spacing:-0.09px; overflow:hidden; text-overflow:ellipsis; width:100%;">Kannur, Kerala</p>
+            </div>
+
+            <!-- Meta -->
+            <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
+              <div style="height:1px; background:var(--t-separator); border-radius:3px;"></div>
+              <div style="display:flex; align-items:center; justify-content:space-between; width:100%; white-space:nowrap;">
+                <div style="display:flex; gap:4px; align-items:center;">
+                  <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); letter-spacing:-0.09px;">Travel time:</p>
+                  <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-muted); letter-spacing:-0.09px;">8 hrs</p>
+                </div>
+                <div style="display:flex; gap:4px; align-items:center;">
+                  <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); letter-spacing:-0.09px;">Weather:</p>
+                  <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-muted); letter-spacing:-0.09px;">26-28°C</p>
+                </div>
+              </div>
+              <div style="height:1px; background:var(--t-separator); border-radius:3px;"></div>
+            </div>
+
+            <!-- Description -->
+            <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); text-align:center; letter-spacing:-0.09px; width:100%;">Theyyam is a form of worship where man dons the guise of God and propitiates the Gods through possessed dancing.</p>
+
+            <!-- Tags -->
+            <p class="fi-m" style="font-size:12px; line-height:14px; color:var(--t-text-primary); text-align:center; letter-spacing:0.05px; opacity:0.6; width:100%;">Arts . Cultural . Pilgrim</p>
+          </div>
+        </div>
+
+        <!-- Things to know -->
+        <div style="padding:0 16px; width:100%;">
+          <div style="background:var(--t-bg-surface); border:1px solid var(--t-border-weak); border-radius:16px; padding:16px; width:100%; display:flex; flex-direction:column; gap:0;">
+            <div style="display:flex; gap:2px; align-items:center; padding-bottom:8px;">
+              <p class="fi-b" style="font-size:11px; line-height:14px; color:var(--t-text-primary); letter-spacing:0.05px; white-space:nowrap;">Things to know</p>
+            </div>
+            <div style="height:1px; background:var(--t-separator); border-radius:3px;"></div>
+            <div style="display:flex; flex-direction:column; gap:8px; padding-top:8px;">
+              <!-- Item 1 -->
+              <div style="display:flex; gap:8px; align-items:flex-start;">
+                <div style="width:22px; height:22px; overflow:hidden; position:relative; flex-shrink:0;">
+                  <img src="icons/check.svg" alt="" width="22" height="22" style="display:block; object-fit:contain;">
+                </div>
+                <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); flex:1; min-width:0; letter-spacing:-0.09px;">Performances often run overnight — many begin at dusk and go until dawn</p>
+              </div>
+              <!-- Item 2 -->
+              <div style="display:flex; gap:8px; align-items:flex-start;">
+                <div style="width:22px; height:22px; overflow:hidden; position:relative; flex-shrink:0;">
+                  <img src="icons/check.svg" alt="" width="22" height="22" style="display:block; object-fit:contain;">
+                </div>
+                <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); flex:1; min-width:0; letter-spacing:-0.09px;">This is a living religious ritual, not a tourist show — dress modestly and be respectful</p>
+              </div>
+              <!-- Item 3 -->
+              <div style="display:flex; gap:8px; align-items:flex-start;">
+                <div style="width:22px; height:22px; overflow:hidden; position:relative; flex-shrink:0;">
+                  <img src="icons/check.svg" alt="" width="22" height="22" style="display:block; object-fit:contain;">
+                </div>
+                <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); flex:1; min-width:0; letter-spacing:-0.09px;">Over 400 forms of Theyyam — each deity has a distinct costume and ritual</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── "KANNUR" KNOWN FOR ────────────────────── -->
+      <div style="display:flex; flex-direction:column; gap:21px; align-items:center; padding:0 16px; width:100%; background:var(--t-bg-page); padding-top:16px; margin-top:-16px; border-radius:20px 20px 0 0; position:relative; z-index:2;">
+        <!-- Title -->
+        <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+          <p class="fi-b" style="font-size:28px; line-height:34px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.59px; white-space:nowrap; margin-bottom:-2px;">"Kannur"</p>
+          <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; margin-bottom:-2px; width:96px;">known for</div>
+          <div style="height:8px; width:89px; position:relative; margin-top:2px;">
+            <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+              <path d="M1 6 C 12 2, 24 8, 36 5 C 48 2, 60 8, 72 5 C 80 3, 85 6, 88 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <!-- Thumbnail row — 4 things Kannur is known for -->
+        <div class="no-scroll" style="display:flex; gap:8px; align-items:center; overflow-x:auto; width:100%; padding:0 16px 4px;">
+
+          <!-- 1. Theyyam -->
+          <div onclick="window.open('https://youtube.com/watch?v=BeczZlAnnQM','_blank')" style="position:relative; width:135px; height:240px; border-radius:16px; overflow:hidden; flex-shrink:0; cursor:pointer;">
+            <img src="theyyam_banner.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;">
+            <div class="play-btn"></div>
+            <div class="yt-badge"><svg width="18" height="12" viewBox="0 0 18 12"><path d="M17.5 1.9C17.3 1.1 16.7.5 15.9.3 14.5 0 9 0 9 0S3.5 0 2.1.3C1.3.5.7 1.1.5 1.9 0 3.4 0 6 0 6s0 2.6.5 4.1c.2.8.8 1.4 1.6 1.6C3.5 12 9 12 9 12s5.5 0 6.9-.3c.8-.2 1.4-.8 1.6-1.6C18 8.6 18 6 18 6s0-2.6-.5-4.1z" fill="red"/><path d="M7 8.6V3.4L12 6z" fill="white"/></svg></div>
+            <div style="position:absolute; bottom:0; left:0; width:100%; height:120px; display:flex; align-items:flex-end; padding:12px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.85));">
+              <p class="fi-b" style="font-size:13px; line-height:18px; color:white; letter-spacing:-0.09px; width:112px;">Theyyam</p>
+            </div>
+          </div>
+
+          <!-- 2. Thalasseri Biriyani -->
+          <div onclick="window.open('https://youtube.com/results?search_query=Thalasseri+Biryani+Kerala','_blank')" style="position:relative; width:135px; height:240px; border-radius:16px; overflow:hidden; flex-shrink:0; cursor:pointer;">
+            <img src="https://images.unsplash.com/photo-1752673508949-f4aeeaef75f0?w=400&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="play-btn"></div>
+            <div class="yt-badge"><svg width="18" height="12" viewBox="0 0 18 12"><path d="M17.5 1.9C17.3 1.1 16.7.5 15.9.3 14.5 0 9 0 9 0S3.5 0 2.1.3C1.3.5.7 1.1.5 1.9 0 3.4 0 6 0 6s0 2.6.5 4.1c.2.8.8 1.4 1.6 1.6C3.5 12 9 12 9 12s5.5 0 6.9-.3c.8-.2 1.4-.8 1.6-1.6C18 8.6 18 6 18 6s0-2.6-.5-4.1z" fill="red"/><path d="M7 8.6V3.4L12 6z" fill="white"/></svg></div>
+            <div style="position:absolute; bottom:0; left:0; width:100%; height:120px; display:flex; align-items:flex-end; padding:12px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.85));">
+              <p class="fi-b" style="font-size:13px; line-height:18px; color:white; letter-spacing:-0.09px; width:112px;">Thalasseri Biriyani</p>
+            </div>
+          </div>
+
+          <!-- 3. Muzhuppilangad Beach -->
+          <div onclick="window.open('https://youtube.com/watch?v=hweTJNEWzoM','_blank')" style="position:relative; width:135px; height:240px; border-radius:16px; overflow:hidden; flex-shrink:0; cursor:pointer;">
+            <img src="https://images.unsplash.com/photo-1713502359486-d3611d924f61?w=400&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="play-btn"></div>
+            <div class="yt-badge"><svg width="18" height="12" viewBox="0 0 18 12"><path d="M17.5 1.9C17.3 1.1 16.7.5 15.9.3 14.5 0 9 0 9 0S3.5 0 2.1.3C1.3.5.7 1.1.5 1.9 0 3.4 0 6 0 6s0 2.6.5 4.1c.2.8.8 1.4 1.6 1.6C3.5 12 9 12 9 12s5.5 0 6.9-.3c.8-.2 1.4-.8 1.6-1.6C18 8.6 18 6 18 6s0-2.6-.5-4.1z" fill="red"/><path d="M7 8.6V3.4L12 6z" fill="white"/></svg></div>
+            <div style="position:absolute; bottom:0; left:0; width:100%; height:120px; display:flex; align-items:flex-end; padding:12px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.85));">
+              <p class="fi-b" style="font-size:13px; line-height:18px; color:white; letter-spacing:-0.09px; width:112px;">Muzhuppilangad Beach</p>
+            </div>
+          </div>
+
+          <!-- 4. Parassinikadavu Temple -->
+          <div onclick="window.open('https://youtube.com/results?search_query=Parassinikadavu+Muthappan+Theyyam+Kannur','_blank')" style="position:relative; width:135px; height:240px; border-radius:16px; overflow:hidden; flex-shrink:0; cursor:pointer;">
+            <img src="https://images.unsplash.com/photo-1714645818805-da5adaca356a?w=400&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="play-btn"></div>
+            <div class="yt-badge"><svg width="18" height="12" viewBox="0 0 18 12"><path d="M17.5 1.9C17.3 1.1 16.7.5 15.9.3 14.5 0 9 0 9 0S3.5 0 2.1.3C1.3.5.7 1.1.5 1.9 0 3.4 0 6 0 6s0 2.6.5 4.1c.2.8.8 1.4 1.6 1.6C3.5 12 9 12 9 12s5.5 0 6.9-.3c.8-.2 1.4-.8 1.6-1.6C18 8.6 18 6 18 6s0-2.6-.5-4.1z" fill="red"/><path d="M7 8.6V3.4L12 6z" fill="white"/></svg></div>
+            <div style="position:absolute; bottom:0; left:0; width:100%; height:120px; display:flex; align-items:flex-end; padding:12px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.85));">
+              <p class="fi-b" style="font-size:13px; line-height:18px; color:white; letter-spacing:-0.09px; width:112px;">Parassinikadavu Temple</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+        <!-- ── PLAN YOUR TRIP ────────────────────────── -->
+      <div id="planSection" style="display:flex; flex-direction:column; gap:20px; align-items:start; padding-top:8px; width:100%;">
+        <!-- Title -->
+        <div style="display:flex; flex-direction:column; gap:12px; align-items:center; width:100%;">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <p class="fi-b" style="font-size:28px; line-height:34px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.59px; white-space:nowrap;">Plan your trip</p>
+            <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; white-space:nowrap;">Kannur days</div>
+            <div style="height:8px; width:67px; position:relative; margin-top:2px;">
+              <svg width="67" height="8" viewBox="0 0 67 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
+                <path d="M1 6 C 9 2, 18 8, 27 5 C 36 2, 45 8, 54 5 C 60 3, 64 6, 66 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <!-- Date and travellers input -->
+        <div style="padding:0 16px; width:100%;">
+          <div style="border:1px solid var(--t-border-weak); border-radius:16px; width:100%;">
+            <!-- Journey starts row -->
+            <div style="height:56px; display:flex; align-items:center; padding:0; width:100%;">
+              <div style="width:16px; flex-shrink:0;"></div>
+              <div style="width:24px; height:24px; overflow:hidden; position:relative; flex-shrink:0;">
+                <img src="icons/calendar.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+              </div>
+              <div style="width:16px; flex-shrink:0;"></div>
+              <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:0; padding:4px 0;">
+                <p class="fi" style="font-size:13px; line-height:18px; color:var(--t-text-muted); letter-spacing:-0.08px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Journey starts</p>
+                <p class="fi-b" style="font-size:17px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.43px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Fri 08-Jul</p>
+              </div>
+              <div style="width:12px;"></div>
+            </div>
+            <!-- Divider -->
+            <div style="height:1px; background:var(--t-border-weak); margin:0;"></div>
+            <!-- No of travellers row -->
+            <div style="display:flex; align-items:center; max-height:56px; overflow:hidden; width:100%; padding:8px 0;">
+              <div style="width:16px; flex-shrink:0;"></div>
+              <div style="width:24px; height:24px; overflow:hidden; position:relative; flex-shrink:0;">
+                <img src="icons/person.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+              </div>
+              <div style="width:16px; flex-shrink:0;"></div>
+              <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+                <p class="fi" style="font-size:13px; line-height:18px; color:var(--t-text-muted); letter-spacing:-0.08px;">No of travellers</p>
+                <p class="fi-b" style="font-size:17px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.43px;">2</p>
+              </div>
+              <div style="width:24px; height:24px; overflow:hidden; position:relative; flex-shrink:0;">
+                <img src="icons/expand_more_travellers.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+              </div>
+              <div style="width:12px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── BOOK YOUR HOTEL ──────────────────────── -->
+        <div id="hotelSection" class="section-card">
+          <!-- Title -->
+          <div style="display:flex; flex-direction:column; gap:2px; padding:0 16px; width:100%;">
+            <div style="display:flex; gap:8px; align-items:center; justify-content:center; width:100%;">
+              <div style="background:#86003e; display:flex; align-items:center; padding:4px; border-radius:999px; flex-shrink:0;">
+                <div style="width:16px; height:16px; overflow:hidden; position:relative;">
+                  <img src="icons/hotel.svg" alt="" width="16" height="16" style="display:block; object-fit:contain;">
+                </div>
+              </div>
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.18px; white-space:nowrap;">Book your hotel</p>
+            </div>
+            <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); text-align:center; letter-spacing:-0.09px; width:100%;">Stay at Kannur (Ernakulam)</p>
+          </div>
+          <!-- Hotel cards horizontal scroll -->
+          <div class="no-scroll" style="display:flex; gap:12px; align-items:flex-start; padding:8px 16px; overflow-x:auto; width:100%; -webkit-overflow-scrolling:touch;">
+            <!-- Hotel 1: KBC Green Park -->
+            <div style="background:var(--t-bg-surface); box-shadow:0 2px 2px var(--t-card-shadow-1),0 4px 4px var(--t-card-shadow-2); border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; width:250px; flex-shrink:0;">
+              <!-- Image -->
+              <div style="position:relative; width:250px; height:184px; border-radius:16px 16px 0 0; overflow:hidden; flex-shrink:0;">
+                <img src="https://images.unsplash.com/photo-1701421016474-09b19faa9f77?w=900&q=90&auto=format&fit=crop" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:16px 16px 0 0;" alt="KBC Green Park Hotel">
+                <!-- Rating badge -->
+                <div style="position:absolute; bottom:8px; left:8px; border:0.5px solid var(--t-border-weak); border-radius:8px; display:flex; align-items:center; padding:2px; backdrop-filter:blur(2px); background:var(--t-frosted-badge);">
+                  <div style="background:var(--t-bg-surface); display:flex; height:20px; align-items:center; justify-content:center; min-width:44px; border-radius:6px; padding:0 4px;">
+                    <div style="width:12px; height:12px; overflow:hidden; position:relative; margin-right:2px;">
+                      <img src="icons/star.svg" alt="" width="12" height="12" style="display:block; object-fit:contain;">
+                    </div>
+                    <p class="fi-b" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; white-space:nowrap;">4.4</p>
+                  </div>
+                  <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-align:center; white-space:nowrap; padding:0 4px;">1841</p>
+                </div>
+              </div>
+              <!-- Meta -->
+              <div style="display:flex; flex-direction:column; gap:8px; padding:12px 12px 24px; width:250px;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; align-items:flex-start; width:157px;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap; letter-spacing:0.01px;">Resort · Chalad</p>
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.08px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%;">KBC Green Park Hotel</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary);">5.3 km from city centre</p>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-decoration:line-through; text-align:right; white-space:nowrap;">₹4200</p>
+                    <p class="fi-b" style="font-size:16px; line-height:24px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹3200</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-align:right; white-space:nowrap;">Per night</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Hotel 2: Krishna Beach Resort (20% off) -->
+            <div style="background:var(--t-bg-surface); box-shadow:0 2px 2px var(--t-card-shadow-1),0 4px 4px var(--t-card-shadow-2); border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; width:250px; flex-shrink:0; position:relative;">
+              <div style="position:relative; width:250px; height:184px; border-radius:16px 16px 0 0; overflow:hidden; flex-shrink:0;">
+                <img src="https://images.unsplash.com/photo-1724947052687-e580b3010aad?w=900&q=90&auto=format&fit=crop" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:16px 16px 0 0;" alt="Krishna Beach Resort">
+                <!-- Rating badge -->
+                <div style="position:absolute; bottom:8px; left:8px; border:0.5px solid var(--t-border-weak); border-radius:8px; display:flex; align-items:center; padding:2px; backdrop-filter:blur(2px); background:var(--t-frosted-badge);">
+                  <div style="background:var(--t-bg-surface); display:flex; height:20px; align-items:center; justify-content:center; min-width:44px; border-radius:6px; padding:0 4px;">
+                    <div style="width:12px; height:12px; overflow:hidden; position:relative; margin-right:2px;">
+                      <img src="icons/star.svg" alt="" width="12" height="12" style="display:block; object-fit:contain;">
+                    </div>
+                    <p class="fi-b" style="font-size:12px; line-height:16px; color:var(--t-text-primary); white-space:nowrap;">4.4</p>
+                  </div>
+                  <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap; padding:0 4px;">1841</p>
+                </div>
+                <!-- 20% off badge -->
+                <div style="position:absolute; top:12px; right:0; display:flex; align-items:center;">
+                  <div style="background:#d63941; padding:2px 8px 2px 2px;">
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:#fdfdfd; text-align:center; letter-spacing:-0.08px; white-space:nowrap;">20% off</p>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px; padding:12px 12px 24px; width:250px;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <div style="display:flex; flex-direction:column; align-items:flex-start; width:157px;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">Resort · Chalad</p>
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.08px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:160px;">Krishna Beach Resort</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary);">5.3 km from city centre</p>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-decoration:line-through; text-align:right; white-space:nowrap;">₹4200</p>
+                    <p class="fi-b" style="font-size:16px; line-height:24px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹3200</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-align:right; white-space:nowrap;">Per night</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Hotel: Beach Princess Hotel -->
+            <div style="background:var(--t-bg-surface); box-shadow:0 2px 2px var(--t-card-shadow-1),0 4px 4px var(--t-card-shadow-2); border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; width:250px; flex-shrink:0;">
+              <div style="position:relative; width:250px; height:184px; border-radius:16px 16px 0 0; overflow:hidden; flex-shrink:0;">
+                <img src="https://images.unsplash.com/photo-1701421016474-09b19faa9f77?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px 16px 0 0;">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px; padding:12px 12px 24px; width:250px;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; align-items:flex-start; width:157px;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">Resort · Thalassery</p>
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.08px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%;">Beach Princess Hotel</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary);">3.1 km from city centre</p>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-decoration:line-through; text-align:right; white-space:nowrap;">₹3800</p>
+                    <p class="fi-b" style="font-size:16px; line-height:24px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹2800</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-align:right; white-space:nowrap;">Per night</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Hotel: Ayesha Beach Resort -->
+            <div style="background:var(--t-bg-surface); box-shadow:0 2px 2px var(--t-card-shadow-1),0 4px 4px var(--t-card-shadow-2); border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; width:250px; flex-shrink:0;">
+              <div style="position:relative; width:250px; height:184px; border-radius:16px 16px 0 0; overflow:hidden; flex-shrink:0;">
+                <img src="https://images.unsplash.com/photo-1724947052687-e580b3010aad?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px 16px 0 0;">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px; padding:12px 12px 24px; width:250px;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; align-items:flex-start; width:157px;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">Resort · Payyambalam</p>
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.08px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%;">Ayesha Beach Resort</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary);">1.8 km from city centre</p>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-decoration:line-through; text-align:right; white-space:nowrap;">₹4500</p>
+                    <p class="fi-b" style="font-size:16px; line-height:24px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹3500</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-align:right; white-space:nowrap;">Per night</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Hotel: The Kannur Beach Hotel -->
+            <div style="background:var(--t-bg-surface); box-shadow:0 2px 2px var(--t-card-shadow-1),0 4px 4px var(--t-card-shadow-2); border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; width:250px; flex-shrink:0;">
+              <div style="position:relative; width:250px; height:184px; border-radius:16px 16px 0 0; overflow:hidden; flex-shrink:0;">
+                <img src="https://images.unsplash.com/photo-1720975658882-54ccac0b8c9f?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px 16px 0 0;">
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px; padding:12px 12px 24px; width:250px;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; align-items:flex-start; width:157px;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">Hotel · Beach Road</p>
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.08px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%;">The Kannur Beach Hotel</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary);">0.5 km from city centre</p>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-decoration:line-through; text-align:right; white-space:nowrap;">₹5200</p>
+                    <p class="fi-b" style="font-size:16px; line-height:24px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹4200</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); text-align:right; white-space:nowrap;">Per night</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:0 16px; width:100%;"><button class="btn-link">View all hotels</button></div>
+        </div>
+
+        <!-- ── BOOK YOUR BUS ───────────────────────── -->
+        <div class="section-card" style="padding:24px 0;">
+          <!-- Title -->
+          <div style="display:flex; flex-direction:column; gap:2px; padding:0 16px; width:100%;">
+            <div style="display:flex; gap:8px; align-items:center; justify-content:center;">
+              <div style="background:#d63941; display:flex; align-items:center; padding:4px; border-radius:999px; flex-shrink:0;">
+                <div style="width:16px; height:16px; overflow:hidden; position:relative;">
+                  <img src="icons/hotel.svg" alt="" width="16" height="16" style="display:block; object-fit:contain;">
+                </div>
+              </div>
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.18px; white-space:nowrap;">Book your bus</p>
+            </div>
+            <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); text-align:center; letter-spacing:-0.09px; width:100%; padding:0 16px;">Bangalore ↔ Kannur</p>
+          </div>
+          <!-- Bus cards scroll -->
+          <div class="no-scroll" style="display:flex; gap:12px; align-items:flex-start; padding:8px 16px; overflow-x:auto; width:100%; -webkit-overflow-scrolling:touch;">
+            <!-- Bus card 1 -->
+            <div style="background:var(--t-bg-bus-card); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); width:300px; flex-shrink:0;">
+              <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:20px 20px 0 0;">
+                <!-- Primo & redDeal row -->
+                <div style="display:flex; align-items:center; width:100%;">
+                  <div style="display:flex; gap:0; align-items:center; flex:1;">
+                    <img src="icons/primo.svg" alt="Primo" width="56" height="28" style="display:block; object-fit:contain; flex-shrink:0;">
+                  </div>
+                </div>
+                <!-- Time & price -->
+                <div style="display:flex; flex-direction:column; gap:0; width:100%;">
+                  <div style="display:flex; align-items:flex-end; justify-content:space-between; width:100%;">
+                    <div style="display:flex; flex-direction:column; gap:0;">
+                      <div style="display:flex; gap:6px; align-items:center;">
+                        <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">20:15</p>
+                        <div style="height:1.5px; width:12px; background:var(--t-border-weak); border-radius:1px;"></div>
+                        <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">09:00</p>
+                      </div>
+                      <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                        <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); letter-spacing:0.01px; white-space:nowrap;">7h 30m</p>
+                        <div style="width:2px; height:2px; background:var(--t-dot-sep); border-radius:50%;"></div>
+                        <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); letter-spacing:0.01px; white-space:nowrap;">11 Seats</p>
+                        <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-bus-seats-highlight); letter-spacing:0.01px; white-space:nowrap;">(2 Single)</p>
+                      </div>
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); letter-spacing:0.01px; white-space:nowrap;">Booked by 20 women</p>
+                    </div>
+                    <div style="display:flex; flex-direction:column; align-items:flex-end; width:76px; flex-shrink:0;">
+                      <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap; text-align:right;">₹450</p>
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); letter-spacing:0.01px; white-space:nowrap; text-align:right;">onwards</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- BO and rating -->
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                  <div style="background:var(--t-operator-pill); display:flex; gap:4px; align-items:center; max-width:213px; padding:2px 8px 2px 0; border-radius:12px;">
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">Green Line Travels and H..</p>
+                  </div>
+                  <div style="background:var(--t-rating-outer); border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px;">
+                    <div style="background:#298639; display:flex; height:20px; align-items:center; justify-content:center; min-width:46px; border-radius:6px; padding:0 4px;">
+                      <p class="fi-b" style="font-size:12px; line-height:16px; color:white; text-align:center; white-space:nowrap;">4.4</p>
+                    </div>
+                    <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-rating-count); text-align:center; white-space:nowrap; padding:0 2px;">1841</p>
+                  </div>
+                </div>
+                <!-- Bus type -->
+                <p class="fi-m" style="font-size:11px; line-height:14px; color:var(--t-text-muted); letter-spacing:0.05px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">Volvo multi axle A/C sleeper (2+1)</p>
+              </div>
+            </div>
+            <!-- Bus card 2 (same) -->
+            <div style="background:var(--t-bg-bus-card); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); width:300px; flex-shrink:0;">
+              <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:20px 20px 0 0;">
+                <div style="display:flex; align-items:flex-end; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; gap:0;">
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">20:15</p>
+                      <div style="height:1.5px; width:12px; background:var(--t-border-weak); border-radius:1px;"></div>
+                      <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">09:00</p>
+                    </div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">7h 30m</p>
+                      <div style="width:2px; height:2px; background:var(--t-dot-sep); border-radius:50%;"></div>
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">11 Seats</p>
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-bus-seats-highlight); white-space:nowrap;">(2 Single)</p>
+                    </div>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">Booked by 20 women</p>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end; width:76px; flex-shrink:0;">
+                    <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹450</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); text-align:right; white-space:nowrap;">onwards</p>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                  <div style="background:var(--t-operator-pill); display:flex; gap:4px; align-items:center; padding:2px 8px 2px 0; border-radius:12px; max-width:213px;">
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">Green Line Travels and H..</p>
+                  </div>
+                  <div style="background:var(--t-rating-outer); border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px;">
+                    <div style="background:#298639; display:flex; height:20px; align-items:center; justify-content:center; min-width:46px; border-radius:6px; padding:0 4px;">
+                      <p class="fi-b" style="font-size:12px; line-height:16px; color:white; text-align:center; white-space:nowrap;">4.4</p>
+                    </div>
+                    <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-rating-count); text-align:center; white-space:nowrap; padding:0 2px;">1841</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:11px; line-height:14px; color:var(--t-text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">Volvo multi axle A/C sleeper (2+1)</p>
+              </div>
+            </div>
+          <!-- Bus card: SRS Travels -->
+            <div style="background:var(--t-bg-bus-card); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); width:300px; flex-shrink:0;">
+              <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:20px 20px 0 0;">
+                <div style="display:flex; align-items:flex-end; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; gap:0;">
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">20:30</p>
+                      <div style="height:1.5px; width:12px; background:var(--t-border-weak); border-radius:1px;"></div>
+                      <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">10:00</p>
+                    </div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">7h 30m</p>
+                      <div style="width:2px; height:2px; background:var(--t-dot-sep); border-radius:50%;"></div>
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">14 Seats</p>
+                    </div>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end; width:76px; flex-shrink:0;">
+                    <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹480</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); text-align:right; white-space:nowrap;">onwards</p>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                  <div style="background:var(--t-operator-pill); display:flex; gap:4px; align-items:center; padding:2px 8px 2px 0; border-radius:12px; max-width:213px;">
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">SRS Travels</p>
+                  </div>
+                  <div style="background:var(--t-rating-outer); border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px;">
+                    <div style="background:#298639; display:flex; height:20px; align-items:center; justify-content:center; min-width:46px; border-radius:6px; padding:0 4px;">
+                      <p class="fi-b" style="font-size:12px; line-height:16px; color:white; text-align:center; white-space:nowrap;">4.2</p>
+                    </div>
+                    <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-rating-count); text-align:center; white-space:nowrap; padding:0 2px;">986</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:11px; line-height:14px; color:var(--t-text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">Volvo multi axle A/C sleeper (2+1)</p>
+              </div>
+            </div>
+            <!-- Bus card: VRL Travels -->
+            <div style="background:var(--t-bg-bus-card); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); width:300px; flex-shrink:0;">
+              <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:20px 20px 0 0;">
+                <div style="display:flex; align-items:flex-end; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; gap:0;">
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">21:00</p>
+                      <div style="height:1.5px; width:12px; background:var(--t-border-weak); border-radius:1px;"></div>
+                      <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">09:30</p>
+                    </div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">7h 30m</p>
+                      <div style="width:2px; height:2px; background:var(--t-dot-sep); border-radius:50%;"></div>
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">9 Seats</p>
+                    </div>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end; width:76px; flex-shrink:0;">
+                    <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹520</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); text-align:right; white-space:nowrap;">onwards</p>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                  <div style="background:var(--t-operator-pill); display:flex; gap:4px; align-items:center; padding:2px 8px 2px 0; border-radius:12px; max-width:213px;">
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">VRL Travels</p>
+                  </div>
+                  <div style="background:var(--t-rating-outer); border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px;">
+                    <div style="background:#298639; display:flex; height:20px; align-items:center; justify-content:center; min-width:46px; border-radius:6px; padding:0 4px;">
+                      <p class="fi-b" style="font-size:12px; line-height:16px; color:white; text-align:center; white-space:nowrap;">4.2</p>
+                    </div>
+                    <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-rating-count); text-align:center; white-space:nowrap; padding:0 2px;">986</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:11px; line-height:14px; color:var(--t-text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">Volvo multi axle A/C sleeper (2+1)</p>
+              </div>
+            </div>
+            <!-- Bus card: KPN Travels -->
+            <div style="background:var(--t-bg-bus-card); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); width:300px; flex-shrink:0;">
+              <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:20px 20px 0 0;">
+                <div style="display:flex; align-items:flex-end; justify-content:space-between; width:100%;">
+                  <div style="display:flex; flex-direction:column; gap:0;">
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">22:00</p>
+                      <div style="height:1.5px; width:12px; background:var(--t-border-weak); border-radius:1px;"></div>
+                      <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">11:00</p>
+                    </div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">7h 30m</p>
+                      <div style="width:2px; height:2px; background:var(--t-dot-sep); border-radius:50%;"></div>
+                      <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">18 Seats</p>
+                    </div>
+                  </div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end; width:76px; flex-shrink:0;">
+                    <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; text-align:right; white-space:nowrap;">₹390</p>
+                    <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); text-align:right; white-space:nowrap;">onwards</p>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                  <div style="background:var(--t-operator-pill); display:flex; gap:4px; align-items:center; padding:2px 8px 2px 0; border-radius:12px; max-width:213px;">
+                    <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">KPN Travels</p>
+                  </div>
+                  <div style="background:var(--t-rating-outer); border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px;">
+                    <div style="background:#298639; display:flex; height:20px; align-items:center; justify-content:center; min-width:46px; border-radius:6px; padding:0 4px;">
+                      <p class="fi-b" style="font-size:12px; line-height:16px; color:white; text-align:center; white-space:nowrap;">4.2</p>
+                    </div>
+                    <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-rating-count); text-align:center; white-space:nowrap; padding:0 2px;">986</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:11px; line-height:14px; color:var(--t-text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">Volvo multi axle A/C sleeper (2+1)</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-link">View all buses</button>
+        </div>
+
+        <!-- ── MUST TRY FOODS ──────────────────────── -->
+        <div class="section-card" style="padding:24px 0;">
+          <!-- Title -->
+          <div style="display:flex; flex-direction:column; gap:0; align-items:center; padding:0 16px; width:100%;">
+            <div style="display:flex; gap:8px; align-items:center; justify-content:center; width:100%;">
+              <div style="background:#2c5ef6; display:flex; align-items:center; padding:4px; border-radius:999px; flex-shrink:0;">
+                <div style="width:16px; height:16px; overflow:hidden; position:relative;">
+                  <img src="icons/hotel.svg" alt="" width="16" height="16" style="display:block; object-fit:contain;">
+                </div>
+              </div>
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.18px; white-space:nowrap;">Must try foods in "Kannur"</p>
+            </div>
+          </div>
+          <!-- Food cards -->
+          <div class="no-scroll" style="display:flex; gap:12px; align-items:center; padding:8px 16px; overflow-x:auto; width:100%;">
+            <!-- Food 1: Thalasseri Biriyani -->
+            <div style="position:relative; width:170px; height:310px; border-radius:16px; overflow:hidden; flex-shrink:0;">
+              <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1752673508949-f4aeeaef75f0?w=900&q=90&auto=format&fit=crop" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:16px;" alt="Thalasseri Biriyani">
+              <div style="position:absolute; bottom:0; left:0; width:170px; height:183px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)); display:flex; flex-direction:column; justify-content:flex-end; padding:16px 20px 16px;">
+                <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
+                  <p class="fi-b" style="font-size:45px; line-height:52px; color:white; letter-spacing:-1px; white-space:nowrap;">1</p>
+                  <p class="fi-b" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; width:135px;">Thalasseri Biriyani</p>
+                </div>
+              </div>
+            </div>
+            <!-- Food 2: Kannur Cocktail -->
+            <div style="position:relative; width:170px; height:310px; border-radius:16px; overflow:hidden; flex-shrink:0;">
+              <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1750271328082-22490577fbb5?w=900&q=90&auto=format&fit=crop" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:16px;" alt="Kannur Cocktail">
+              <div style="position:absolute; bottom:0; left:0; width:170px; height:183px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)); display:flex; flex-direction:column; justify-content:flex-end; padding:16px 20px 16px;">
+                <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
+                  <p class="fi-b" style="font-size:45px; line-height:52px; color:white; letter-spacing:-1px; white-space:nowrap;">2</p>
+                  <p class="fi-b" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; width:108px;">Kannur Cocktail</p>
+                </div>
+              </div>
+            </div>
+            <div style="position:relative; width:170px; height:310px; border-radius:16px; overflow:hidden; flex-shrink:0;">
+              <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1750271328082-22490577fbb5?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px;">
+              
+              <div style="position:absolute; bottom:0; left:0; width:170px; height:183px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)); display:flex; flex-direction:column; justify-content:flex-end; padding:16px 20px 16px;">
+                <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
+                  <p class="fi-b" style="font-size:45px; line-height:52px; color:white; letter-spacing:-1px; white-space:nowrap;">3</p>
+                  <p class="fi-b" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; width:135px;">Kallummakkaya Fry</p>
+                </div>
+              </div>
+            </div>
+            <div style="position:relative; width:170px; height:310px; border-radius:16px; overflow:hidden; flex-shrink:0;">
+              <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1741376509109-e9edd6f24f5f?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px;">
+              
+              <div style="position:absolute; bottom:0; left:0; width:170px; height:183px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)); display:flex; flex-direction:column; justify-content:flex-end; padding:16px 20px 16px;">
+                <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
+                  <p class="fi-b" style="font-size:45px; line-height:52px; color:white; letter-spacing:-1px; white-space:nowrap;">4</p>
+                  <p class="fi-b" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; width:135px;">Appam & Stew</p>
+                </div>
+              </div>
+            </div>
+            <div style="position:relative; width:170px; height:310px; border-radius:16px; overflow:hidden; flex-shrink:0;">
+              <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1664791461482-79f5deee490f?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px;">
+              
+              <div style="position:absolute; bottom:0; left:0; width:170px; height:183px; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8)); display:flex; flex-direction:column; justify-content:flex-end; padding:16px 20px 16px;">
+                <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
+                  <p class="fi-b" style="font-size:45px; line-height:52px; color:white; letter-spacing:-1px; white-space:nowrap;">5</p>
+                  <p class="fi-b" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; width:135px;">Nellikka Achar</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:0 16px; width:100%;"><button class="btn-link">View all</button></div>
+        </div>
+
+        <!-- ── PLACES TO VISIT ─────────────────────── -->
+        <div class="section-card" style="padding:24px 0;">
+          <!-- Title -->
+          <div style="display:flex; flex-direction:column; gap:0; align-items:center; padding:0 16px; width:100%;">
+            <div style="display:flex; gap:8px; align-items:center; justify-content:center; width:100%;">
+              <div style="background:#2c5ef6; display:flex; align-items:center; padding:4px; border-radius:999px; flex-shrink:0;">
+                <div style="width:16px; height:16px; overflow:hidden; position:relative;">
+                  <img src="icons/hotel.svg" alt="" width="16" height="16" style="display:block; object-fit:contain;">
+                </div>
+              </div>
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.18px; white-space:nowrap;">Places to visit "Kannur"</p>
+            </div>
+            <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); text-align:center; letter-spacing:-0.09px; width:100%; padding:0 16px;">Kannur has more than you think</p>
+          </div>
+          <!-- Place cards -->
+          <div class="no-scroll" style="display:flex; gap:16px; align-items:center; padding:8px 16px; overflow-x:auto; width:100%; height:327px;">
+            <!-- Place 1: Muzhappilangad -->
+            <div style="position:relative; width:170px; height:310px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+              <img src="https://images.unsplash.com/photo-1713502359486-d3611d924f61?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">
+              <div class="play-btn"></div>
+              <div style="position:absolute; left:0; top:164px; width:182px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+              <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:16px 16px; gap:4px;">
+                <div>
+                  <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                    <p class="fi" style="font-size:10px; line-height:10px; color:white; letter-spacing:0.1px; white-space:nowrap;">Beach Escape</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis; width:100%;">Muzhappilangad Drive In Beach</p>
+                <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; width:100%;">Kerala's only drive-in beach</p>
+              </div>
+            </div>
+            <!-- Place 2: Palakkayam Thattu -->
+            <div style="position:relative; width:170px; height:310px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+            <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1777532996402-9f6104b73d7e?w=900&q=90&auto=format&fit=crop" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:24px;" alt="Palakkayam Thattu">
+              <div style="position:absolute; left:0; top:139px; width:170px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+              <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:16px 16px; gap:4px;">
+                <div>
+                  <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                    <p class="fi" style="font-size:11px; line-height:14px; color:white; letter-spacing:0.05px; white-space:nowrap;">Scenic Drives</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis; width:100%;">Palakkayam Thattu</p>
+                <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; width:100%;">Amazing view at 3,500ft above sea level.</p>
+              </div>
+            </div>
+            <div style="position:relative; width:170px; height:310px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+            <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">
+              
+              <div style="position:absolute; left:0; top:164px; width:170px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.85;"></div>
+              <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:16px; gap:4px;">
+                <div>
+                  <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                    <p class="fi" style="font-size:10px; line-height:10px; color:white; letter-spacing:0.1px; white-space:nowrap;">Heritage</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis; width:100%;">Fort St. Angelo</p>
+                <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; width:100%;">Portuguese fort with panoramic sea views</p>
+              </div>
+            </div>
+            <div style="position:relative; width:170px; height:310px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+            <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1660994116172-28efd88bd6b5?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">
+              
+              <div style="position:absolute; left:0; top:164px; width:170px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.85;"></div>
+              <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:16px; gap:4px;">
+                <div>
+                  <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                    <p class="fi" style="font-size:10px; line-height:10px; color:white; letter-spacing:0.1px; white-space:nowrap;">Wildlife</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis; width:100%;">Parassinikadavu</p>
+                <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; width:100%;">Famous snake park & Muthappan temple</p>
+              </div>
+            </div>
+            <div style="position:relative; width:170px; height:310px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+            <div class="play-btn"></div>
+              <img src="https://images.unsplash.com/photo-1652960245376-17eb4a87f98b?w=900&q=90&auto=format&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">
+              
+              <div style="position:absolute; left:0; top:164px; width:170px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.85;"></div>
+              <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:16px; gap:4px;">
+                <div>
+                  <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                    <p class="fi" style="font-size:10px; line-height:10px; color:white; letter-spacing:0.1px; white-space:nowrap;">Culture</p>
+                  </div>
+                </div>
+                <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis; width:100%;">Arakkal Museum</p>
+                <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; width:100%;">Only Muslim royal family in Kerala</p>
+              </div>
+            </div>
+          </div>
+          <div style="padding:0 16px; width:100%;"><button class="btn-link">View all</button></div>
+        </div>
+
+        <!-- invisible anchor kept for sticky CTA logic -->
+        <div id="bookTripBtn" style="height:1px; width:100%;"></div>
+
+      </div>
+    </div><!-- end content wrap -->
+  </div><!-- end relative container -->
+</div><!-- end app -->
+
+<script>
+  /* exposed for dynamic loader */
+  function setScale() {
+    var app = document.getElementById('app');
+    var s = window.innerWidth / 360;
+    app.style.transform = 'scale(' + s + ')';
+    document.body.style.height = (app.scrollHeight * s) + 'px';
+  }
+  window.addEventListener('resize', setScale);
+  window.addEventListener('load', function() {
+    setScale();
+    setTimeout(setScale, 300);
+    setTimeout(setScale, 800);
+  });
+  setScale();
+</script>
+<!-- ── FIXED NAV — outside .app, scaled to match ── -->
+<div id="fixedNav" style="
+  position:fixed; top:0; left:0;
+  width:360px; transform-origin:top left;
+  z-index:999;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  background:rgba(20,10,5,0.35);
+">
+  <div style="display:flex; align-items:center; padding:4px; gap:0;">
+    <div onclick="window.location.href='index.html'" style="width:48px; height:48px; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer;">
+      <div style="width:24px; height:24px; overflow:hidden; position:relative;">
+        <img src="icons/arrow_back.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+      </div>
+    </div>
+    <div style="flex:1;"></div>
+    <div style="width:48px; height:48px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+      <div style="width:24px; height:24px; overflow:hidden; position:relative;">
+        <img src="icons/favorite_border.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+      </div>
+    </div>
+    <div style="width:48px; height:48px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+      <div style="width:24px; height:24px; overflow:hidden; position:relative;">
+        <img src="icons/share.svg" alt="" width="24" height="24" style="display:block; object-fit:contain;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── STICKY CTA — outside .app so it's not clipped by the scale transform ── -->
+<div id="stickyCta" style="
+  position: fixed; bottom: 0; left: 0;
+  width: 360px; transform-origin: bottom left;
+  background: var(--t-bg-page);
+  border-top: 1px solid var(--t-separator);
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
+  padding: 12px 16px 20px;
+  z-index: 999;
+  display: none;
+">
+  <button onclick="document.getElementById('bookTripBtn').scrollIntoView({behavior:'smooth'})"
+          style="width:100%; height:48px; background:#d63941; color:white; border:none; border-radius:999px;
+                 font-family:'Inter',sans-serif; font-weight:500; font-size:16px; letter-spacing:-0.18px; cursor:pointer;">
+    Book your trip
+  </button>
+</div>
+
+<script>
+  (function() {
+    var cta      = document.getElementById('stickyCta');
+    var hotelEl  = document.getElementById('hotelSection');
+    var reached  = false;
+
+    function scaleBar() {
+      var s = window.innerWidth / 360;
+      cta.style.transform = 'scale(' + s + ')';
+      document.getElementById('fixedNav').style.transform = 'scale(' + s + ')';
+    }
+
+    /* Once hotel section enters the viewport, show sticky forever (until scroll back above it) */
+    var obs = new IntersectionObserver(function(entries) {
+      var e = entries[0];
+      if (e.isIntersecting) {
+        reached = true;
+      }
+      /* Show if reached; hide only if still above the hotel section (not yet reached) */
+      cta.style.display = (reached && !e.isIntersecting && e.boundingClientRect.top > 0)
+        ? 'none'   /* scrolled back up, hotel section is below viewport */
+        : (reached ? 'block' : 'none');
+    }, { threshold: 0 });
+
+    obs.observe(hotelEl);
+
+    window.addEventListener('resize', scaleBar);
+    scaleBar();
+
+    /* Also scale nav on page-level resize */
+    window.addEventListener('resize', function() {
+      var s = window.innerWidth / 360;
+      document.getElementById('fixedNav').style.transform = 'scale(' + s + ')';
+    });
+  })();
+</script>
+
+<script>
+/* ── Banner colour extractor — accessible pill bg ────────────────── */
+function applyBannerColor() {
+  var bannerImg = document.getElementById('heroBannerImg');
+  if (!bannerImg) return;
+
+  /* ── Colour math helpers ── */
+  function lum(r, g, b) {
+    function lin(x) { var s = x/255; return s <= 0.03928 ? s/12.92 : Math.pow((s+0.055)/1.055, 2.4); }
+    return 0.2126*lin(r) + 0.7152*lin(g) + 0.0722*lin(b);
+  }
+  function contrastW(r, g, b) { return 1.05 / (lum(r,g,b) + 0.05); } /* contrast vs white */
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var mx = Math.max(r,g,b), mn = Math.min(r,g,b), h, s, l = (mx+mn)/2;
+    if (mx === mn) { h = s = 0; }
+    else {
+      var d = mx - mn;
+      s = l > 0.5 ? d/(2-mx-mn) : d/(mx+mn);
+      if (mx===r)      h = (g-b)/d + (g<b?6:0);
+      else if (mx===g) h = (b-r)/d + 2;
+      else             h = (r-g)/d + 4;
+      h /= 6;
+    }
+    return [h, s, l];
+  }
+  function hslToRgb(h, s, l) {
+    if (s === 0) { var v = Math.round(l*255); return [v,v,v]; }
+    function hue(p,q,t){ if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<0.5)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p; }
+    var q = l<0.5 ? l*(1+s) : l+s-l*s, p = 2*l-q;
+    return [ Math.round(hue(p,q,h+1/3)*255), Math.round(hue(p,q,h)*255), Math.round(hue(p,q,h-1/3)*255) ];
+  }
+
+  /* Find lightness (keeping hue+sat) that achieves target contrast with white */
+  function makeAccessible(h, s, targetContrast) {
+    s = Math.max(s, 0.60); /* keep vivid */
+    var lo = 0, hi = 0.55; /* search only darker half — bright colours */
+    for (var i = 0; i < 24; i++) {
+      var mid = (lo+hi)/2;
+      var rgb = hslToRgb(h, s, mid);
+      if (contrastW(rgb[0],rgb[1],rgb[2]) < targetContrast) hi = mid;
+      else lo = mid;
+    }
+    return hslToRgb(h, s, lo);
+  }
+
+  function extract(img) {
+    try {
+      var canvas = document.createElement('canvas');
+      var SZ = 80; canvas.width = SZ; canvas.height = SZ;
+      var ctx = canvas.getContext('2d');
+      /* Sample the lower 60% — where image colours are richest */
+      ctx.drawImage(img, 0, img.naturalHeight*0.35, img.naturalWidth, img.naturalHeight*0.65, 0, 0, SZ, SZ);
+      var data = ctx.getImageData(0, 0, SZ, SZ).data;
+
+      var best = 0, bestH = 0, bestS = 0;
+      for (var i = 0; i < data.length; i += 4) {
+        var r = data[i], g = data[i+1], b = data[i+2];
+        var hsl = rgbToHsl(r, g, b);
+        var sat = hsl[1], lit = hsl[2];
+        /* Score: high saturation, avoid very dark/light */
+        var score = sat * (1 - Math.abs(lit - 0.45) * 2);
+        if (score > best && sat > 0.25) { best = score; bestH = hsl[0]; bestS = hsl[1]; }
+      }
+      /* Produce a vivid colour that clears 4.5:1 contrast with white */
+      var rgb = makeAccessible(bestH, bestS, 4.5);
+      return 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+    } catch(e) { return null; }
+  }
+
+  function setPill(color) {
+    if (!color) return;
+    document.querySelectorAll('[style*="width:288px"]').forEach(function(el) {
+      el.style.background = color;
+    });
+  }
+
+  function run() { setPill(extract(bannerImg)); }
+
+  bannerImg.crossOrigin = 'anonymous';
+  if (bannerImg.complete && bannerImg.naturalWidth > 0) run();
+  else bannerImg.addEventListener('load', run);
+}
+window.addEventListener('load', function() { setTimeout(applyBannerColor, 350); });
+
+/* ── Dynamic destination loader — runs after DOM + data.js ready ──── */
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id') || 'kannur';
+  var D  = window.DESTINATIONS && window.DESTINATIONS[id];
+  if (!D || id === 'kannur') return; /* Kannur is already the static page */
+
+  function yt(item) {
+    return item.ytId
+      ? 'https://youtube.com/watch?v=' + item.ytId
+      : 'https://youtube.com/results?search_query=' + (item.ytQ || '');
+  }
+  function ytBadge() {
+    return '<div class="yt-badge"><svg width="18" height="12" viewBox="0 0 18 12"><path d="M17.5 1.9C17.3 1.1 16.7.5 15.9.3 14.5 0 9 0 9 0S3.5 0 2.1.3C1.3.5.7 1.1.5 1.9 0 3.4 0 6 0 6s0 2.6.5 4.1c.2.8.8 1.4 1.6 1.6C3.5 12 9 12 9 12s5.5 0 6.9-.3c.8-.2 1.4-.8 1.6-1.6C18 8.6 18 6 18 6s0-2.6-.5-4.1z" fill="red"/><path d="M7 8.6V3.4L12 6z" fill="white"/></svg></div>';
+  }
+  function playBtn() { return '<div class="play-btn"></div>'; }
+
+  /* Banner */
+  var bi = document.getElementById('heroBannerImg');
+  if (bi) { bi.src = D.bannerImg; bi.style.objectPosition = D.bannerObjPos || 'center'; }
+
+  /* Duration pill */
+  document.querySelectorAll('p').forEach(function(p) {
+    var t = p.textContent.trim();
+    if (t === 'Ideal for 2 Days trip' || t === 'Ideal for 3 Days trip') {
+      p.textContent = D.pill.text;
+      /* color is set dynamically by applyBannerColor() — don't hardcode here */
+    }
+    if (t === 'DEC 1 \u2013 DEC 6')              p.textContent = D.dateRange;
+    if (t === 'Theyyam,')                         p.textContent = D.titleLines[0];
+    if (t === 'a spiritual encounter')             p.textContent = D.titleLines[1];
+    if (t === 'Kannur, Kerala')                    p.textContent = D.location;
+    if (t === '8 hrs')                             p.textContent = D.travelTime;
+    if (t === '26-28\u00b0C')                      p.textContent = D.weather;
+    if (t.startsWith('Theyyam is a form'))         p.textContent = D.description;
+    if (t === 'Arts . Cultural . Pilgrim')         p.textContent = D.tags;
+    if (t === '"Kannur"')                          p.textContent = D.knownFor.heading;
+    if (t === 'known for')                         p.textContent = D.knownFor.subheading;
+    if (t === 'Plan your trip')                    p.textContent = D.planTitle;
+    if (t === 'Kannur days')                       p.textContent = D.planSub;
+    if (t === 'Stay at Kannur (Ernakulam)')        p.textContent = D.hotels.subtitle;
+    if (t === 'Bangalore \u2194 Kannur')           p.textContent = D.buses.route;
+    if (t === 'Must try foods in "Kannur"')        p.textContent = D.foods.heading;
+    if (t === 'Places to visit "Kannur"')          p.textContent = D.places.heading;
+    if (t === 'Kannur has more than you think')    p.textContent = D.places.subtitle;
+  });
+
+  /* Things to know */
+  var ttkPs = document.querySelectorAll('.fi[style*="color:var(--t-text-muted)"][style*="flex:1"]');
+  ttkPs.forEach(function(p, i) { if (D.thingsToKnow[i]) p.textContent = D.thingsToKnow[i]; });
+
+  /* Known-for thumbnails */
+  var thumbs = document.querySelectorAll('[style*="width:135px"][style*="height:240px"]');
+  D.knownFor.items.forEach(function(item, i) {
+    var card = thumbs[i]; if (!card) return;
+    var img = card.querySelector('img'); if (img) { img.src = item.img; if (item.objPos) img.style.objectPosition = item.objPos; }
+    var lbls = card.querySelectorAll('p.fi-b'); lbls.forEach(function(l) { l.textContent = item.label; });
+    card.onclick = function() { window.open(yt(item), '_blank'); };
+  });
+
+  /* Hotels */
+  var hotelScroll = document.querySelector('#hotelSection .no-scroll');
+  if (hotelScroll) {
+    hotelScroll.innerHTML = '';
+    D.hotels.items.forEach(function(h) {
+      hotelScroll.insertAdjacentHTML('beforeend',
+        '<div style="background:var(--t-bg-surface);box-shadow:0 2px 2px var(--t-card-shadow-1),0 4px 4px var(--t-card-shadow-2);border-radius:16px;display:flex;flex-direction:column;align-items:flex-start;width:250px;flex-shrink:0;position:relative;">' +
+        '<div style="position:relative;width:250px;height:184px;border-radius:16px 16px 0 0;overflow:hidden;flex-shrink:0;">' +
+          '<img src="'+h.img+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px 16px 0 0;">' +
+          '<div style="position:absolute;bottom:8px;left:8px;border:0.5px solid var(--t-border-weak);border-radius:8px;display:flex;align-items:center;padding:2px;backdrop-filter:blur(2px);background:var(--t-frosted-badge);">' +
+            '<div style="background:var(--t-bg-surface);display:flex;height:20px;align-items:center;justify-content:center;min-width:44px;border-radius:6px;padding:0 4px;"><p class="fi-b" style="font-size:12px;line-height:16px;color:var(--t-text-primary);white-space:nowrap;">'+h.rating+'</p></div>' +
+            '<p class="fi-m" style="font-size:12px;line-height:16px;color:var(--t-text-secondary);white-space:nowrap;padding:0 4px;">'+h.reviews+'</p>' +
+          '</div>' +
+          (h.badge?'<div style="position:absolute;top:12px;right:0;background:#d63941;padding:2px 8px 2px 2px;"><p class="fi-b" style="font-size:14px;line-height:20px;color:#fdfdfd;">'+h.badge+'</p></div>':'') +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:8px;padding:12px 12px 24px;width:250px;">' +
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;width:100%;">' +
+            '<div style="display:flex;flex-direction:column;align-items:flex-start;width:157px;">' +
+              '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-secondary);white-space:nowrap;">'+h.area+'</p>' +
+              '<p class="fi-b" style="font-size:14px;line-height:20px;color:var(--t-text-primary);letter-spacing:-0.08px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;">'+h.name+'</p>' +
+              '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-secondary);">'+h.dist+'</p>' +
+            '</div>' +
+            '<div style="display:flex;flex-direction:column;align-items:flex-end;">' +
+              '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-secondary);text-decoration:line-through;white-space:nowrap;">'+h.origPrice+'</p>' +
+              '<p class="fi-b" style="font-size:16px;line-height:24px;color:var(--t-text-primary);letter-spacing:-0.18px;white-space:nowrap;">'+h.price+'</p>' +
+              '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-secondary);white-space:nowrap;">Per night</p>' +
+            '</div>' +
+          '</div>' +
+        '</div></div>'
+      );
+    });
+  }
+
+  /* Buses */
+  document.querySelectorAll('.no-scroll').forEach(function(s) {
+    if (s.querySelector('[style*="20:15"]')) {
+      s.innerHTML = '';
+      D.buses.items.forEach(function(b) {
+        s.insertAdjacentHTML('beforeend',
+          '<div style="background:var(--t-bg-bus-card);border-radius:20px;box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08);width:300px;flex-shrink:0;">' +
+          '<div style="display:flex;flex-direction:column;gap:12px;padding:16px;">' +
+            '<div style="display:flex;align-items:flex-end;justify-content:space-between;width:100%;">' +
+              '<div style="display:flex;flex-direction:column;gap:0;">' +
+                '<div style="display:flex;gap:6px;align-items:center;">' +
+                  '<p class="fi-b" style="font-size:16px;line-height:22px;color:var(--t-text-primary);letter-spacing:-0.18px;white-space:nowrap;">'+b.dep+'</p>' +
+                  '<div style="height:1.5px;width:12px;background:var(--t-border-weak);border-radius:1px;"></div>' +
+                  '<p class="fi" style="font-size:16px;line-height:22px;color:var(--t-text-primary);letter-spacing:-0.18px;white-space:nowrap;">'+b.arr+'</p>' +
+                '</div>' +
+                '<div style="display:flex;gap:6px;align-items:center;">' +
+                  '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-muted);white-space:nowrap;">'+b.dur+'</p>' +
+                  '<div style="width:2px;height:2px;background:var(--t-dot-sep);border-radius:50%;"></div>' +
+                  '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-muted);white-space:nowrap;">'+b.seats+' Seats</p>' +
+                  (b.seatType?'<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-bus-seats-highlight);white-space:nowrap;">('+b.seatType+')</p>':'') +
+                '</div>' +
+              '</div>' +
+              '<div style="display:flex;flex-direction:column;align-items:flex-end;width:76px;flex-shrink:0;">' +
+                '<p class="fi-b" style="font-size:16px;line-height:22px;color:var(--t-text-primary);letter-spacing:-0.18px;text-align:right;white-space:nowrap;">'+b.price+'</p>' +
+                '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-muted);text-align:right;white-space:nowrap;">onwards</p>' +
+              '</div>' +
+            '</div>' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;width:100%;">' +
+              '<div style="background:var(--t-operator-pill);display:flex;gap:4px;align-items:center;padding:2px 8px 2px 0;border-radius:12px;max-width:213px;">' +
+                '<p class="fi-b" style="font-size:14px;line-height:20px;color:var(--t-text-primary);letter-spacing:-0.09px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;">'+b.operator+'</p>' +
+              '</div>' +
+              '<div style="background:var(--t-rating-outer);border-radius:8px;display:flex;flex-direction:column;align-items:center;overflow:hidden;padding:2px;">' +
+                '<div style="background:#298639;display:flex;height:20px;align-items:center;justify-content:center;min-width:46px;border-radius:6px;padding:0 4px;"><p class="fi-b" style="font-size:12px;line-height:16px;color:white;text-align:center;white-space:nowrap;">'+b.rating+'</p></div>' +
+                '<p class="fi-m" style="font-size:12px;line-height:16px;color:var(--t-rating-count);text-align:center;white-space:nowrap;padding:0 2px;">'+b.reviews+'</p>' +
+              '</div>' +
+            '</div>' +
+            '<p class="fi-m" style="font-size:11px;line-height:14px;color:var(--t-text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;">'+b.busType+'</p>' +
+          '</div></div>'
+        );
+      });
+    }
+  });
+
+  /* Foods */
+  document.querySelectorAll('.no-scroll').forEach(function(s) {
+    if (s.querySelector('[style*="font-size:45px"]')) {
+      s.innerHTML = '';
+      D.foods.items.forEach(function(f) {
+        s.insertAdjacentHTML('beforeend',
+          '<div onclick="window.open(\''+yt(f)+'\',\'_blank\')" style="position:relative;width:170px;height:310px;border-radius:16px;overflow:hidden;flex-shrink:0;cursor:pointer;">' +
+          '<img src="'+f.img+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px;">' +
+          playBtn() + ytBadge() +
+          '<div style="position:absolute;bottom:0;left:0;width:170px;height:183px;background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,0.8));display:flex;flex-direction:column;justify-content:flex-end;padding:16px 20px 16px;">' +
+            '<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start;">' +
+              '<p class="fi-b" style="font-size:45px;line-height:52px;color:white;letter-spacing:-1px;white-space:nowrap;">'+f.num+'</p>' +
+              '<p class="fi-b" style="font-size:16px;line-height:22px;color:white;letter-spacing:-0.18px;width:135px;">'+f.label+'</p>' +
+            '</div>' +
+          '</div></div>'
+        );
+      });
+    }
+  });
+
+  /* Places */
+  document.querySelectorAll('.no-scroll').forEach(function(s) {
+    if (s.querySelector('[style*="border-radius:24px"][style*="height:310px"]')) {
+      s.innerHTML = '';
+      D.places.items.forEach(function(p) {
+        s.insertAdjacentHTML('beforeend',
+          '<div onclick="window.open(\''+yt(p)+'\',\'_blank\')" style="position:relative;width:170px;height:310px;border-radius:24px;overflow:hidden;flex-shrink:0;cursor:pointer;">' +
+          '<img src="'+p.img+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;">' +
+          playBtn() +
+          '<div style="position:absolute;left:0;top:164px;width:170px;height:146px;background:linear-gradient(to bottom,rgba(0,0,0,0),black 79.5%);opacity:0.85;"></div>' +
+          '<div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:4px;">' +
+            '<div><div style="display:inline-block;backdrop-filter:blur(2px);background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 4px;"><p class="fi" style="font-size:10px;line-height:10px;color:white;letter-spacing:0.1px;white-space:nowrap;">'+p.tag+'</p></div></div>' +
+            '<p class="fi-m" style="font-size:16px;line-height:22px;color:white;letter-spacing:-0.18px;overflow:hidden;text-overflow:ellipsis;width:100%;">'+p.name+'</p>' +
+            '<p class="fi" style="font-size:11px;line-height:14px;color:rgba(255,255,255,0.72);overflow:hidden;text-overflow:ellipsis;width:100%;">'+p.desc+'</p>' +
+          '</div></div>'
+        );
+      });
+    }
+  });
+
+  setTimeout(function() { if (typeof setScale === 'function') setScale(); }, 300);
+})();
+</script>
+</body>
+</html>
