@@ -69,7 +69,7 @@
   <!-- ── PAGE TITLE — visible on first load, above the tabs ── -->
   <div style="display:flex; flex-direction:column; align-items:center; padding:8px 16px 12px; background:var(--t-bg-page);">
     <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap;">Plan your</p>
-    <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; white-space:nowrap;">Kannur days</div>
+    <div class="fc" data-dest="days" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; white-space:nowrap;">Kannur days</div>
     <div style="height:8px; width:67px; position:relative; margin-top:4px;">
       <svg width="67" height="8" viewBox="0 0 67 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
         <path d="M1 6 C 9 2, 18 8, 27 5 C 36 2, 45 8, 54 5 C 60 3, 64 6, 66 5" stroke="#e76823" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -80,34 +80,36 @@
   <!-- ── GREY CONTENT SECTION ── -->
   <div style="background:var(--t-bg-alt); border-radius:16px 16px 0 0; padding:0 0 32px; display:flex; flex-direction:column; gap:0;">
 
-    <!-- ── IN-FLOW TABS — visible initially, hides when fixed tabs take over ── -->
+    <!-- ── IN-FLOW TABS ── -->
     <div id="inFlowTabs" style="background:white; border-radius:16px 16px 0 0; position:relative;">
       <div style="position:absolute; bottom:0; left:0; right:0; height:1px; background:#e0e0e0;"></div>
-      <div style="display:flex; align-items:stretch; padding-left:8px;">
-        <div style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:48px; height:64px; padding:12px; cursor:pointer; flex-shrink:0; overflow:hidden;">
+      <div id="inFlowTabsRow" style="display:flex; align-items:stretch; padding-left:8px;">
+        <div onclick="switchTab('hotel')" data-tab="hotel" style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:48px; height:64px; padding:12px; cursor:pointer; flex-shrink:0; overflow:hidden;">
           <div style="display:flex; flex-direction:column; align-items:center; padding:0 4px;">
-            <p class="fi-b" style="font-size:14px; line-height:20px; color:#d63941; letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select hotel</p>
-            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">in Kannur</p>
+            <p class="tab-label fi-b" style="font-size:14px; line-height:20px; color:#d63941; letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select hotel</p>
+            <p class="fi" data-dest="tab-sub" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">in Kannur</p>
           </div>
-          <div style="position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
+          <div class="tab-indicator" style="position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
         </div>
-        <div style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:48px; height:64px; padding:6px 12px; cursor:pointer; flex-shrink:0;">
+        <div onclick="switchTab('busKannur')" data-tab="busKannur" style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:48px; height:64px; padding:6px 12px; cursor:pointer; flex-shrink:0;">
           <div style="display:flex; flex-direction:column; align-items:center; padding:0 4px;">
-            <p class="fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
-            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">Kannur</p>
+            <p class="tab-label fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
+            <p class="fi" data-dest="city" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">Kannur</p>
           </div>
+          <div class="tab-indicator" style="display:none; position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
         </div>
-        <div style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:48px; height:64px; padding:6px 12px; cursor:pointer; flex-shrink:0;">
+        <div onclick="switchTab('busBangalore')" data-tab="busBangalore" style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:48px; height:64px; padding:6px 12px; cursor:pointer; flex-shrink:0;">
           <div style="display:flex; flex-direction:column; align-items:center; padding:0 4px;">
-            <p class="fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
+            <p class="tab-label fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
             <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">Bangalore</p>
           </div>
+          <div class="tab-indicator" style="display:none; position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
         </div>
       </div>
     </div>
 
-    <!-- ── SEARCH & HOTELS CONTENT ── -->
-    <div style="padding:16px 16px 0; display:flex; flex-direction:column; gap:16px;">
+    <!-- ── PANEL: HOTEL ── -->
+    <div id="panelHotel" style="padding:16px 16px 0; display:flex; flex-direction:column; gap:16px;">
 
     <!-- ── SEARCH CARD ── -->
     <div style="background:var(--t-bg-surface); border:1px solid var(--t-border-input); border-radius:16px; overflow:hidden; width:100%;">
@@ -355,7 +357,410 @@
       <button class="btn-link">View all hotels</button>
     </div>
 
-    </div><!-- end search & hotels content -->
+    </div><!-- end panelHotel -->
+
+    <!-- ══════════════════════════════════════════════
+         PANEL: BUS TO KANNUR
+    ══════════════════════════════════════════════ -->
+    <div id="panelBusKannur" style="display:none; padding:16px 16px 0; flex-direction:column; gap:16px;">
+
+      <!-- Bus search widget -->
+      <div style="background:var(--t-bg-surface); border:1px solid var(--t-border-input); border-radius:16px; overflow:hidden; position:relative; width:100%;">
+        <!-- From -->
+        <div style="display:flex; align-items:center; gap:16px; padding:8px 16px; min-height:56px;">
+          <img src="icons/hotel.svg" width="22" height="22" style="display:block;flex-shrink:0;opacity:0.55;filter:brightness(0);" alt="">
+          <div style="flex:1; min-width:0;">
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted);">From</p>
+            <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px;">Bangalore</p>
+          </div>
+        </div>
+        <!-- Swap button (between From and To) -->
+        <div style="position:absolute; right:7px; top:26px; width:48px; height:68px; display:flex; align-items:center; justify-content:center; z-index:2;">
+          <div style="background:#4b4b4b; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 4px rgba(0,0,0,0.18);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/></svg>
+          </div>
+        </div>
+        <!-- Divider -->
+        <div style="height:1px; background:var(--t-border-input);"></div>
+        <!-- To -->
+        <div style="display:flex; align-items:center; gap:16px; padding:8px 16px; min-height:56px;">
+          <img src="icons/hotel.svg" width="22" height="22" style="display:block;flex-shrink:0;opacity:0.55;filter:brightness(0);" alt="">
+          <div style="flex:1; min-width:0;">
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted);">To</p>
+            <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px;">Kannur</p>
+          </div>
+        </div>
+        <!-- Divider -->
+        <div style="height:1px; background:var(--t-border-input);"></div>
+        <!-- Date of journey + chips -->
+        <div style="display:flex; align-items:center; gap:16px; padding:8px 16px; min-height:56px; overflow:hidden; position:relative;">
+          <div style="width:24px; height:24px; flex-shrink:0; overflow:hidden; opacity:0.7;">
+            <img src="icons/calendar.svg" width="24" height="24" style="display:block; object-fit:contain;">
+          </div>
+          <div style="flex-shrink:0;">
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">Date of Journey</p>
+            <p style="font-family:'Inter',sans-serif; font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;"><span class="fi-b">08 Jul, </span><span class="fi">Fri</span></p>
+          </div>
+          <div style="display:flex; gap:6px; flex-shrink:0;">
+            <div style="background:#fad9d7; border-radius:999px; padding:4px 16px; height:40px; display:flex; align-items:center; flex-shrink:0; cursor:pointer;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">Today</p>
+            </div>
+            <div style="background:#f5f5f5; border-radius:999px; padding:4px 16px; height:40px; display:flex; align-items:center; flex-shrink:0; cursor:pointer;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">Tomorrow</p>
+            </div>
+          </div>
+          <!-- Fade -->
+          <div style="position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(to right, transparent, white); pointer-events:none;"></div>
+        </div>
+      </div>
+
+      <!-- Section title -->
+      <p class="fi-b" style="font-size:20px; line-height:26px; color:var(--t-text-primary); letter-spacing:-0.33px;">Top buses to 'Kannur'</p>
+
+      <!-- BUS SRP CARDS — Kannur -->
+      <!-- Card 1 -->
+      <div style="background:var(--t-bg-surface); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); overflow:hidden; width:100%;">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+          <div style="display:flex; align-items:center; width:100%;">
+            <img src="icons/primo.svg" alt="Primo" width="56" height="28" style="display:block; object-fit:contain; flex-shrink:0;">
+            <div style="flex:1;"></div>
+            <div style="background:#f7dfaf; border-radius:4px; padding:3px 10px; flex-shrink:0;">
+              <p class="fi" style="font-size:12px; line-height:16px; color:#1d1d1d; white-space:nowrap;">Last min. <strong>20% OFF</strong></p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:0;">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">20:15</p>
+                <div style="height:1.5px; width:12px; background:#e6e6e6; border-radius:1px;"></div>
+                <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">09:00</p>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">7h 30m</p>
+                <div style="width:2px; height:2px; background:rgba(29,29,29,0.4); border-radius:50%;"></div>
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">11 Seats</p>
+                <p class="fi" style="font-size:12px; line-height:16px; color:#b05219; white-space:nowrap;">(2 Single)</p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0;">
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">₹1,500</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); white-space:nowrap;">Onwards</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">Sri Krishna Travels</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">A/C Sleeper (2+1)</p>
+            </div>
+            <div style="background:#dbf4d7; border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px; flex-shrink:0;">
+              <div style="background:#298639; border-radius:6px; min-width:46px; height:20px; display:flex; align-items:center; justify-content:center; gap:2px; padding:0 4px;">
+                <img src="icons/star.svg" width="12" height="12" style="display:block; flex-shrink:0; filter:brightness(0) invert(1);">
+                <p class="fi-b" style="font-size:12px; line-height:16px; color:white; white-space:nowrap;">4.4</p>
+              </div>
+              <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; white-space:nowrap; padding:0 2px;">1,841</p>
+            </div>
+          </div>
+          <!-- Drop point callout -->
+          <div style="background:#dbf4d7; border-radius:8px; padding:8px; display:flex; gap:4px; align-items:flex-start; width:100%;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1d1d1d" style="flex-shrink:0; margin-top:1px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary);">Drop point in Kannur</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div style="background:var(--t-bg-surface); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); overflow:hidden; width:100%;">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+          <div style="display:flex; align-items:center; width:100%;">
+            <img src="icons/primo.svg" alt="Primo" width="56" height="28" style="display:block; object-fit:contain; flex-shrink:0;">
+            <div style="flex:1;"></div>
+          </div>
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:0;">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">21:00</p>
+                <div style="height:1.5px; width:12px; background:#e6e6e6; border-radius:1px;"></div>
+                <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">09:30</p>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">8h 30m</p>
+                <div style="width:2px; height:2px; background:rgba(29,29,29,0.4); border-radius:50%;"></div>
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">14 Seats</p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0;">
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">₹850</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); white-space:nowrap;">Onwards</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">KSRTC Airavat Club Class</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">Multi-Axle Volvo A/C (2+2)</p>
+            </div>
+            <div style="background:#dbf4d7; border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px; flex-shrink:0;">
+              <div style="background:#298639; border-radius:6px; min-width:46px; height:20px; display:flex; align-items:center; justify-content:center; gap:2px; padding:0 4px;">
+                <img src="icons/star.svg" width="12" height="12" style="display:block; flex-shrink:0; filter:brightness(0) invert(1);">
+                <p class="fi-b" style="font-size:12px; line-height:16px; color:white; white-space:nowrap;">4.6</p>
+              </div>
+              <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; white-space:nowrap; padding:0 2px;">3,210</p>
+            </div>
+          </div>
+          <div style="background:#dbf4d7; border-radius:8px; padding:8px; display:flex; gap:4px; align-items:flex-start; width:100%;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1d1d1d" style="flex-shrink:0; margin-top:1px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary);">Drop point in Kannur</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div style="background:var(--t-bg-surface); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); overflow:hidden; width:100%;">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+          <div style="display:flex; align-items:center; width:100%;">
+            <img src="icons/primo.svg" alt="Primo" width="56" height="28" style="display:block; object-fit:contain; flex-shrink:0;">
+            <div style="flex:1;"></div>
+            <div style="background:#f7dfaf; border-radius:4px; padding:3px 10px; flex-shrink:0;">
+              <p class="fi" style="font-size:12px; line-height:16px; color:#1d1d1d; white-space:nowrap;">Last min. <strong>20% OFF</strong></p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:0;">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">20:30</p>
+                <div style="height:1.5px; width:12px; background:#e6e6e6; border-radius:1px;"></div>
+                <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">10:00</p>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">9h 30m</p>
+                <div style="width:2px; height:2px; background:rgba(29,29,29,0.4); border-radius:50%;"></div>
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">8 Seats</p>
+                <p class="fi" style="font-size:12px; line-height:16px; color:#b05219; white-space:nowrap;">(3 Single)</p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0;">
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">₹1,100</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); white-space:nowrap;">Onwards</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">SRS Travels</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">A/C Sleeper (2+1)</p>
+            </div>
+            <div style="background:#dbf4d7; border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px; flex-shrink:0;">
+              <div style="background:#298639; border-radius:6px; min-width:46px; height:20px; display:flex; align-items:center; justify-content:center; gap:2px; padding:0 4px;">
+                <img src="icons/star.svg" width="12" height="12" style="display:block; flex-shrink:0; filter:brightness(0) invert(1);">
+                <p class="fi-b" style="font-size:12px; line-height:16px; color:white; white-space:nowrap;">4.2</p>
+              </div>
+              <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; white-space:nowrap; padding:0 2px;">986</p>
+            </div>
+          </div>
+          <div style="background:#dbf4d7; border-radius:8px; padding:8px; display:flex; gap:4px; align-items:flex-start; width:100%;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1d1d1d" style="flex-shrink:0; margin-top:1px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary);">Drop point in Kannur</p>
+          </div>
+        </div>
+      </div>
+
+      <div><button class="btn-link">View all buses</button></div>
+    </div><!-- end panelBusKannur -->
+
+    <!-- ══════════════════════════════════════════════
+         PANEL: BUS TO BANGALORE
+    ══════════════════════════════════════════════ -->
+    <div id="panelBangalore" style="display:none; padding:16px 16px 0; flex-direction:column; gap:16px;">
+
+      <!-- Bus search widget -->
+      <div style="background:var(--t-bg-surface); border:1px solid var(--t-border-input); border-radius:16px; overflow:hidden; position:relative; width:100%;">
+        <div style="display:flex; align-items:center; gap:16px; padding:8px 16px; min-height:56px;">
+          <img src="icons/hotel.svg" width="22" height="22" style="display:block;flex-shrink:0;opacity:0.55;filter:brightness(0);" alt="">
+          <div style="flex:1; min-width:0;">
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted);">From</p>
+            <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px;">Kannur</p>
+          </div>
+        </div>
+        <div style="position:absolute; right:7px; top:26px; width:48px; height:68px; display:flex; align-items:center; justify-content:center; z-index:2;">
+          <div style="background:#4b4b4b; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 4px rgba(0,0,0,0.18);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/></svg>
+          </div>
+        </div>
+        <div style="height:1px; background:var(--t-border-input);"></div>
+        <div style="display:flex; align-items:center; gap:16px; padding:8px 16px; min-height:56px;">
+          <img src="icons/hotel.svg" width="22" height="22" style="display:block;flex-shrink:0;opacity:0.55;filter:brightness(0);" alt="">
+          <div style="flex:1; min-width:0;">
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted);">To</p>
+            <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px;">Bangalore</p>
+          </div>
+        </div>
+        <div style="height:1px; background:var(--t-border-input);"></div>
+        <div style="display:flex; align-items:center; gap:16px; padding:8px 16px; min-height:56px; overflow:hidden; position:relative;">
+          <div style="width:24px; height:24px; flex-shrink:0; overflow:hidden; opacity:0.7;">
+            <img src="icons/calendar.svg" width="24" height="24" style="display:block; object-fit:contain;">
+          </div>
+          <div style="flex-shrink:0;">
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-muted); white-space:nowrap;">Date of Journey</p>
+            <p style="font-family:'Inter',sans-serif; font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;"><span class="fi-b">09 Jul, </span><span class="fi">Sat</span></p>
+          </div>
+          <div style="display:flex; gap:6px; flex-shrink:0;">
+            <div style="background:#f5f5f5; border-radius:999px; padding:4px 16px; height:40px; display:flex; align-items:center; flex-shrink:0; cursor:pointer;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">Today</p>
+            </div>
+            <div style="background:#fad9d7; border-radius:999px; padding:4px 16px; height:40px; display:flex; align-items:center; flex-shrink:0; cursor:pointer;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">Tomorrow</p>
+            </div>
+          </div>
+          <div style="position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(to right, transparent, white); pointer-events:none;"></div>
+        </div>
+      </div>
+
+      <p class="fi-b" style="font-size:20px; line-height:26px; color:var(--t-text-primary); letter-spacing:-0.33px;">Top buses to 'Bangalore'</p>
+
+      <!-- Card 1 -->
+      <div style="background:var(--t-bg-surface); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); overflow:hidden; width:100%;">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+          <div style="display:flex; align-items:center; width:100%;">
+            <img src="icons/primo.svg" alt="Primo" width="56" height="28" style="display:block; object-fit:contain; flex-shrink:0;">
+            <div style="flex:1;"></div>
+            <div style="background:#f7dfaf; border-radius:4px; padding:3px 10px; flex-shrink:0;">
+              <p class="fi" style="font-size:12px; line-height:16px; color:#1d1d1d; white-space:nowrap;">Last min. <strong>20% OFF</strong></p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:0;">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">19:30</p>
+                <div style="height:1.5px; width:12px; background:#e6e6e6; border-radius:1px;"></div>
+                <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">08:15</p>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">8h 45m</p>
+                <div style="width:2px; height:2px; background:rgba(29,29,29,0.4); border-radius:50%;"></div>
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">11 Seats</p>
+                <p class="fi" style="font-size:12px; line-height:16px; color:#b05219; white-space:nowrap;">(2 Single)</p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0;">
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">₹1,500</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); white-space:nowrap;">Onwards</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">Sri Krishna Travels</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">A/C Sleeper (2+1)</p>
+            </div>
+            <div style="background:#dbf4d7; border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px; flex-shrink:0;">
+              <div style="background:#298639; border-radius:6px; min-width:46px; height:20px; display:flex; align-items:center; justify-content:center; gap:2px; padding:0 4px;">
+                <img src="icons/star.svg" width="12" height="12" style="display:block; flex-shrink:0; filter:brightness(0) invert(1);">
+                <p class="fi-b" style="font-size:12px; line-height:16px; color:white; white-space:nowrap;">4.4</p>
+              </div>
+              <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; white-space:nowrap; padding:0 2px;">1,841</p>
+            </div>
+          </div>
+          <div style="background:#dbf4d7; border-radius:8px; padding:8px; display:flex; gap:4px; align-items:flex-start; width:100%;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1d1d1d" style="flex-shrink:0; margin-top:1px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary);">Drop point in Bangalore</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div style="background:var(--t-bg-surface); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); overflow:hidden; width:100%;">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+          <div style="display:flex; align-items:center; width:100%;">
+            <img src="icons/primo.svg" alt="Primo" width="56" height="28" style="display:block; object-fit:contain; flex-shrink:0;">
+            <div style="flex:1;"></div>
+          </div>
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:0;">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">21:00</p>
+                <div style="height:1.5px; width:12px; background:#e6e6e6; border-radius:1px;"></div>
+                <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">09:00</p>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">8h 30m</p>
+                <div style="width:2px; height:2px; background:rgba(29,29,29,0.4); border-radius:50%;"></div>
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">16 Seats</p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0;">
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">₹780</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); white-space:nowrap;">Onwards</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">KPN Travels</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">A/C Seater/Sleeper (2+1)</p>
+            </div>
+            <div style="background:#dbf4d7; border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px; flex-shrink:0;">
+              <div style="background:#298639; border-radius:6px; min-width:46px; height:20px; display:flex; align-items:center; justify-content:center; gap:2px; padding:0 4px;">
+                <img src="icons/star.svg" width="12" height="12" style="display:block; flex-shrink:0; filter:brightness(0) invert(1);">
+                <p class="fi-b" style="font-size:12px; line-height:16px; color:white; white-space:nowrap;">4.1</p>
+              </div>
+              <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; white-space:nowrap; padding:0 2px;">742</p>
+            </div>
+          </div>
+          <div style="background:#dbf4d7; border-radius:8px; padding:8px; display:flex; gap:4px; align-items:flex-start; width:100%;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1d1d1d" style="flex-shrink:0; margin-top:1px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary);">Drop point in Bangalore</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div style="background:var(--t-bg-surface); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); overflow:hidden; width:100%;">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+          <div style="display:flex; align-items:center; width:100%;">
+            <img src="icons/primo.svg" alt="Primo" width="56" height="28" style="display:block; object-fit:contain; flex-shrink:0;">
+            <div style="flex:1;"></div>
+            <div style="background:#f7dfaf; border-radius:4px; padding:3px 10px; flex-shrink:0;">
+              <p class="fi" style="font-size:12px; line-height:16px; color:#1d1d1d; white-space:nowrap;">Last min. <strong>20% OFF</strong></p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:0;">
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">22:00</p>
+                <div style="height:1.5px; width:12px; background:#e6e6e6; border-radius:1px;"></div>
+                <p class="fi" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">10:30</p>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">8h 30m</p>
+                <div style="width:2px; height:2px; background:rgba(29,29,29,0.4); border-radius:50%;"></div>
+                <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">9 Seats</p>
+                <p class="fi" style="font-size:12px; line-height:16px; color:#b05219; white-space:nowrap;">(1 Single)</p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0;">
+              <p class="fi-b" style="font-size:16px; line-height:22px; color:var(--t-text-primary); letter-spacing:-0.18px; white-space:nowrap;">₹1,250</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); white-space:nowrap;">Onwards</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <p class="fi-b" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; white-space:nowrap;">Kallada Travels</p>
+              <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-secondary); white-space:nowrap;">Volvo A/C Sleeper (2+1)</p>
+            </div>
+            <div style="background:#dbf4d7; border-radius:8px; display:flex; flex-direction:column; align-items:center; overflow:hidden; padding:2px; flex-shrink:0;">
+              <div style="background:#298639; border-radius:6px; min-width:46px; height:20px; display:flex; align-items:center; justify-content:center; gap:2px; padding:0 4px;">
+                <img src="icons/star.svg" width="12" height="12" style="display:block; flex-shrink:0; filter:brightness(0) invert(1);">
+                <p class="fi-b" style="font-size:12px; line-height:16px; color:white; white-space:nowrap;">4.5</p>
+              </div>
+              <p class="fi-m" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; white-space:nowrap; padding:0 2px;">2,103</p>
+            </div>
+          </div>
+          <div style="background:#dbf4d7; border-radius:8px; padding:8px; display:flex; gap:4px; align-items:flex-start; width:100%;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#1d1d1d" style="flex-shrink:0; margin-top:1px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary);">Drop point in Bangalore</p>
+          </div>
+        </div>
+      </div>
+
+      <div><button class="btn-link">View all buses</button></div>
+    </div><!-- end panelBangalore -->
+
   </div><!-- end grey section -->
 </div><!-- end app -->
 
@@ -390,39 +795,100 @@
   <div style="display:flex; align-items:stretch; padding-left:8px;">
 
     <!-- Tab 1: Select hotel (ACTIVE) -->
-    <div style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    <div onclick="switchTab('hotel')" data-tab="hotel" style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
          min-width:48px; height:64px; padding:12px; cursor:pointer; flex-shrink:0; overflow:hidden;">
       <div style="display:flex; flex-direction:column; align-items:center; padding:0 4px;">
-        <p class="fi-b" style="font-size:14px; line-height:20px; color:#d63941; letter-spacing:-0.09px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Select hotel</p>
+        <p class="tab-label fi-b" style="font-size:14px; line-height:20px; color:#d63941; letter-spacing:-0.09px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Select hotel</p>
         <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">in Kannur</p>
       </div>
-      <!-- Active indicator: inset 19px from edges, 3px red, rounded top -->
-      <div style="position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
+      <div class="tab-indicator" style="position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
     </div>
 
     <!-- Tab 2: Select bus to Kannur -->
-    <div style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    <div onclick="switchTab('busKannur')" data-tab="busKannur" style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
          min-width:48px; height:64px; padding:6px 12px; cursor:pointer; flex-shrink:0;">
       <div style="display:flex; flex-direction:column; align-items:center; padding:0 4px;">
-        <p class="fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
+        <p class="tab-label fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
         <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">Kannur</p>
       </div>
+      <div class="tab-indicator" style="display:none; position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
     </div>
 
     <!-- Tab 3: Select bus to Bangalore -->
-    <div style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    <div onclick="switchTab('busBangalore')" data-tab="busBangalore" style="position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
          min-width:48px; height:64px; padding:6px 12px; cursor:pointer; flex-shrink:0;">
       <div style="display:flex; flex-direction:column; align-items:center; padding:0 4px;">
-        <p class="fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
+        <p class="tab-label fi-m" style="font-size:14px; line-height:20px; color:var(--t-text-primary); letter-spacing:-0.09px; text-align:center; white-space:nowrap;">Select bus to</p>
         <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-tertiary); text-align:center; letter-spacing:0.01px; white-space:nowrap;">Bangalore</p>
       </div>
+      <div class="tab-indicator" style="display:none; position:absolute; bottom:0; left:19px; right:19px; height:3px; background:#d63941; border-radius:999px 999px 0 0;"></div>
     </div>
 
   </div>
 </div>
 
 <script>
-  var _s = 1;
+  /* ── Dynamic destination from URL params ── */
+  var _urlP   = new URLSearchParams(window.location.search);
+  var DEST     = decodeURIComponent(_urlP.get('dest') || 'Kannur');
+  var PLAN_SUB = decodeURIComponent(_urlP.get('plan') || (DEST + ' days'));
+
+  function applyDestName() {
+    /* Walk every text node and substitute "Kannur" with the real destination */
+    function replaceIn(node) {
+      if (node.nodeType === 3) { /* TEXT_NODE */
+        var t = node.textContent;
+        if (t.indexOf('Kannur') === -1) return;
+        node.textContent = t
+          .replace(/Top hotels in 'Kannur'/g, "Top hotels in '" + DEST + "'")
+          .replace(/Top buses to 'Kannur'/g,  "Top buses to '" + DEST + "'")
+          .replace(/Drop point in Kannur/g,   'Drop point in ' + DEST)
+          .replace(/Kannur days/g,            PLAN_SUB)
+          .replace(/in Kannur/g,              'in ' + DEST)
+          .replace(/\bKannur\b/g,             DEST);
+      } else {
+        for (var i = 0; i < node.childNodes.length; i++) replaceIn(node.childNodes[i]);
+      }
+    }
+    replaceIn(document.getElementById('app'));
+    /* Also update fixed elements outside .app */
+    var fixed = document.getElementById('bookTabs');
+    if (fixed) replaceIn(fixed);
+  }
+
+  var _s   = 1;
+  var _activeTab = 'hotel';
+
+  /* Tab switching — updates both in-flow and fixed tab bars */
+  function switchTab(tab) {
+    _activeTab = tab;
+    var panels = { hotel: 'panelHotel', busKannur: 'panelBusKannur', busBangalore: 'panelBangalore' };
+
+    /* Show/hide content panels */
+    Object.keys(panels).forEach(function(key) {
+      var el = document.getElementById(panels[key]);
+      if (el) el.style.display = (key === tab) ? 'flex' : 'none';
+    });
+
+    /* Update active state on ALL tab elements (both in-flow and fixed) */
+    document.querySelectorAll('[data-tab]').forEach(function(el) {
+      var isActive = el.getAttribute('data-tab') === tab;
+      var label = el.querySelector('.tab-label');
+      var indicator = el.querySelector('.tab-indicator');
+      if (label) {
+        label.className = isActive
+          ? 'tab-label fi-b'
+          : 'tab-label fi-m';
+        label.style.color = isActive ? '#d63941' : 'var(--t-text-primary)';
+      }
+      if (indicator) indicator.style.display = isActive ? 'block' : 'none';
+    });
+
+    /* Re-apply dest names (panels were hidden, text may not have been replaced) */
+    applyDestName();
+    /* Re-measure body height after panel switch */
+    setTimeout(function() { setScale(); }, 50);
+  }
 
   function setScale() {
     var app = document.getElementById('app');
@@ -458,6 +924,7 @@
   window.addEventListener('scroll', updateTabsVisibility);
   window.addEventListener('resize', function() { setScale(); scaleFixed(); updateTabsVisibility(); });
   window.addEventListener('load', function() {
+    applyDestName();
     setScale(); scaleFixed(); updateTabsVisibility();
     setTimeout(function() { setScale(); scaleFixed(); updateTabsVisibility(); }, 300);
     setTimeout(function() { setScale(); scaleFixed(); updateTabsVisibility(); }, 800);
@@ -465,6 +932,7 @@
   setScale();
   scaleFixed();
   updateTabsVisibility();
+  applyDestName();
 </script>
 </body>
 </html>

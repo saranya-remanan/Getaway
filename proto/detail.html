@@ -1037,7 +1037,7 @@
   z-index: 999;
   display: none;
 ">
-  <button onclick="window.location.href='book-hotel.html'+(window.location.search||'')"
+  <button onclick="(function(){var p=new URLSearchParams(window.location.search);var id=p.get('id')||'kannur';var D=window.DESTINATIONS&&window.DESTINATIONS[id];var dest=D?D.location.split(',')[0].trim():'Kannur';var plan=D?D.planSub:'Kannur days';window.location.href='book-hotel.html?dest='+encodeURIComponent(dest)+'&plan='+encodeURIComponent(plan);})();"
           style="width:100%; height:48px; background:#d63941; color:white; border:none; border-radius:999px;
                  font-family:'Inter',sans-serif; font-weight:500; font-size:16px; letter-spacing:-0.18px; cursor:pointer;">
     Book your trip
