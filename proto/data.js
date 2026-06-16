@@ -79,7 +79,7 @@ window.DESTINATIONS = {
   /* ── FORT KOCHI / BIENNALE ────────────────────────────────────────── */
   kochi: {
     id: 'kochi',
-    bannerImg: 'https://images.unsplash.com/photo-1558025638-565ae7710b3f'+HQ,
+    bannerImg: 'Kochi-optimized.webp',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 3 Days trip' },
     dateRange: 'DEC 12 – MAR 9',
@@ -97,7 +97,7 @@ window.DESTINATIONS = {
     knownFor: {
       heading: '"Fort Kochi"', subheading: 'known for', squiggleW: '105px',
       items: [
-        { img: 'https://images.unsplash.com/photo-1558025638-565ae7710b3f'+Q, label: 'Chinese Fishing Nets', ytQ: 'Chinese+Fishing+Nets+Fort+Kochi' },
+        { img: 'Kochi-optimized.webp', label: 'Chinese Fishing Nets', ytQ: 'Chinese+Fishing+Nets+Fort+Kochi' },
         { img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+CARD, label: 'Kochi Biennale', ytQ: 'Kochi+Muziris+Biennale' },
         { img: 'https://images.unsplash.com/photo-1543198926-22fea2a870dd'+Q, label: 'Kathakali', ytQ: 'Kathakali+performance+Kerala' },
         { img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+Q, label: 'Heritage Walks', ytQ: 'Fort+Kochi+heritage+walk' }
@@ -138,7 +138,7 @@ window.DESTINATIONS = {
       heading: 'Places to visit "Fort Kochi"',
       subtitle: 'Heritage, art & backwaters',
       items: [
-        { tag: 'Heritage', name: 'Chinese Fishing Nets', desc: 'Iconic 600-year-old cantilever fishing nets at sunset', img: 'https://images.unsplash.com/photo-1558025638-565ae7710b3f'+Q, ytQ: 'Chinese+Fishing+Nets+Kochi' },
+        { tag: 'Heritage', name: 'Chinese Fishing Nets', desc: 'Iconic 600-year-old cantilever fishing nets at sunset', img: 'Kochi-optimized.webp', ytQ: 'Chinese+Fishing+Nets+Kochi' },
         { tag: 'Art Biennale', name: 'Biennale Venues', desc: 'Contemporary art in heritage warehouses', img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+CARD, ytQ: 'Kochi+Biennale+art' },
         { tag: 'Heritage', name: 'Dutch Palace', desc: 'Mattancherry Palace with Kerala murals', img: 'https://images.unsplash.com/photo-1652960245376-17eb4a87f98b'+Q, ytQ: 'Dutch+Palace+Mattancherry+Kochi' },
         { tag: 'Culture', name: 'Jewish Synagogue', desc: 'Oldest active synagogue in Commonwealth', img: 'https://images.unsplash.com/photo-1647668747141-4c1505825332'+Q, ytQ: 'Jewish+Synagogue+Kochi' },
@@ -150,7 +150,7 @@ window.DESTINATIONS = {
   /* ── COORG ───────────────────────────────────────────────────────── */
   coorg: {
     id: 'coorg',
-    bannerImg: 'https://images.unsplash.com/photo-1757702328394-a71ad4c417c2'+Q,
+    bannerImg: 'Coorg-optimized.webp',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 3 Days trip' },
     dateRange: 'Nov – Feb (Best Season)',
@@ -168,7 +168,7 @@ window.DESTINATIONS = {
     knownFor: {
       heading: '"Coorg"', subheading: 'known for', squiggleW: '67px',
       items: [
-        { img: 'https://images.unsplash.com/photo-1757702328394-a71ad4c417c2'+Q, label: 'Coffee Estates', ytQ: 'Coorg+coffee+plantation+Karnataka' },
+        { img: 'Coorg-optimized.webp', label: 'Coffee Estates', ytQ: 'Coorg+coffee+plantation+Karnataka' },
         { img: 'https://images.unsplash.com/photo-1655128629694-3f94cc94b544'+Q, label: 'Abbey Falls', ytQ: 'Abbey+Falls+Coorg+Karnataka' },
         { img: 'https://images.unsplash.com/photo-1652960245376-17eb4a87f98b'+Q, label: 'Namdroling Monastery', ytQ: 'Namdroling+Golden+Temple+Coorg' },
         { img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+Q, label: "Raja's Seat", ytQ: 'Rajas+Seat+Coorg+sunset' }
@@ -210,7 +210,7 @@ window.DESTINATIONS = {
       subtitle: 'Waterfalls, forests & tea',
       items: [
         { tag: 'Waterfall', name: 'Abbey Falls', desc: 'Spectacular 70ft waterfall in coffee forest', img: 'https://images.unsplash.com/photo-1655128629694-3f94cc94b544'+Q, ytQ: 'Abbey+Falls+Coorg' },
-        { tag: 'Viewpoint', name: "Raja's Seat", desc: 'Sunset viewpoint with valley panorama', img: 'https://images.unsplash.com/photo-1757702328394-a71ad4c417c2'+Q, ytQ: 'Rajas+Seat+Coorg+viewpoint' },
+        { tag: 'Viewpoint', name: "Raja's Seat", desc: 'Sunset viewpoint with valley panorama', img: 'Coorg-optimized.webp', ytQ: 'Rajas+Seat+Coorg+viewpoint' },
         { tag: 'Monastery', name: 'Namdroling Monastery', desc: 'Golden Temple of the Tibetan settlement', img: 'https://images.unsplash.com/photo-1652960245376-17eb4a87f98b'+Q, ytQ: 'Namdroling+Monastery+Coorg' },
         { tag: 'Wildlife', name: 'Dubare Elephant Camp', desc: 'Interact with trained elephants at sunrise', img: 'https://images.unsplash.com/photo-1647668747141-4c1505825332'+Q, ytQ: 'Dubare+Elephant+Camp+Coorg' },
         { tag: 'Trekking', name: 'Iruppu Falls', desc: '170ft waterfall with Brahmagiri trek', img: 'https://images.unsplash.com/photo-1713502359486-d3611d924f61'+Q, ytQ: 'Iruppu+Falls+Coorg+trek' }
