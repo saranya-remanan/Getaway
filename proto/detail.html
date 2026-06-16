@@ -528,7 +528,7 @@
               </div>
             </div>
           </div>
-          <div style="padding:0 16px; width:100%;"><button class="btn-link">View all hotels</button></div>
+          <div style="padding:0 16px; width:100%;"><button class="btn-link" onclick="(function(){var p=new URLSearchParams(window.location.search);var id=p.get('id')||'kannur';var D=window.DESTINATIONS&&window.DESTINATIONS[id];var dest=D?D.location.split(',')[0].trim():'Kannur';var plan=D?D.planSub:'Kannur days';window.location.href='book-hotel.html?dest='+encodeURIComponent(dest)+'&plan='+encodeURIComponent(plan)+'&tab=hotel';})();">View all hotels</button></div>
         </div>
 
         <!-- ── BOOK YOUR BUS ───────────────────────── -->
@@ -802,7 +802,7 @@
 
           </div>
 
-          <button class="btn-link">View all buses</button>
+          <button class="btn-link" onclick="(function(){var p=new URLSearchParams(window.location.search);var id=p.get('id')||'kannur';var D=window.DESTINATIONS&&window.DESTINATIONS[id];var dest=D?D.location.split(',')[0].trim():'Kannur';var plan=D?D.planSub:'Kannur days';window.location.href='book-hotel.html?dest='+encodeURIComponent(dest)+'&plan='+encodeURIComponent(plan)+'&tab=busKannur';})();">View all buses</button>
         </div>
 
         <!-- ── MUST TRY FOODS ──────────────────────── -->

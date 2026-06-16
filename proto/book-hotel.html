@@ -931,6 +931,10 @@
   scaleFixed();
   updateTabsVisibility();
   applyDestName();
+
+  /* Auto-switch tab from URL param (e.g. ?tab=busKannur) */
+  var _initialTab = _urlP.get('tab') || 'hotel';
+  if (_initialTab !== 'hotel') switchTab(_initialTab);
 </script>
 </body>
 </html>
