@@ -98,7 +98,7 @@ window.DESTINATIONS = {
       heading: '"Fort Kochi"', subheading: 'known for', squiggleW: '105px',
       items: [
         { img: 'Kochi-optimized.webp', label: 'Chinese Fishing Nets', ytQ: 'Chinese+Fishing+Nets+Fort+Kochi' },
-        { img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+CARD, label: 'Kochi Biennale', ytQ: 'Kochi+Muziris+Biennale' },
+        { img: 'https://images.unsplash.com/photo-1652960245376-17eb4a87f98b'+CARD, label: 'Mattancherry', ytQ: 'Mattancherry+Jew+Town+Kochi+spice' },
         { img: 'https://images.unsplash.com/photo-1543198926-22fea2a870dd'+Q, label: 'Kathakali', ytQ: 'Kathakali+performance+Kerala' },
         { img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+Q, label: 'Heritage Walks', ytQ: 'Fort+Kochi+heritage+walk' }
       ]
@@ -108,7 +108,7 @@ window.DESTINATIONS = {
       subtitle: 'Stay at Fort Kochi',
       items: [
         { name: 'Brunton Boatyard Hotel', area: 'Heritage · Fort Kochi', dist: '0.3 km from Fishing Nets', origPrice: '₹8500', price: '₹6800', img: 'https://images.unsplash.com/photo-1701421016474-09b19faa9f77'+Q, rating: '4.8', reviews: '2341' },
-        { name: 'Malabar House', area: 'Boutique · Fort Kochi', dist: '0.5 km from Biennale HQ', origPrice: '₹7200', price: '₹5400', img: 'https://images.unsplash.com/photo-1724947052687-e580b3010aad'+Q, rating: '4.7', reviews: '1652', badge: '25% off' },
+        { name: 'Malabar House', area: 'Boutique · Fort Kochi', dist: '0.5 km from Mattancherry Palace', origPrice: '₹7200', price: '₹5400', img: 'https://images.unsplash.com/photo-1724947052687-e580b3010aad'+Q, rating: '4.7', reviews: '1652', badge: '25% off' },
         { name: 'CGH Earth Spice Village', area: 'Eco Resort · Kumbalangi', dist: '8 km from Fort Kochi', origPrice: '₹9000', price: '₹7200', img: 'https://images.unsplash.com/photo-1720975658882-54ccac0b8c9f'+Q, rating: '4.9', reviews: '891' },
         { name: 'Old Harbour Hotel', area: 'Heritage · Fort Kochi', dist: '0.2 km from Chinese Nets', origPrice: '₹6500', price: '₹4800', img: 'https://images.unsplash.com/photo-1724947052687-e580b3010aad'+Q, rating: '4.6', reviews: '1124' },
         { name: 'Forte Kochi', area: 'Boutique · Fort Kochi', dist: '0.4 km from Dutch Palace', origPrice: '₹5800', price: '₹4200', img: 'https://images.unsplash.com/photo-1701421016474-09b19faa9f77'+Q, rating: '4.5', reviews: '763' }
@@ -139,7 +139,7 @@ window.DESTINATIONS = {
       subtitle: 'Heritage, art & backwaters',
       items: [
         { tag: 'Heritage', name: 'Chinese Fishing Nets', desc: 'Iconic 600-year-old cantilever fishing nets at sunset', img: 'Kochi-optimized.webp', ytQ: 'Chinese+Fishing+Nets+Kochi' },
-        { tag: 'Art Biennale', name: 'Biennale Venues', desc: 'Contemporary art in heritage warehouses', img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+CARD, ytQ: 'Kochi+Biennale+art' },
+        { tag: 'Heritage', name: 'Jew Town & Synagogue', desc: 'Oldest functioning synagogue in the Commonwealth, surrounded by spice traders', img: 'https://images.unsplash.com/photo-1647668747141-4c1505825332'+Q, ytQ: 'Jew+Town+Mattancherry+Kochi+synagogue' },
         { tag: 'Heritage', name: 'Dutch Palace', desc: 'Mattancherry Palace with Kerala murals', img: 'https://images.unsplash.com/photo-1652960245376-17eb4a87f98b'+Q, ytQ: 'Dutch+Palace+Mattancherry+Kochi' },
         { tag: 'Culture', name: 'Jewish Synagogue', desc: 'Oldest active synagogue in Commonwealth', img: 'https://images.unsplash.com/photo-1647668747141-4c1505825332'+Q, ytQ: 'Jewish+Synagogue+Kochi' },
         { tag: 'Scenic', name: 'Marine Drive', desc: 'Promenade with backwater views at dusk', img: 'https://images.unsplash.com/photo-1645680149311-5a00ae5a2b2a'+Q, ytQ: 'Marine+Drive+Kochi' }
