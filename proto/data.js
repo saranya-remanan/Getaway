@@ -11,17 +11,17 @@ window.DESTINATIONS = {
     bannerImg: 'theyyam_banner.png',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 2 Days trip' },
-    dateRange: 'DEC 1 – DEC 6',
-    titleLines: ['Theyyam,', 'a spiritual encounter'],
+    dateRange: 'Oct – Feb (Best Season)',
+    titleLines: ['Kannur,', 'sea forts, Malabar coast & drive-in beaches'],
     location: 'Kannur, Kerala',
     travelTime: '8 hrs',
     weather: '26-28°C',
-    description: 'Theyyam is a form of worship where man dons the guise of God and propitiates the Gods through possessed dancing.',
-    tags: 'Cultural . Spiritual . Pilgrim',
+    description: 'Kannur sits on the Malabar coast where Marco Polo once called it the "Great Emporium of Spice Trade." Today it\'s a place of ancient sea forts, India\'s longest drive-in beach, handloom villages and — if you time it right — the most spectacular ritual art on earth.',
+    tags: 'Culture . Coastal . Heritage',
     thingsToKnow: [
-      'Performances often run overnight — many begin at dusk and go until dawn',
-      'This is a living religious ritual, not a tourist show — dress modestly and be respectful',
-      'Over 400 forms of Theyyam — each deity has a distinct costume and ritual'
+      'Muzhappilangad is India\'s longest drive-in beach at 4 km — go at dawn or dusk for the best light and fewest crowds',
+      'St. Angelo Fort offers panoramic sea views from its ramparts — arrive at sunset for an unmissable golden hour over the Arabian Sea',
+      'Theyyam season runs October to May — check local temple calendars to catch a live performance, free and open to everyone'
     ],
     knownFor: {
       heading: '"Kannur"', subheading: 'known for', squiggleW: '89px',
@@ -82,17 +82,17 @@ window.DESTINATIONS = {
     bannerImg: 'Kochi-optimized.webp',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 3 Days trip' },
-    dateRange: 'DEC 12 – MAR 9',
-    titleLines: ['The Kochi-Muziris', 'Biennale'],
+    dateRange: 'Oct – Feb (Best Season)',
+    titleLines: ['Fort Kochi,', 'Chinese nets, cobbled lanes & harbour light'],
     location: 'Fort Kochi, Kerala',
     travelTime: '12 hrs',
     weather: '28-32°C',
-    description: 'One of Asia\'s largest contemporary art exhibitions held in the historic port city of Fort Kochi. Wander through centuries-old warehouses transformed into immersive art spaces.',
-    tags: 'Art . Cultural . Heritage',
+    description: 'Fort Kochi wears its 500-year history lightly — Portuguese churches, Dutch palaces, Jewish synagogues and Chinese fishing nets all share the same cobbled streets. Walk the lanes at dawn, watch fishermen haul their catch, and let the sea breeze do the rest.',
+    tags: 'Coastal . Heritage . Culture',
     thingsToKnow: [
-      'The Biennale runs December to March — plan a full day to explore all venues across the city',
-      'Chinese Fishing Nets are best experienced at sunrise — arrive before 7am for the golden hour',
-      'Fort Kochi is best explored on foot or by rented bicycle — autos rarely enter the lanes'
+      'Chinese Fishing Nets are most magical at sunrise — arrive before 7am when fishermen are working and the golden light hits the water',
+      'Fort Kochi is best explored on foot or by rented bicycle — most heritage lanes are too narrow for cars',
+      'St. Francis Church (built 1503) is India\'s oldest European church — Vasco da Gama was briefly buried here'
     ],
     knownFor: {
       heading: '"Fort Kochi"', subheading: 'known for', squiggleW: '105px',
