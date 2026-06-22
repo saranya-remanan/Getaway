@@ -8,7 +8,7 @@ window.DESTINATIONS = {
   /* ── KANNUR / THEYYAM ─────────────────────────────────────────────── */
   kannur: {
     id: 'kannur',
-    bannerImg: 'theyyam_banner.png',
+    bannerImg: 'Kannur-optimized.png',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 2 Days trip' },
     dateRange: 'Oct – Feb (Best Season)',
