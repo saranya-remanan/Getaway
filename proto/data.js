@@ -28,12 +28,12 @@ window.DESTINATIONS = {
       heading: '"Kannur"', subheading: 'known for', squiggleW: '89px',
       items: [
         { img: 'theyyam_banner.png', objPos: 'left center', label: 'Theyyam', ytId: 'BeczZlAnnQM' },
+        { img: 'https://images.unsplash.com/photo-1713502359486-d3611d924f61'+Q, label: 'Muzhuppilangad beach', ytId: 'hweTJNEWzoM' },
         { img: 'https://images.unsplash.com/photo-1752673508949-f4aeeaef75f0'+Q, label: 'Thalasseri Biriyani', ytQ: 'Thalasseri+Biryani+Kerala' },
-        { img: 'https://images.unsplash.com/photo-1713502359486-d3611d924f61'+Q, label: 'Muzhuppilangad Beach', ytId: 'hweTJNEWzoM' },
         { img: 'https://images.unsplash.com/photo-1714645818805-da5adaca356a'+Q, label: 'Parassinikadavu Temple', ytQ: 'Parassinikadavu+Muthappan+Theyyam+Kannur' }
       ]
     },
-    planTitle: 'Plan your trip', planSub: 'Kannur days', planSqW: '67px',
+    planTitle: 'Plan your', planSub: 'Kannur days', planSqW: '67px',
     hotels: {
       subtitle: 'Stay at Kannur (Ernakulam)',
       items: [
@@ -55,7 +55,7 @@ window.DESTINATIONS = {
       ]
     },
     foods: {
-      heading: 'Must try foods in "Kannur"',
+      heading: 'Authentic tastes of Kannur',
       items: [
         { num: '1', label: 'Thalasseri Biriyani', img: 'https://images.unsplash.com/photo-1752673508949-f4aeeaef75f0'+Q, ytQ: 'Thalasseri+Biryani+Kerala' },
         { num: '2', label: 'Kannur Cocktail', img: 'https://images.unsplash.com/photo-1750271328082-22490577fbb5'+Q, ytQ: 'Kannur+Cocktail+Kerala' },
@@ -65,7 +65,7 @@ window.DESTINATIONS = {
       ]
     },
     places: {
-      heading: 'Places to visit "Kannur"',
+      heading: 'Things to do & see',
       subtitle: 'Kannur has more than you think',
       items: [
         { tag: 'Beach Escape', name: 'Muzhappilangad Drive In Beach', desc: "Kerala's only drive-in beach", img: 'https://images.unsplash.com/photo-1713502359486-d3611d924f61'+Q, ytId: 'hweTJNEWzoM' },
@@ -105,7 +105,7 @@ window.DESTINATIONS = {
         { img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+Q, label: 'Heritage Walks', ytQ: 'Fort+Kochi+heritage+walk' }
       ]
     },
-    planTitle: 'Plan your trip', planSub: 'Fort Kochi days', planSqW: '90px',
+    planTitle: 'Plan your', planSub: 'Fort Kochi days', planSqW: '90px',
     hotels: {
       subtitle: 'Stay at Fort Kochi',
       items: [
@@ -161,7 +161,7 @@ window.DESTINATIONS = {
     location: 'Kodagu, Karnataka',
     travelTime: '6 hrs',
     weather: '15-28°C',
-    description: 'Coorg (Kodagu) is a misty hill station in the Western Ghats, famous for coffee estates, cascading waterfalls, and the warmth of Kodava culture.',
+    description: 'Coorg (Kodagu) rises in the misty Western Ghats — rolling coffee estates, spice-scented air, and Abbey Falls cutting through monsoon green. Walk plantation trails at dawn, taste freshly brewed arabica at a Kodava homestay, and breathe in the cool mountain quiet that makes every hill-station break feel unhurried.',
     tags: 'Nature . Coffee . Trekking',
     thingsToKnow: [
       'Coffee picking season (Nov–Feb) is when estates open for free guided walks — book in advance',
@@ -177,7 +177,7 @@ window.DESTINATIONS = {
         { img: 'https://images.unsplash.com/photo-1571980844080-5568fbce49f7'+Q, label: "Raja's Seat", ytQ: 'Rajas+Seat+Coorg+sunset' }
       ]
     },
-    planTitle: 'Plan your trip', planSub: 'Coorg days', planSqW: '67px',
+    planTitle: 'Plan your', planSub: 'Coorg days', planSqW: '67px',
     hotels: {
       subtitle: 'Stay at Coorg (Madikeri)',
       items: [

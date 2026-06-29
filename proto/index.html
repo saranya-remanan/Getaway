@@ -125,6 +125,40 @@
       background: rgba(0,0,0,0.3); border-radius: 4px;
       padding: 2.2px 4.4px; align-self: flex-start;
     }
+    .dest-card {
+      position: relative; width: 182px; height: 258px;
+      border-radius: 24px; overflow: hidden; flex-shrink: 0;
+    }
+    .dest-card-grad {
+      position: absolute; left: 0; top: 86px; width: 182px; height: 172px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%);
+      opacity: 0.79; border-radius: 0 0 24px 24px;
+    }
+    .dest-card-body {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 12px; gap: 8px;
+    }
+    .dest-meta { display: flex; flex-direction: column; gap: 4px; }
+    .dest-pill {
+      display: inline-block; align-self: flex-start;
+      backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+      background: rgba(0,0,0,0.3); border-radius: 4px; padding: 2px 4px;
+    }
+    .dest-pill-place { background: rgba(0,0,0,0.45); }
+    .dest-pill-t {
+      font-size: 11px; line-height: 14px; letter-spacing: 0.05px; white-space: nowrap;
+      color: rgba(255,255,255,0.72);
+    }
+    .dest-pill-place .dest-pill-t { color: rgba(255,255,255,0.92); }
+    .dest-head {
+      font-size: 16px; line-height: 22px; color: white; letter-spacing: -0.18px;
+      max-height: 66px; overflow: hidden; text-overflow: ellipsis;
+    }
+    .dest-days {
+      font-size: 12px; line-height: 16px; color: rgba(255,255,255,0.72); letter-spacing: 0.01px;
+    }
+
     /* ── Polaroid card deck (Historical) ──────────── */
     .p-card {
       position: absolute;
@@ -229,12 +263,12 @@
           </div>
           <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Adventure</p>
         </div>
-        <!-- Religious -->
+        <!-- Spiritual -->
         <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
           <div class="t-invert-icon" style="width:32px; height:32px;">
             <img src="icons/darshan.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
           </div>
-          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Religious</p>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Spiritual</p>
         </div>
         <!-- Beach -->
         <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
@@ -250,12 +284,33 @@
           </div>
           <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Mountain</p>
         </div>
-        <!-- Wildlife -->
+        <!-- Relaxation -->
         <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
           <div class="t-invert-icon" style="width:32px; height:32px;">
-            <img src="icons/natural_wildlife.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+            <img src="icons/relaxation.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
           </div>
-          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Wildlife</p>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Relaxation</p>
+        </div>
+        <!-- Events -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/calendar.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Events</p>
+        </div>
+        <!-- Exploration -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/bus.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Exploration</p>
+        </div>
+        <!-- Activities -->
+        <div style="background:var(--t-bg-chip); border:1px solid var(--t-border-weak); display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:flex-end; padding:10px; border-radius:16px; flex-shrink:0;">
+          <div class="t-invert-icon" style="width:32px; height:32px;">
+            <img src="icons/outdoor_activities.svg" alt="" width="32" height="32" style="display:block; object-fit:contain;">
+          </div>
+          <p class="fi" style="font-size:12px; line-height:16px; color:var(--t-text-primary); letter-spacing:0.01px; white-space:nowrap;">Activities</p>
         </div>
       </div>
     </div>
@@ -305,58 +360,7 @@
       </div>
 
       <!-- Cards Row -->
-      <div class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:16px 16px 0; overflow-x:auto; width:100%;">
-
-        <!-- Card: Coorg -->
-        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="Coorg-optimized.webp" class="card-img" alt="Coorg coffee hills">
-          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
-          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
-            <div style="display:flex; flex-direction:column; gap:2px;">
-              <div>
-                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Nature . Photography</p>
-                </div>
-              </div>
-              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Coorg - Coffee hills, rain roads & slow mornings</p>
-            </div>
-            <p class="fi" style="display:none; font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
-          </div>
-        </div>
-
-        <!-- Card: Gokarna -->
-        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1734120113639-0d034e85c377?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Gokarna cliffs">
-          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
-          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
-            <div style="display:flex; flex-direction:column; gap:2px;">
-              <div>
-                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Beach escape</p>
-                </div>
-              </div>
-              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Gokarna - Quiet beaches, cliffside trails & sunsets</p>
-            </div>
-            <p class="fi" style="display:none; font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
-          </div>
-        </div>
-
-        <!-- Card: Shettihalli (Heritage) -->
-        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
-          <div style="position:absolute; left:0; top:112px; width:182px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
-          <div style="position:absolute; left:16px; top:162px; width:150px; display:flex; flex-direction:column; gap:4px;">
-            <div>
-              <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                <p class="fi" style="font-size:10px; line-height:10px; color:white; letter-spacing:0.1px; white-space:nowrap;">Heritage</p>
-              </div>
-            </div>
-            <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
-            <p class="fi" style="display:none; font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Travel + Stay @ ₹4800</p>
-          </div>
-        </div>
-
-      </div>
+      <div id="budgetCardsRow" class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:16px 16px 0; overflow-x:auto; width:100%;"></div>
 
       <!-- View all destinations button -->
       <div style="padding:16px 16px 0; width:100%;">
@@ -409,60 +413,7 @@
       </div>
 
       <!-- Cards Row -->
-      <div class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px; overflow-x:auto; width:100%;">
-
-        <!-- Card 1 -->
-        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
-          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
-          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
-            <div style="display:flex; flex-direction:column; gap:2px;">
-              <div>
-                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Gothic architecture</p>
-                </div>
-              </div>
-              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
-            </div>
-            <p class="fi" style="display:none; font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
-          </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1759131762053-4ada61ccdbc8?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Mysore Palace">
-          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
-          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
-            <div style="display:flex; flex-direction:column; gap:2px;">
-              <div>
-                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Gothic architecture</p>
-                </div>
-              </div>
-              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
-            </div>
-            <p class="fi" style="display:none; font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
-          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
-          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
-            <div style="display:flex; flex-direction:column; gap:2px;">
-              <div>
-                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Gothic architecture</p>
-                </div>
-              </div>
-              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
-            </div>
-            <p class="fi" style="display:none; font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
-          </div>
-        </div>
-
-      </div>
+      <div id="gemsCardsRow" class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px; overflow-x:auto; width:100%;"></div>
 
       <!-- View all destinations (Action) -->
       <div style="padding:16px 16px 0; width:100%;">
@@ -476,9 +427,9 @@
       <!-- Title -->
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
         <div style="display:flex; flex-direction:column; align-items:center;">
-          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap; margin-bottom:-2px;">For the season</p>
+          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap; margin-bottom:-2px;">For the &ldquo;Monsoon travel&rdquo;</p>
           <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; min-width:100%; margin-bottom:-2px;">
-            <span>experiences</span>
+            <span>Seasonal escapes</span>
           </div>
           <div style="height:8px; width:89px; position:relative; margin-top:2px;">
             <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
@@ -491,52 +442,67 @@
       <!-- Cards Row -->
       <div class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px; overflow-x:auto; width:100%;">
 
-        <!-- Card: Dandeli rafting -->
+        <!-- Card: Athirapally Falls, Kerala -->
         <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1516817153573-7b617832a471?w=900&q=90&auto=format&fit=crop" class="card-img" alt="White water rafting">
+          <img src="https://images.unsplash.com/photo-1655128629694-3f94cc94b544?w=1200&q=90&auto=format&fit=crop" class="card-img" alt="Athirapally Falls monsoon, Kerala">
           <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
           <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
             <div style="display:flex; flex-direction:column; gap:2px;">
               <div>
                 <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Nature . Adventure</p>
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Monsoon . Waterfalls</p>
                 </div>
               </div>
-              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">White-Water rafting in Dandeli</p>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Athirapally - Roaring falls in full spate</p>
             </div>
-            <p class="fi" style="display:none; font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
           </div>
         </div>
 
-        <!-- Card: Coorg trekking -->
+        <!-- Card: Agumbe, Karnataka -->
         <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1699819551081-48095fe86265?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Coorg trekking trail">
-          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 34%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=90&auto=format&fit=crop" class="card-img" alt="Agumbe rainforest monsoon, Karnataka">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
           <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
             <div style="display:flex; flex-direction:column; gap:2px;">
               <div>
                 <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Nature . Adventure</p>
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Monsoon . Rainforest</p>
                 </div>
               </div>
-              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Trekking the trails of Coorg</p>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Agumbe - Rain-soaked Western Ghats drives</p>
             </div>
-            <p class="fi" style="display:none; font-size:12px; line-height:16px; color:rgba(255,255,255,0.72); letter-spacing:0.01px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Bus + stay from ₹5000</p>
           </div>
         </div>
 
-        <!-- Card: Shettihalli Church -->
+        <!-- Card: Coorg, Karnataka -->
         <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
-          <img src="https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop" class="card-img" alt="Shettihalli Church ruins">
-          <div style="position:absolute; left:0; top:112px; width:182px; height:146px; background:linear-gradient(to bottom, rgba(0,0,0,0), black 79.5%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
-          <div style="position:absolute; left:16px; top:162px; width:150px; display:flex; flex-direction:column; gap:4px;">
-            <div>
-              <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
-                <p class="fi" style="font-size:10px; line-height:10px; color:white; letter-spacing:0.1px; white-space:nowrap;">Heritage</p>
+          <img src="Coorg-optimized.webp" class="card-img" alt="Coorg monsoon mist, Karnataka">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Monsoon . Misty hills</p>
+                </div>
               </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Coorg - Coffee country in the rains</p>
             </div>
-            <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; overflow:hidden; text-overflow:ellipsis;">Shettihalli Church, Karnataka</p>
-            <p class="fi" style="display:none; font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Travel + Stay @ ₹4800</p>
+          </div>
+        </div>
+
+        <!-- Card: Courtallam, Tamil Nadu -->
+        <div style="position:relative; width:182px; height:258px; border-radius:24px; overflow:hidden; flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1777532996402-9f6104b73d7e?w=1200&q=90&auto=format&fit=crop" class="card-img" alt="Courtallam monsoon hills, Tamil Nadu">
+          <div style="position:absolute; left:0; top:86px; width:182px; height:172px; background:linear-gradient(to bottom, rgba(0,0,0,0) 3.8%, black 60.8%); opacity:0.79; border-radius:0 0 24px 24px;"></div>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:12px; gap:12px;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <div>
+                <div style="display:inline-block; backdrop-filter:blur(2px); background:rgba(0,0,0,0.3); border-radius:4px; padding:2px 4px;">
+                  <p class="fi" style="font-size:11px; line-height:14px; color:rgba(255,255,255,0.72); letter-spacing:0.05px; white-space:nowrap;">Monsoon . Cascades</p>
+                </div>
+              </div>
+              <p class="fi-m" style="font-size:16px; line-height:22px; color:white; letter-spacing:-0.18px; max-height:66px; overflow:hidden; text-overflow:ellipsis;">Courtallam - Spa town under monsoon showers</p>
+            </div>
           </div>
         </div>
 
@@ -549,14 +515,14 @@
     </div>
 
     <!-- ═══════════════════════════════════ TOWNS ════════════════════════════════════════ -->
-    <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; padding:32px 0; width:360px;">
+    <div id="townsSection" style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; padding:32px 0; width:360px;">
 
       <!-- Title -->
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
         <div style="display:flex; flex-direction:column; align-items:center;">
-          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap; margin-bottom:-2px;">Weekend spiritual getaways</p>
+          <p class="fi-b" style="font-size:22px; line-height:28px; color:var(--t-text-primary); text-align:center; letter-spacing:-0.4px; white-space:nowrap; margin-bottom:-2px;">Spiritual getaways</p>
           <div class="fc" style="font-size:28px; line-height:normal; color:#e76823; text-align:center; letter-spacing:-1px; height:26px; display:flex; align-items:flex-end; justify-content:center; min-width:100%; margin-bottom:-2px;">
-            <span>temples, rituals & sacred towns</span>
+            <span>soul breaks</span>
           </div>
           <div style="height:8px; width:89px; position:relative; margin-top:2px;">
             <svg width="89" height="8" viewBox="0 0 89 8" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="none">
@@ -567,7 +533,7 @@
       </div>
 
       <!-- City Cards Row — rendered by JS from TOWNS data -->
-      <div id="townCardsRow" class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px 20px; overflow-x:auto; width:100%;"></div>
+      <div id="townCardsRow" class="no-scroll" style="display:flex; gap:8px; align-items:center; padding:0 16px; overflow-x:auto; width:100%;"></div>
     </div>
 
   </div><!-- end content -->
@@ -592,10 +558,18 @@
 
   /* ── Viewport scaling ────────────────────────── */
   function setScale() {
-    const app = document.getElementById('app');
-    const s = window.innerWidth / 360;
+    var app = document.getElementById('app');
+    if (!app) return;
+    var s = window.innerWidth / 360;
+    app.style.marginBottom = '0';
+    app.style.height = 'auto';
+    app.style.transform = 'none';
+    var h = app.scrollHeight;
     app.style.transform = 'scale(' + s + ')';
-    document.body.style.height = (app.scrollHeight * s) + 'px';
+    app.style.height = h + 'px';
+    app.style.overflow = 'hidden';
+    app.style.marginBottom = (h * (s - 1)) + 'px';
+    document.body.style.height = (h * s) + 'px';
   }
   window.addEventListener('resize', setScale);
   window.addEventListener('load', function() {
@@ -605,13 +579,37 @@
   });
   setScale();
 
+  /* ── Shared destination card meta ─────────────── */
+  function destPill(text, isPlace) {
+    return '<div class="dest-pill' + (isPlace ? ' dest-pill-place' : '') + '">' +
+      '<p class="fi dest-pill-t">' + text + '</p></div>';
+  }
+  function destCardHTML(img, alt, place, heading, days) {
+    return '<div class="dest-card">' +
+      '<img src="' + img + '" class="card-img" alt="' + alt + '">' +
+      '<div class="dest-card-grad"></div>' +
+      '<div class="dest-card-body"><div class="dest-meta">' +
+        destPill(place, true) +
+        '<p class="fi-m dest-head">' + heading + '</p>' +
+        '<p class="fi dest-days">Ideal for ' + days + '</p>' +
+      '</div></div></div>';
+  }
+  function renderDestCards(rowId, cards) {
+    var row = document.getElementById(rowId);
+    if (!row) return;
+    row.innerHTML = cards.map(function(c) {
+      return destCardHTML(c.img, c.alt || c.heading, c.place, c.heading, c.days);
+    }).join('');
+    setTimeout(setScale, 100);
+  }
+
   /* ── Carousel ────────────────────────────────── */
   (function() {
     var slides = [
       {
         img:   'Kannur-optimized.png',
         video: 'kannur-hero.mp4',
-        date:  'This weekend',
+        place: 'Kannur, Kerala',
         title: 'Experience the Malabar coast at Kannur',
         desc:  '2 days in Kannur, Kerala.',
         tag:   'Culture . Coastal . Heritage',
@@ -620,7 +618,7 @@
       {
         img:   'Coorg-optimized.webp',
         video: 'coorg-hero.mp4',
-        date:  'This weekend',
+        place: 'Coorg, Karnataka',
         title: 'Experience the coffee hills of Coorg',
         desc:  '2 days in Coorg, Karnataka.',
         tag:   'Nature . Photography',
@@ -629,7 +627,7 @@
       {
         img:   'Kochi-optimized.webp',
         video: 'kochi-hero.mp4',
-        date:  'This weekend',
+        place: 'Fort Kochi, Kerala',
         title: 'Experience the colonial harbour of Fort Kochi',
         desc:  '3 days in Fort Kochi, Kerala.',
         tag:   'Coastal . Heritage . Culture',
@@ -651,7 +649,7 @@
           ? '<video class="card-img" src="' + s.video + '" autoplay muted loop playsinline preload="auto" style="object-fit:cover;"></video>'
           : '<img src="' + s.img + '" class="card-img">') +
         '<div class="c-overlay">' +
-          /* date pill */ '<div class="c-date"><p class="fi" style="font-size:14px;line-height:20px;color:white;white-space:nowrap;letter-spacing:-0.09px;">' + s.date + '</p></div>' +
+          /* place pill */ '<div class="c-date"><p class="fi" style="font-size:14px;line-height:20px;color:white;white-space:nowrap;letter-spacing:-0.09px;">' + s.place + '</p></div>' +
           /* title+desc */ '<div class="c-title">' +
             '<p class="fi-b" style="font-size:22px;line-height:28px;color:white;letter-spacing:-0.4px;">' + s.title + '</p>' +
             '<p class="fi" style="font-size:13px;line-height:18px;color:rgba(255,255,255,0.72);white-space:pre-line;letter-spacing:0.01px;">' + s.desc + '</p>' +
@@ -754,25 +752,15 @@
     /* 5 cards matching the design — one per Figma card A→E */
     var CARDS = [
       { img:'https://images.unsplash.com/photo-1651073231492-169afcf84f36?w=900&q=90&auto=format&fit=crop',
-        days:'2 Days', title:'Hampi explore',
-        desc:'Uncover the Majesty of Vijayanagara Empire',
-        price:'Bus + stay from ₹5000', tag:'Historical . Heritage' },
+        place:'Hampi, Karnataka', days:'2 days', title:'Hampi explore' },
       { img:'https://images.unsplash.com/photo-1759131762053-4ada61ccdbc8?w=900&q=90&auto=format&fit=crop',
-        days:'3 Days', title:'Mysore heritage trail',
-        desc:'Palace, Chamundi Hills & silk weaving lanes',
-        price:'Bus + stay from ₹4200', tag:'Heritage . Royal' },
+        place:'Mysore, Karnataka', days:'3 days', title:'Mysore heritage trail' },
       { img:'https://images.unsplash.com/photo-1723379981423-136cc67ffdda?w=900&q=90&auto=format&fit=crop',
-        days:'2 Days', title:'Belur & Halebidu temples',
-        desc:'Hoysala stone-carved masterpieces',
-        price:'Bus + stay from ₹3500', tag:'Historical . Heritage' },
+        place:'Hassan, Karnataka', days:'2 days', title:'Belur & Halebidu temples' },
       { img:'https://images.unsplash.com/photo-1591885587747-bee871855d92?w=900&q=90&auto=format&fit=crop',
-        days:'2 Days', title:'Badami cave temples',
-        desc:'Rock-cut Chalukya dynasty monuments',
-        price:'Bus + stay from ₹4500', tag:'Historical . Heritage' },
+        place:'Badami, Karnataka', days:'2 days', title:'Badami cave temples' },
       { img:'https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop',
-        days:'1 Day', title:'Shettihalli Church ruins',
-        desc:'Submerged Gothic architecture at Hemavathi',
-        price:'Day trip from ₹2000', tag:'Gothic . Heritage' }
+        place:'Shettihalli, Karnataka', days:'1 day', title:'Shettihalli Church ruins' }
     ];
 
     /* 5 stack positions — offsets large enough that all 5 cards
@@ -800,23 +788,14 @@
       el.style.gap           = '8px';
       el.style.padding       = '8px 8px 12px';
       el.innerHTML =
-        /* Image area — flex:1, radius 10px, tag pill at top-center */
         '<div style="flex:1;min-height:0;border-radius:10px;overflow:hidden;position:relative;">' +
           '<img src="' + c.img + '" style="width:100%;height:100%;object-fit:cover;display:block;">' +
-          '<div style="position:absolute;left:50%;top:18px;transform:translateX(-50%);' +
-               'backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);' +
-               'background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 4px;white-space:nowrap;">' +
-            '<p class="fi" style="font-size:11px;line-height:14px;color:rgba(255,255,255,0.72);letter-spacing:0.05px;">' + c.tag + '</p>' +
-          '</div>' +
+          '<div style="position:absolute;left:12px;top:12px;">' + destPill(c.place, true) + '</div>' +
         '</div>' +
-        /* Meta — center aligned, exactly matches Figma meta block */
         '<div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;' +
-             'justify-content:center;width:100%;text-align:center;">' +
-          '<div style="width:100%;">' +
-            '<p class="fi-m" style="font-size:16px;line-height:22px;color:var(--t-card-text-primary);letter-spacing:-0.18px;overflow:hidden;text-overflow:ellipsis;">' + c.title + '</p>' +
-            '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-card-text-primary);overflow:hidden;text-overflow:ellipsis;letter-spacing:0.01px;">' + c.desc + '</p>' +
-          '</div>' +
-          '' +
+             'justify-content:center;width:100%;text-align:center;gap:4px;">' +
+          '<p class="fi-m" style="font-size:16px;line-height:22px;color:var(--t-card-text-primary);letter-spacing:-0.18px;overflow:hidden;text-overflow:ellipsis;width:100%;">' + c.title + '</p>' +
+          '<p class="fi" style="font-size:12px;line-height:16px;color:var(--t-text-muted);letter-spacing:0.01px;">Ideal for ' + c.days + '</p>' +
         '</div>';
       deck.appendChild(el);
       els[i] = el;
@@ -968,18 +947,37 @@
     window.addEventListener('mouseup',   function(e) { if (isDragging) onEnd(e.clientX); });
   })();
 
-  /* ── Towns to visit this weekend — dynamic ─────────────────────── */
+  /* ── Budget cards ─────────────────────────────── */
+  renderDestCards('budgetCardsRow', [
+    { img:'Coorg-optimized.webp', place:'Coorg, Karnataka',
+      heading:'Coffee hills, rain roads & slow mornings', days:'2 days' },
+    { img:'https://images.unsplash.com/photo-1734120113639-0d034e85c377?w=900&q=90&auto=format&fit=crop',
+      place:'Gokarna, Karnataka', heading:'Quiet beaches, cliffside trails & sunsets', days:'2 days' },
+    { img:'https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop',
+      place:'Shettihalli, Karnataka', heading:'Gothic ruins in a flooded valley', days:'1 day' }
+  ]);
+
+  /* ── Hidden gems cards ────────────────────────── */
+  renderDestCards('gemsCardsRow', [
+    { img:'https://images.unsplash.com/photo-1777532996402-9f6104b73d7e?w=900&q=90&auto=format&fit=crop',
+      place:'Vagamon, Kerala', heading:'Pine meadows, mist & quiet trails', days:'2 days' },
+    { img:'https://images.unsplash.com/photo-1647668747141-4c1505825332?w=900&q=90&auto=format&fit=crop',
+      place:'Shettihalli, Karnataka', heading:'Gothic ruins in a flooded valley', days:'1 day' },
+    { img:'https://images.unsplash.com/photo-1713502359486-d3611d924f61?w=900&q=90&auto=format&fit=crop',
+      place:'Dhanushkodi, Tamil Nadu', heading:'Ghost town at land\'s end', days:'2 days' },
+    { img:'https://images.unsplash.com/photo-1655128629694-3f94cc94b544?w=900&q=90&auto=format&fit=crop',
+      place:'Bogatha, Telangana', heading:'Forest waterfall off the map', days:'2 days' }
+  ]);
+
+  /* ── Spiritual getaways — dynamic ─────────────────────────────── */
   (function() {
-    var Q = '?w=900&q=90&auto=format&fit=crop';
+    var Q = '?w=1200&q=90&auto=format&fit=crop';
     var TOWNS = [
-      { name:'Hampi',      sub:'Ruins & sunsets',      days:'02', price:'₹3000', img:'https://images.unsplash.com/photo-1651073231492-169afcf84f36'+Q },
-      { name:'Mysore',     sub:'Royal palace',  days:'02', price:'₹3500', img:'https://images.unsplash.com/photo-1759131762053-4ada61ccdbc8'+Q },
-      { name:'Madurai',    sub:'Temple city',              days:'02', price:'₹3500', img:'https://images.unsplash.com/photo-1692173248120-59547c3d4653'+Q },
-      { name:'Rameswaram', sub:'Sacred Island',                days:'03', price:'₹5000', img:'https://images.unsplash.com/photo-1706932642959-97cdde19ef0b'+Q },
-      { name:'Munnar',     sub:'Tea & mist',    days:'03', price:'₹4500', img:'https://images.unsplash.com/photo-1777532996402-9f6104b73d7e'+Q },
-      { name:'Kannur',     sub:'Theyyam ritual',        days:'02', price:'₹3500', img:'theyyam_banner.png' },
-      { name:'Coorg',      sub:'Coffee hills',    days:'03', price:'₹5000', img:'Coorg-optimized.webp' },
-      { name:'Hyderabad',  sub:'Biryani & forts',          days:'02', price:'₹3000', img:'https://images.unsplash.com/photo-1750834115164-8c2658f18dd0'+Q },
+      { name:'Madurai',    sub:'City of temples', days:'02', img:'https://images.unsplash.com/photo-1692173248120-59547c3d4653'+Q },
+      { name:'Rameswaram', sub:'Sacred island',   days:'03', img:'https://images.unsplash.com/photo-1706932642959-97cdde19ef0b'+Q },
+      { name:'Kannur',     sub:'Theyyam ritual',  days:'02', img:'theyyam_banner.png' },
+      { name:'Udupi',      sub:'Krishna temple',  days:'02', img:'https://images.unsplash.com/photo-1723379981423-136cc67ffdda'+Q },
+      { name:'Yadagiri',   sub:'Narasimha hills', days:'02', img:'https://images.unsplash.com/photo-1605649487212-47bdab064df7'+Q },
     ];
 
     var row = document.getElementById('townCardsRow');
@@ -992,16 +990,13 @@
         '<img src="'+t.img+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:999px;">' +
         '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(102,102,102,0) 29.082%,rgba(0,0,0,0.8) 90.051%);border-radius:999px;"></div>' +
         '<div style="position:absolute;width:125px;height:184px;left:5.5px;top:6px;border:1.5px solid white;border-radius:80px;pointer-events:none;opacity:0.35;"></div>' +
-        '<div style="position:absolute;top:94px;left:calc(50% + 0.5px);transform:translateX(-50%);backdrop-filter:blur(4.5px);-webkit-backdrop-filter:blur(4.5px);background:rgba(29,29,29,0.4);padding:2px 4px;border-radius:16px;white-space:nowrap;display:flex;align-items:center;justify-content:center;">' +
-          '<p class="fi" style="font-size:11px;line-height:14px;color:#f7c14e;letter-spacing:0.05px;white-space:nowrap;">'+t.days+' Days trip to</p>' +
-        '</div>' +
-        '<div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;">' +
-          '<div style="text-align:center;white-space:nowrap;color:white;">' +
-            '<p style="font-size:16px;line-height:22px;font-weight:700;font-family:Inter,sans-serif;-webkit-text-stroke-width:4px;-webkit-text-stroke-color:rgba(28,28,28,0.9);paint-order:stroke fill;text-shadow:0 4px 4px rgba(0,0,0,0.4);letter-spacing:-0.18px;">'+t.name+'</p>' +
-            '<p class="fi" style="font-size:12px;line-height:16px;letter-spacing:0.01px;width:128px;text-align:center;">'+t.sub+'</p>' +
+        '<div style="position:absolute;top:94px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0;width:128px;">' +
+          '<div style="backdrop-filter:blur(4.5px);-webkit-backdrop-filter:blur(4.5px);background:rgba(29,29,29,0.4);padding:2px 4px;border-radius:16px;white-space:nowrap;display:flex;align-items:center;justify-content:center;">' +
+            '<p class="fi" style="font-size:11px;line-height:14px;color:#f7c14e;letter-spacing:0.05px;white-space:nowrap;">'+t.days+' Days trip to</p>' +
           '</div>' +
-          '<div style="background:#303030;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 8px;border-radius:32px;width:114px;flex-shrink:0;">' +
-            '' +
+          '<div style="text-align:center;white-space:nowrap;color:white;width:100%;margin-top:2px;">' +
+            '<p style="font-size:16px;line-height:20px;font-weight:700;font-family:Inter,sans-serif;-webkit-text-stroke-width:4px;-webkit-text-stroke-color:rgba(28,28,28,0.9);paint-order:stroke fill;text-shadow:0 4px 4px rgba(0,0,0,0.4);letter-spacing:-0.18px;">'+t.name+'</p>' +
+            '<p class="fi" style="font-size:12px;line-height:14px;letter-spacing:0.01px;margin-top:-2px;">'+t.sub+'</p>' +
           '</div>' +
         '</div>';
       row.appendChild(card);
