@@ -9,6 +9,7 @@ window.DESTINATIONS = {
   kannur: {
     id: 'kannur',
     bannerImg: 'Kannur-optimized.png',
+    heroVideo: 'kannur-hero.mp4',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 2 Days trip' },
     dateRange: 'Oct – Feb (Best Season)',
@@ -80,6 +81,7 @@ window.DESTINATIONS = {
   kochi: {
     id: 'kochi',
     bannerImg: 'Kochi-optimized.webp',
+    heroVideo: 'kochi-hero.mp4',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 3 Days trip' },
     dateRange: 'Oct – Feb (Best Season)',
@@ -151,6 +153,7 @@ window.DESTINATIONS = {
   coorg: {
     id: 'coorg',
     bannerImg: 'Coorg-optimized.webp',
+    heroVideo: 'coorg-hero.mp4',
     bannerObjPos: 'center center',
     pill: { text: 'Ideal for 3 Days trip' },
     dateRange: 'Nov – Feb (Best Season)',
