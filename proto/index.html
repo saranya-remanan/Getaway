@@ -618,6 +618,7 @@
       },
       {
         img:   'Coorg-optimized.webp',
+        video: 'coorg-hero.mp4',
         date:  'This weekend',
         title: 'Experience the coffee hills of Coorg',
         desc:  '2 days in Coorg, Karnataka.',
@@ -644,7 +645,9 @@
       var card = document.createElement('div');
       card.className = 'c-card';
       card.innerHTML =
-        '<img src="' + s.img + '" class="card-img">' +
+        (s.video
+          ? '<video class="card-img" src="' + s.video + '" autoplay muted loop playsinline preload="auto" style="object-fit:cover;"></video>'
+          : '<img src="' + s.img + '" class="card-img">') +
         '<div class="c-overlay">' +
           /* date pill */ '<div class="c-date"><p class="fi" style="font-size:14px;line-height:20px;color:white;white-space:nowrap;letter-spacing:-0.09px;">' + s.date + '</p></div>' +
           /* title+desc */ '<div class="c-title">' +
