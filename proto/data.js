@@ -57,11 +57,11 @@ window.DESTINATIONS = {
     foods: {
       heading: 'Authentic tastes of Kannur',
       items: [
-        { num: '1', label: 'Thalasseri Biriyani', img: 'https://images.unsplash.com/photo-1752673508949-f4aeeaef75f0'+Q, ytQ: 'Thalasseri+Biryani+Kerala' },
-        { num: '2', label: 'Kannur Cocktail', img: 'https://images.unsplash.com/photo-1750271328082-22490577fbb5'+Q, ytQ: 'Kannur+Cocktail+Kerala' },
-        { num: '3', label: 'Kallummakkaya Fry', img: 'https://images.unsplash.com/photo-1645060810456-9138fe1c53f4'+Q, ytQ: 'Kallummakkaya+Fry+Kerala+mussel' },
-        { num: '4', label: 'Appam & Stew', img: 'https://images.unsplash.com/photo-1741376509109-e9edd6f24f5f'+Q, ytQ: 'Kerala+Appam+Stew+recipe' },
-        { num: '5', label: 'Nellikka Achar', img: 'https://images.unsplash.com/photo-1664791461482-79f5deee490f'+Q, ytQ: 'Nellikka+Achar+Kerala' }
+        { num: '1', label: 'Chicken Biryani', img: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a'+Q, ytQ: 'Chicken+Biryani+recipe' },
+        { num: '2', label: 'Mint Lime Iced Tea', img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc'+Q, ytQ: 'Mint+Lime+Iced+Tea+recipe' },
+        { num: '3', label: 'Steamed Mussels', img: 'https://images.unsplash.com/photo-1710775694428-5f6e66ae6a4c'+Q, ytQ: 'Steamed+Mussels+recipe' },
+        { num: '4', label: 'Idiyappam & Stew', img: 'https://images.unsplash.com/photo-1620894592665-c68bdefed3fd'+Q, ytQ: 'Idiyappam+Vegetable+Stew+Kerala' },
+        { num: '5', label: 'Mango Achar', img: 'https://images.unsplash.com/photo-1664791461482-79f5deee490f'+Q, ytQ: 'Mango+Achar+pickle+recipe' }
       ]
     },
     places: {
@@ -129,11 +129,11 @@ window.DESTINATIONS = {
     foods: {
       heading: 'Must try foods in "Fort Kochi"',
       items: [
-        { num: '1', label: 'Karimeen Fry', img: 'https://images.unsplash.com/photo-1750271328082-22490577fbb5'+Q, ytQ: 'Karimeen+Pearl+Spot+Fry+Kerala' },
-        { num: '2', label: 'Kerala Sadya', img: 'https://images.unsplash.com/photo-1741376509360-3b7877b796d5'+Q, ytQ: 'Kerala+Sadya+feast+banana+leaf' },
-        { num: '3', label: 'Appam & Stew', img: 'https://images.unsplash.com/photo-1741376509109-e9edd6f24f5f'+Q, ytQ: 'Kerala+Appam+Stew+recipe' },
-        { num: '4', label: 'Prawn Curry', img: 'https://images.unsplash.com/photo-1645060810456-9138fe1c53f4'+Q, ytQ: 'Kerala+Prawn+Curry+recipe' },
-        { num: '5', label: 'Malabar Parotta', img: 'https://images.unsplash.com/photo-1664791461482-79f5deee490f'+Q, ytQ: 'Malabar+Parotta+Kerala' }
+        { num: '1', label: 'Grilled Fish', img: 'https://images.unsplash.com/photo-1673436977947-0787164a9abc'+Q, ytQ: 'Grilled+Whole+Fish+recipe' },
+        { num: '2', label: 'South Indian Thali', img: 'https://images.unsplash.com/photo-1742281257687-092746ad6021'+Q, ytQ: 'South+Indian+Thali+meals' },
+        { num: '3', label: 'Idiyappam & Stew', img: 'https://images.unsplash.com/photo-1620894592665-c68bdefed3fd'+Q, ytQ: 'Idiyappam+Vegetable+Stew+Kerala' },
+        { num: '4', label: 'Prawns in Red Sauce', img: 'https://images.unsplash.com/photo-1761545832792-535fafbad368'+Q, ytQ: 'Prawns+red+sauce+recipe' },
+        { num: '5', label: 'North Indian Thali', img: 'https://images.unsplash.com/photo-1567337710282-00832b415979'+Q, ytQ: 'North+Indian+Thali+meals' }
       ]
     },
     places: {
@@ -201,11 +201,11 @@ window.DESTINATIONS = {
     foods: {
       heading: 'Must try foods in "Coorg"',
       items: [
-        { num: '1', label: 'Pandhi Curry', img: 'https://images.unsplash.com/photo-1752673508949-f4aeeaef75f0'+Q, ytQ: 'Coorg+Pandhi+Curry+pork' },
-        { num: '2', label: 'Coorg Coffee', img: 'https://images.unsplash.com/photo-1741376509360-3b7877b796d5'+Q, ytQ: 'Coorg+coffee+estate+Karnataka' },
-        { num: '3', label: 'Bamboo Shoot Curry', img: 'https://images.unsplash.com/photo-1741376509109-e9edd6f24f5f'+Q, ytQ: 'Bamboo+Shoot+Curry+Coorg' },
-        { num: '4', label: 'Akki Roti', img: 'https://images.unsplash.com/photo-1664791461482-79f5deee490f'+Q, ytQ: 'Akki+Roti+Karnataka+recipe' },
-        { num: '5', label: 'Coorg Honey Wine', img: 'https://images.unsplash.com/photo-1645060810456-9138fe1c53f4'+Q, ytQ: 'Coorg+Honey+wine+Karnataka' }
+        { num: '1', label: 'Roast Pork', img: 'https://images.unsplash.com/photo-1762305193665-4334391da15f'+Q, ytQ: 'Roast+Pork+recipe' },
+        { num: '2', label: 'Pour-over Coffee', img: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31'+Q, ytQ: 'Pour+over+Coffee+brewing' },
+        { num: '3', label: 'Shrimp Gumbo', img: 'https://images.unsplash.com/photo-1559847844-5315695dadae'+Q, ytQ: 'Shrimp+Gumbo+recipe' },
+        { num: '4', label: 'Butter Chicken', img: 'https://images.unsplash.com/photo-1606471191009-63994c53433b'+Q, ytQ: 'Butter+Chicken+recipe' },
+        { num: '5', label: 'Old Fashioned', img: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187'+Q, ytQ: 'Old+Fashioned+cocktail+recipe' }
       ]
     },
     places: {
