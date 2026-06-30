@@ -87,6 +87,12 @@
       flex-shrink: 0;
     }
     .plan-link-wrap { padding: 0 16px; width: 100%; }
+    .plan-card-scroll {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 8px 12px 12px 12px;
+      overflow-x: auto; overflow-y: visible;
+      width: 100%; -webkit-overflow-scrolling: touch;
+    }
 
     /* "Book your trip" primary button */
     .btn-primary {
@@ -143,8 +149,8 @@
       display: flex; flex-direction: column; align-items: center;
       width: 100%;
     }
-    /* Photo-matched: 24px after sep line → section title; 24px after subtitle → cards */
-    .discover-section .section-divider { margin-bottom: 24px; }
+    /* 40px below sep line → section title; 24px after subtitle → cards */
+    .discover-section .section-divider { margin-bottom: 40px; }
     .discover-section > .section-divider:last-child { margin-top: 16px; margin-bottom: 0; }
     .discover-section .discover-cards { margin-top: 24px; }
     .discover-section .btn-link-wrap { margin-top: 16px; padding: 0 16px; width: 100%; }
@@ -168,9 +174,11 @@
     .discover-cards {
       display: flex; align-items: center; overflow-x: auto; width: 100%;
       -webkit-overflow-scrolling: touch;
+      gap: 12px; padding-left: 12px;
     }
-    .discover-cards--places { height: 311px; gap: 16px; padding: 0 16px; }
-    .discover-cards--foods  { height: 311px; gap: 12px; padding-left: 16px; }
+    .discover-cards--places { height: 311px; }
+    .discover-cards--foods  { height: 311px; }
+    .discover-cards--known-for { height: 240px; }
     .kf-card .kf-stamp {
       position: absolute; top: 12px; right: 12px; z-index: 6;
       background: rgba(0,0,0,0.4); border-radius: 4px; padding: 2px 4px;
@@ -376,7 +384,7 @@
       <div id="discoverBlock" class="discover-block">
 
       <!-- "Kannur" known for -->
-      <div id="knownForSection" style="display:flex; flex-direction:column; gap:21px; align-items:center; padding:0 16px; width:100%; background:transparent;">
+      <div id="knownForSection" style="display:flex; flex-direction:column; gap:21px; align-items:center; padding:0; width:100%; background:transparent;">
 
         <!-- Header title -->
         <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
@@ -390,7 +398,7 @@
         </div>
 
         <!-- Thumbnail row -->
-        <div class="no-scroll" style="display:flex; gap:8px; align-items:center; overflow-x:auto; width:100%; -webkit-overflow-scrolling:touch;">
+        <div id="knownForCardsRow" class="no-scroll discover-cards discover-cards--known-for">
 
           <!-- 1. Theyyam -->
           <div class="kf-card" onclick="window.open('https://youtube.com/watch?v=BeczZlAnnQM','_blank')">
@@ -435,7 +443,7 @@
           <div class="section-divider"></div>
           <!-- Title -->
           <div class="discover-title-block">
-            <p id="placesSectionTitle" class="fi-b discover-heading discover-heading--sm">Things to do &amp; see</p>
+            <p id="placesSectionTitle" class="fi-b discover-heading">Things to do &amp; see</p>
             <p id="placesSectionSubtitle" class="fi discover-subheading">Kannur has more than you think</p>
           </div>
           <!-- Place cards -->
@@ -620,7 +628,7 @@
             <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); text-align:center; letter-spacing:-0.09px; width:100%;">Stay at Kannur (Ernakulam)</p>
           </div>
           <!-- Hotel cards horizontal scroll -->
-          <div class="no-scroll" style="display:flex; gap:12px; align-items:flex-start; padding:8px 16px; overflow-x:auto; width:100%; -webkit-overflow-scrolling:touch;">
+          <div class="no-scroll plan-card-scroll">
             <!-- Hotel 1: KBC Green Park -->
             <div style="background:var(--t-bg-surface); box-shadow:0 2px 2px var(--t-card-shadow-1),0 4px 4px var(--t-card-shadow-2); border-radius:16px; display:flex; flex-direction:column; align-items:flex-start; width:250px; flex-shrink:0;">
               <!-- Image -->
@@ -764,7 +772,7 @@
             <p class="fi" style="font-size:14px; line-height:20px; color:var(--t-text-muted); text-align:center; letter-spacing:-0.09px; width:100%;">Bangalore ↔ Kannur</p>
           </div>
           <!-- Bus cards scroll -->
-          <div class="no-scroll" style="display:flex; gap:12px; align-items:flex-start; padding:8px 16px; overflow-x:auto; width:100%; -webkit-overflow-scrolling:touch;">
+          <div class="no-scroll plan-card-scroll">
 
             <!-- Bus card: Sri Krishna Travels (Last min. 20% OFF) -->
             <div style="background:var(--t-bg-bus-card); border-radius:20px; box-shadow:0 2px 4px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.08); width:316px; flex-shrink:0;">
@@ -1122,45 +1130,46 @@
 
 <script>
   (function() {
-    var cta      = document.getElementById('stickyCta');
-    var hotelEl  = document.getElementById('hotelSection');
-    var bookBtn  = document.getElementById('bookTripBtn');
-    var reached  = false;
-    var btnVisible = false;
+    var cta = document.getElementById('stickyCta');
+    var busSection = document.getElementById('busSection');
+    var bookBtn = document.getElementById('bookTripBtn');
+    if (!cta || !busSection) return;
+
+    var pastBusSection = false;
+    var inlineBtnVisible = false;
 
     function scaleBar() {
       var s = window.innerWidth / 360;
       cta.style.transform = 'scale(' + s + ')';
-      document.getElementById('fixedNav').style.transform = 'scale(' + s + ')';
+      var fixedNav = document.getElementById('fixedNav');
+      if (fixedNav) fixedNav.style.transform = 'scale(' + s + ')';
     }
 
     function updateCta() {
-      if (!reached || btnVisible) {
-        cta.style.display = 'none';
-      } else {
-        cta.style.display = 'block';
-      }
+      cta.style.display = (pastBusSection && !inlineBtnVisible) ? 'block' : 'none';
     }
 
-    var hotelObs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) reached = true;
-      updateCta();
-    }, { threshold: 0.5 });
-    hotelObs.observe(hotelEl);
+    var busEnd = document.createElement('div');
+    busEnd.setAttribute('aria-hidden', 'true');
+    busEnd.style.cssText = 'height:0;width:100%;pointer-events:none;';
+    busSection.parentNode.insertBefore(busEnd, busSection.nextSibling);
 
-    var btnObs = new IntersectionObserver(function(entries) {
-      btnVisible = entries[0].isIntersecting;
+    var busObs = new IntersectionObserver(function(entries) {
+      pastBusSection = entries[0].isIntersecting;
       updateCta();
-    }, { threshold: 0.5 });
-    if (bookBtn) btnObs.observe(bookBtn);
+    }, { threshold: 0 });
+    busObs.observe(busEnd);
+
+    if (bookBtn) {
+      var btnObs = new IntersectionObserver(function(entries) {
+        inlineBtnVisible = entries[0].isIntersecting;
+        updateCta();
+      }, { threshold: 0 });
+      btnObs.observe(bookBtn);
+    }
 
     window.addEventListener('resize', scaleBar);
     scaleBar();
-
-    window.addEventListener('resize', function() {
-      var s = window.innerWidth / 360;
-      document.getElementById('fixedNav').style.transform = 'scale(' + s + ')';
-    });
   })();
 </script>
 
@@ -1312,20 +1321,23 @@ function setDestinationDescription(text) {
 
   if (id === 'kannur') return; /* Kannur is already the static page */
 
+  if (id === 'coorg') {
+    var kfSecCoorg = document.getElementById('knownForSection');
+    if (kfSecCoorg) kfSecCoorg.style.paddingTop = '24px';
+  }
+
   if (id === 'kochi') {
     var kfSec = document.getElementById('knownForSection');
     if (kfSec) kfSec.style.paddingTop = '24px';
     var placesSec = document.getElementById('placesSection');
     if (placesSec) {
-      placesSec.style.paddingTop = '16px';
       var placesDivider = placesSec.querySelector('.section-divider');
-      if (placesDivider) placesDivider.style.marginBottom = '36px';
+      if (placesDivider) placesDivider.style.marginBottom = '52px';
     }
     var foodSec = document.getElementById('foodSection');
     if (foodSec) {
-      foodSec.style.paddingTop = '16px';
       var foodDivider = foodSec.querySelector('.section-divider');
-      if (foodDivider) foodDivider.style.marginBottom = '36px';
+      if (foodDivider) foodDivider.style.marginBottom = '52px';
     }
   }
 
